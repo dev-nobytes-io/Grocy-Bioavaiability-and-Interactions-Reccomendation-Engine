@@ -4,9 +4,9 @@ Milestones are defined by exit criteria, not dates. A milestone is done when its
 
 ```mermaid
 graph LR
-  M0[M0 Docs and governance] --> M1[M1 Reference knowledge graph]
-  M1 --> M2[M2 Curated rules and gates]
-  M1 --> M3[M3 Grocy integration]
+  M0[M0 Documentation and governance] --> M1[M1 Reference knowledge graph]
+  M1 --> M2[M2 Curated rules and safety gates]
+  M1 --> M3[M3 Grocy integration and entity resolution]
   M2 --> M4[M4 Suggestion engine v0]
   M3 --> M4
   M5[M5 Self-experiment protocol] -.can run any time.-> M4
@@ -19,8 +19,8 @@ Write the design down before building it.
 **Exit criteria**
 
 - [ ] Founder has reviewed and merged the documentation pull request.
-- [ ] Proposed decisions [ADR-0006](../decisions/0006-arcadedb-graph-store.md), [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md) and [ADR-0008](../decisions/0008-python-for-pipelines.md) are accepted, changed or rejected.
-- [ ] High-priority [open questions](../open-questions.md) that block M1 have answers: Q-20 (time box) and Q-21 (reuse MeNu GUIDE or rebuild).
+- [ ] Proposed decisions [ADR-0006](../decisions/0006-arcadedb-graph-store.md), [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md), [ADR-0008](../decisions/0008-python-for-pipelines.md) and [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md) are accepted, changed or rejected.
+- [ ] High-priority open questions that block M1 have answers: [Q-20](../open-questions.md) (time box) and [Q-21](../open-questions.md) (reuse MeNu GUIDE or rebuild).
 - [ ] Private vulnerability reporting is switched on in the repository settings. [SECURITY.md](../../SECURITY.md) depends on it.
 
 ## M1: Reference knowledge graph
@@ -75,7 +75,7 @@ Put it together.
 - [ ] Gates are applied before ranking, and a test suite covers every gate.
 - [ ] Upper-limit tracking covers declared supplements.
 - [ ] Nothing leaves the host except explicit, documented lookups.
-- [ ] The ranking function is written down and tested. See Q-01 and Q-02.
+- [ ] The ranking function is written down and tested. See [Q-01 and Q-02](../open-questions.md).
 
 ## M5: Self-experiment protocol
 
@@ -91,4 +91,4 @@ This needs no product code. It can start at any time, in parallel with M1.
 
 ## Later
 
-Each needs a decision record before work starts: free-text state input and the vector layer, microbiome metabotypes, medication interaction features, lab-value input beyond gating, and pooled learning. See [scope](scope.md#deferred-with-the-reason).
+Each needs a decision record before work starts: free-text state input and the vector layer, microbiome metabotypes, medication interaction features, any use of lab values, and pooled learning. See [scope](scope.md#deferred-with-the-reason).

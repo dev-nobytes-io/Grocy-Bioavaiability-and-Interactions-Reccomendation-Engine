@@ -53,7 +53,7 @@ The engine does not rely on Grocy's external-lookup endpoint. It returns only a 
 
 ## Sync
 
-**Proposed:** the engine checks `/system/db-changed-time` every 5 minutes and again before it builds a suggestion. It reads the full stock only when that time has changed. Each read is stored locally as a snapshot with its timestamp. The polling interval is an open question.
+**Proposed:** the engine checks `/system/db-changed-time` every 5 minutes and again before it builds a suggestion. It reads the full stock only when that time has changed. Each read is stored locally as a snapshot with its timestamp. The polling interval is not yet settled; see [open questions](#open-questions) below.
 
 This sequence diagram shows one stock sync in which a new barcoded product is found and resolved with your confirmation.
 
@@ -94,7 +94,7 @@ There are two paths.
 - **Barcode path.** A barcode, also called a Global Trade Item Number (GTIN), is looked up in the FDC branded foods data by its `gtinUpc` field, then in Open Food Facts. FDC is public domain, so **Proposed:** the engine keeps a local copy and that step needs no network. Open Food Facts is a runtime lookup because of its share-alike licence ([data sources](data-sources.md)). Either source returns a clean product name and category, not an ontology class. Open Food Facts categories carry no FoodOn cross-references. The cleaner text then goes through candidate ranking, with a higher prior.
 - **Name path.** For products without a barcode, the engine normalises the name. It lowercases it and strips brand, retailer, pack size and weight. It then ranks the top 3 FoodOn candidates. **Proposed:** candidates come from a local index of the pinned FoodOn release already loaded in milestone M1. The European Bioinformatics Institute (EBI) Ontology Lookup Service (OLS) API is an optional fallback that counts as an external lookup. In a live probe during the research, 11 of 20 retailer-style names failed a plain lexical lookup, which is why normalisation comes first.
 
-Nothing is resolved silently. You confirm every mapping, even a strong barcode match, with one tap. Each record stores the method, a confidence score, the FoodOn release identifier, the date and who confirmed it. **Proposed:** rules match a confirmed class or its ancestors within a small number of levels, so "lemon" can satisfy a rule written for "citrus fruit". The number of levels is an open question.
+Nothing is resolved silently. You confirm every mapping, even a strong barcode match, with one tap. Each record stores the method, a confidence score, the FoodOn release identifier, the date and who confirmed it. **Proposed:** rules match a confirmed class or its ancestors within a small number of levels, so "lemon" can satisfy a rule written for "citrus fruit". The number of levels is [Q-16](../open-questions.md).
 
 This flowchart shows the decision path for one product.
 
@@ -159,6 +159,8 @@ Caveats:
 
 M3 is not done until a gold set of 200 to 500 real products has measured precision and recall ([roadmap](../product/roadmap.md)). Each item holds the normalised name, a public barcode where one exists, the accepted FoodOn classes and the FoodOn release. **Proposed:** report precision and recall at top 1 and top 3, both strict and hierarchy-tolerant, plus the share of products the engine declines to guess.
 
+**Proposed:** the gold set also includes products whose animal source matters to the exclusion filter, such as gelatin, and records that source. [R-0007](../../knowledge/rules/R-0007-gelatin-vitamin-c-pre-training.yaml) depends on it: gelatin of unknown source is treated as pork.
+
 The published gold set holds no personal details: no quantities, dates, prices, locations, notes, in-store barcodes, medicines or household identifiers. Contributors give explicit consent.
 
 ## Data model
@@ -220,7 +222,7 @@ erDiagram
   }
 ```
 
-Resolution records live in the engine's local store, keyed by the Grocy product identifier. **Proposed, as an open question:** optionally write the FoodOn identifier, FDC identifier and confidence back to Grocy userfields, so they show in Grocy and survive a reinstall. Userfield values come back from Grocy as strings, so the engine must parse them. See [open questions](../open-questions.md).
+Resolution records live in the engine's local store, keyed by the Grocy product identifier. **Proposed**, pending [Q-19](../open-questions.md): optionally write the FoodOn identifier, FDC identifier and confidence back to Grocy userfields, so they show in Grocy and survive a reinstall. Userfield values come back from Grocy as strings, so the engine must parse them.
 
 ## Freshness and preparation
 
@@ -279,9 +281,9 @@ Your health profile, stock and product names stay on your machine ([ADR-0003](..
 
 ## Open questions
 
-- Write-back to Grocy userfields, and which fields. **Proposed**, new question.
+- Write-back to Grocy userfields, and which fields: [Q-19](../open-questions.md).
 - Whether lookups default to off, and whether the OLS fallback is allowed.
-- Polling interval, stale threshold and hierarchy tolerance.
+- Polling interval and stale threshold. Hierarchy tolerance is [Q-16](../open-questions.md).
 - Whether Grocy reads work for a user with no permissions.
 
-All are tracked in [open questions](../open-questions.md).
+Q-16 and Q-19 are tracked in [open questions](../open-questions.md). The others are M3 design details and are not yet tracked there.

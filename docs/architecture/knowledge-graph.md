@@ -8,7 +8,7 @@ Status: design. Everything here can change by pull request until M1 starts.
 
 The graph answers "what is in this food, what is it, and what does it touch?" It links foods to the compounds and nutrients they contain, and those to the pathways and proteins they take part in. It records where every fact came from.
 
-The graph does **not** decide what to suggest. Curated rules do that. The graph explains rules, links them to foods in the kitchen, and nominates candidate rules for human review. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md).
+The graph does **not** decide what to suggest. Curated rules do that. The graph explains rules, links them to foods in the kitchen, and nominates candidate rules for human review. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md), still Proposed.
 
 ## Node types
 

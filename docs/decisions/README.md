@@ -34,3 +34,4 @@ stateDiagram-v2
 | [0007](0007-graph-proposes-rules-decide.md) | Only curated rules produce suggestions; the graph proposes | Proposed |
 | [0008](0008-python-for-pipelines.md) | Use Python for importers, pipelines and analysis | Proposed |
 | [0009](0009-recovery-goal-and-health-profile.md) | Optimise recovery for people who train, informed by a full health profile | Accepted |
+| [0010](0010-grade-evidence-at-tested-dose.md) | Grade evidence at the tested dose; supplement-dose-only is a firing condition | Proposed |

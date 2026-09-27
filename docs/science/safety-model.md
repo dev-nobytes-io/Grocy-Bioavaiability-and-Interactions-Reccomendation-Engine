@@ -8,7 +8,7 @@ Status: design only. The gate file is a draft and needs a safety reviewer before
 
 1. **Gates run before ranking.** The engine removes or changes gated suggestions before it scores anything. A high score can never bring a gated suggestion back.
 2. **Safety gates fail closed.** A safety gate protects against harm. If you have not answered its question, the engine treats the answer as "yes" and withholds.
-3. **Tolerance gates prefer a swap.** A tolerance gate protects comfort. It replaces the food with a tolerated version where the rule allows, such as lactose-free milk. It only withholds when no swap exists or the rule says so.
+3. **Tolerance gates prefer a swap.** A tolerance gate protects comfort. It replaces the food with a tolerated version where the rule allows, such as lactose-free milk. It only withholds when no swap exists or the rule says so. An unanswered tolerance question shows a note; whether it should withhold is [Q-13](../open-questions.md).
 4. **A swap is never used for safety.** The schema only allows `swap` on tolerance gates. A wrong swap after a misread product name could harm someone with coeliac disease or an allergy, so safety gates withhold.
 5. **Withholding is explained, without scolding.** The user sees what was held back and why, in plain words. The wording states the user's own answer. It never implies they did something wrong.
 6. **Gates never claim to check interactions.** A gate says a suggestion was withheld "as a precaution for people who take" a class of medicine. It never says a food "interacts with your medicine".
@@ -41,7 +41,7 @@ flowchart LR
 
 1. **Expire.** Recent events past their expiry stop applying. See [recent-event expiry](#recent-event-expiry).
 2. **Exclude.** Foods the user does not eat are removed. This is not a gate. It needs no reason and shows no message.
-3. **Safety gates.** Every accepted rule lists its gates. If any listed safety gate applies, or its answer is unknown, the suggestion is withheld.
+3. **Safety gates.** Every accepted rule lists its gates. Gates with global scope apply to every rule, whether it lists them or not. If any applicable safety gate applies, or its answer is unknown, the suggestion is withheld.
 4. **Tolerance gates.** A matching tolerance gate swaps, withholds or adds a note.
 5. **Dose.** Supplement-dose-only rules never fire from food. Amounts are scaled to body mass.
 6. **Ledgers.** Suggested amounts are added to declared supplements and capped at the limit.
@@ -52,7 +52,7 @@ This flowchart shows how one gate is evaluated, including the fail-closed and sw
 
 ```mermaid
 flowchart TD
-  S["Suggestion lists a gate"] --> T{"Trigger type?"}
+  S["Rule lists the gate,<br/>or the gate is global"] --> T{"Trigger type?"}
   T -->|"Flags"| Q{"Flag answer<br/>or active event?"}
   T -->|"Ledger"| L{"Amount plus declared<br/>intake over the limit?"}
   L -->|"No"| PASS["Pass to next step"]
@@ -94,15 +94,16 @@ This table is generated from [gates.yaml](../../knowledge/gates/gates.yaml) vers
 | `gate.coeliac_gluten` | safety | `flag.coeliac_or_gluten_sensitivity` | withhold | withhold | guideline |
 | `gate.recent_gi_illness` | tolerance | `flag.recent_gi_illness` | withhold | note | precautionary |
 
-Three points need comment.
+Four points need comment.
 
-- **Kidney function now covers protein and creatine.** The Kidney Disease Outcomes Quality Initiative (KDOQI) 2020 guideline recommends 0.55 to 0.60 g of protein per kg a day for metabolically stable adults with chronic kidney disease stages 3 to 5 who are not on dialysis ([Ikizler 2020, PubMed 32829751](https://pubmed.ncbi.nlm.nih.gov/32829751/); [claim C11](../research/claim-verification.md)). In a meta-analysis of 49 trials, training gains in fat-free mass stopped rising at about 1.6 g per kg a day ([Morton 2018, PubMed 28698222](https://pubmed.ncbi.nlm.nih.gov/28698222/)). Training targets and kidney guidance point in opposite directions, so protein top-ups are withheld. Creatine is withheld as a precaution. That is not a finding that creatine harms kidneys. What counts as a "substantial" protein increase is not yet defined; see [open questions](../open-questions.md).
+- **Kidney function now covers protein and creatine.** The Kidney Disease Outcomes Quality Initiative (KDOQI) 2020 guideline recommends 0.55 to 0.60 g of protein per kg a day for metabolically stable adults with chronic kidney disease stages 3 to 5 who are not on dialysis ([Ikizler 2020, PubMed 32829751](https://pubmed.ncbi.nlm.nih.gov/32829751/); [claim C11](../research/claim-verification.md)). In a meta-analysis of 49 trials, training gains in fat-free mass stopped rising at about 1.6 g per kg a day ([Morton 2018, PubMed 28698222](https://pubmed.ncbi.nlm.nih.gov/28698222/)). Training targets and kidney guidance point in opposite directions, so protein top-ups are withheld. Creatine is withheld as a precaution. That is not a finding that creatine harms kidneys. What counts as a "substantial" protein increase is not yet defined; see [Q-30](../open-questions.md).
 - **Coeliac disease is a safety gate.** It is a permanent immune response to gluten in wheat, barley and rye, managed by strict lifelong avoidance ([Rubio-Tapia 2023, PubMed 36602836](https://pubmed.ncbi.nlm.nih.gov/36602836/)). Products with unknown gluten status are also withheld.
-- **Skipping a safety question has a real cost.** An unanswered medicines question closes `gate.cyp3a4_pgp_medicine`. An unanswered coeliac question withholds every gluten-containing addition. This is deliberate. The onboarding screen says so; see the [health profile](health-profile.md#onboarding).
+- **Four gates have global scope.** `gate.inborn_error`, `gate.upper_limit`, `gate.allergy` and `gate.coeliac_gluten` set `scope: global` in [gates.yaml](../../knowledge/gates/gates.yaml). They apply to every rule, so a rule that forgets to list them cannot bypass them. People with an inherited metabolic disorder follow clinician-managed diets, so every suggestion is withheld for them. The allergy and coeliac gates depend on what the suggested food contains, not on the rule, so they check every suggestion.
+- **Skipping a safety question has a real cost.** An unanswered medicines question closes `gate.cyp3a4_pgp_medicine`. An unanswered coeliac question withholds every gluten-containing addition. An unanswered allergy question withholds any addition of a common major allergen, and a declared allergy also withholds products whose allergen content is unknown. This is deliberate. The onboarding screen says so; see the [health profile](health-profile.md#onboarding).
 
 ## Per-kilogram scaling and the upper-limit ledger
 
-Some limits are set per kilogram of body mass. The coumarin tolerable daily intake is 0.1 mg per kg ([Abraham 2010, PubMed 20024932](https://pubmed.ncbi.nlm.nih.gov/20024932/)). The engine multiplies it by the user's declared weight. If weight is missing, it uses a low reference body mass, which gives a lower cap. **Proposed:** 50 kg. See [open questions](../open-questions.md).
+Some limits are set per kilogram of body mass. The coumarin tolerable daily intake is 0.1 mg per kg ([Abraham 2010, PubMed 20024932](https://pubmed.ncbi.nlm.nih.gov/20024932/)). The engine multiplies it by the user's declared weight. If weight is missing, it uses a low reference body mass, which gives a lower cap. **Proposed:** 50 kg. See [Q-09](../open-questions.md).
 
 The upper-limit ledger adds three things for each nutrient: the suggested amount, the amounts in declared supplements, and any earlier suggestions accepted that day. It compares the total with the tolerable upper intake level for the user's sex, age and life stage. If any of those are missing, the lowest adult value applies.
 
@@ -119,7 +120,7 @@ A recent event is a flag with a start date. Its definition in [gates.yaml](../..
 | `flag.recent_antibiotics` | 30 | none, context only |
 | `flag.recent_injury_or_surgery` | 56 | none, context only |
 
-The day counts are design choices, not findings. The [health profile](health-profile.md#recent-events) shows the life of an event as a state diagram.
+The day counts are design choices, not findings; see [Q-10](../open-questions.md). The [health profile](health-profile.md#recent-events) shows the life of an event as a state diagram.
 
 ## Regulatory posture
 
@@ -161,7 +162,7 @@ The chosen stance:
 1. **Keep the gates.** Safety comes first. The gates only withhold food suggestions. They never advise on a medicine.
 2. **Keep the project non-commercial.** It is open-source software supplied outside any commercial activity. See [architecture decision record (ADR) 0003](../decisions/0003-open-source-self-hosted.md) and [claim C28](../research/claim-verification.md).
 3. **Make no claim of interaction checking.** No document, interface text or suggestion says the engine checks medicines or interactions.
-4. **Get a regulatory opinion before any commercial supply,** hosted version, or feature that reads lab values.
+4. **Get a regulatory opinion before any commercial supply,** hosted version, or feature that reads lab values. Whether a public release also needs one is [Q-29](../open-questions.md).
 
 ## Adverse-event channel
 
@@ -188,7 +189,7 @@ The flag is stored only on the user's machine. **Proposed:** the rule is muted f
 
 ## Red-flag symptoms
 
-The engine does not interpret symptoms. Soreness, energy and sleep scores are context, never signs of illness. Whether to show fixed, static advice to seek care for some self-reported events is an open question. See [open questions](../open-questions.md).
+The engine does not interpret symptoms. Soreness, energy and sleep scores are context, never signs of illness. Whether to show fixed, static advice to seek care for some self-reported events is [Q-28](../open-questions.md).
 
 ## Related
 

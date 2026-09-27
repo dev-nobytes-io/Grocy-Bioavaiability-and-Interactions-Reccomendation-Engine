@@ -6,7 +6,7 @@ This flowchart shows the order in which the principles apply to one candidate su
 
 ```mermaid
 flowchart TD
-  CAND["Candidate from a curated rule"] --> GATE{"Safety gate applies,<br/>or not known?"}
+  CAND["Candidate from a curated rule"] --> GATE{"Safety gate applies,<br/>or its answer not known?"}
   GATE -->|"Yes"| WITHHOLD["Withheld"]
   GATE -->|"No"| EVID{"Evidence grade and<br/>kitchen dose meet the bar?"}
   EVID -->|"No"| LABEL["Not shown, or shown<br/>with a visible label"]
@@ -25,7 +25,7 @@ Feeling less sore is not the same as recovering well. Some measures that reduce 
 
 ## 3. The graph proposes; curated rules decide
 
-The knowledge graph finds candidates and explains connections. Only a reviewed rule, with a dose, a population, an evidence grade and sources, can produce a suggestion. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md).
+The knowledge graph finds candidates and explains connections. Only a reviewed rule, with a dose, a population, an evidence grade and sources, can produce a suggestion. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md), still Proposed.
 
 ## 4. Show the evidence
 
@@ -33,7 +33,7 @@ Every suggestion shows its dose, its evidence grade and a link to its source. If
 
 ## 5. Safety gates run first and fail closed
 
-Gates remove suggestions for people they could harm before anything is ranked. If the engine does not know whether a gate applies, the suggestion is withheld. See the [safety model](../science/safety-model.md).
+Gates remove suggestions for people they could harm before anything is ranked. If the engine does not know whether a safety gate applies, the suggestion is withheld. Tolerance gates show a note instead; see [Q-13](../open-questions.md) and the [safety model](../science/safety-model.md).
 
 ## 6. Full advice, positive tone
 
@@ -41,7 +41,7 @@ The engine can suggest adding, moving, swapping or skipping. It leads with an ad
 
 ## 7. Kitchen doses, or say otherwise
 
-A rule only fires when a normal meal from the user's stock can reach the dose that produced the effect. Effects seen only at supplement doses carry a visible label and never masquerade as food advice.
+A food rule only fires when a normal meal from the user's stock can reach the dose that produced the effect. A supplement-dose-only rule never fires from food. It fires only when that supplement is in stock or declared, carries a visible label and never masquerades as food advice.
 
 ## 8. Honest about uncertainty
 

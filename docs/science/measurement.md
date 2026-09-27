@@ -30,11 +30,11 @@ The [project brief](../vision/project-brief.md) worked through what this means. 
 
 ## What blood can and cannot do
 
-**What it can do.** A few status markers respond to a nutrient you supply, over 8 to 16 weeks, in people who start low. They are ferritin (iron stores), 25-hydroxy vitamin D, glycated haemoglobin (HbA1c) and the omega-3 index. The omega-3 index is the share of omega-3 fats in red cell membranes ([Harris 2009, PubMed 19852881](https://pubmed.ncbi.nlm.nih.gov/19852881/)). The research panel reached this view ([expert panel](../research/expert-panel.md)).
+**What it can do.** A few status markers respond to a nutrient you supply, over 8 to 16 weeks, in people whose status is low. These markers are ferritin (iron stores), 25-hydroxy vitamin D, glycated haemoglobin (HbA1c) and the omega-3 index. The omega-3 index is the share of omega-3 fats in red cell membranes ([Harris 2009, PubMed 19852881](https://pubmed.ncbi.nlm.nih.gov/19852881/)). The research panel reached this view ([expert panel](../research/expert-panel.md)). The engine never judges from a number whether your status is low. Only a clinician can tell you that.
 
 **What it cannot do.** CK and hs-CRP are poor recovery markers. CK reflects the workout, not the meal. In 286 young men, strength loss was the best indirect marker of muscle damage, not CK ([Damas 2016, PubMed 27116346](https://pubmed.ncbi.nlm.nih.gov/27116346/)). hs-CRP rises after hard training, infection and poor sleep.
 
-**What the engine does with lab results.** Nothing clinical. Under [SAFETY.md](../../SAFETY.md) the engine does not interpret lab values. It never calls a result normal or abnormal. Gates use flags you declare, such as `flag.told_iron_high`, not numbers ([safety model](safety-model.md), [health profile](health-profile.md)). **Proposed:** you may keep lab results in a personal journal. The engine stores them on your machine and shows them back unchanged. They never change a suggestion. Anything more needs a new decision record ([open questions](../open-questions.md)).
+**What the engine does with lab results.** Nothing clinical. Under [SAFETY.md](../../SAFETY.md) the engine does not interpret lab values. It never calls a result normal or abnormal. Gates use flags you declare, such as `flag.told_iron_high`, not numbers ([safety model](safety-model.md), [health profile](health-profile.md)). **Proposed:** you may keep lab results in a personal journal. The engine stores them on your machine and shows them back unchanged. They never change a suggestion. Anything more needs a new decision record ([Q-31](../open-questions.md)).
 
 ## Choosing a signal
 
@@ -48,7 +48,7 @@ flowchart TD
   K -- No --> R{"Is it about readiness<br/>for the next session?"}
   R -- Yes --> P["Next-session performance<br/>reps, load or bar speed"]
   R -- No --> S["Daily log<br/>sleep, soreness, effort"]
-  T -- "8 to 16 weeks" --> L{"Do you start low<br/>in that nutrient?"}
+  T -- "8 to 16 weeks" --> L{"Has a clinician told you<br/>you are low in that nutrient?"}
   L -- Yes --> B["Slow status marker<br/>journal only, no interpretation"]
   L -- No --> N["No useful signal<br/>rely on population evidence"]
   P --> C["Log covariates<br/>session effort, sleep, recent events"]
@@ -83,7 +83,7 @@ This adapts Phase 0 of the [project brief](../vision/project-brief.md). It needs
 
 The noise floor is how much your outcome varies within one condition. The smallest detectable effect follows from it. A standard approximation for two conditions, at 80 percent power and a 5 percent false-positive rate, is 2.8 × √2 × noise ÷ √(days per condition). This is our calculation, and it assumes days are independent.
 
-**Proposed** defaults, pending an open question on M5 settings ([open questions](../open-questions.md)): five replicates minimum, one analysed outcome, and a posterior above 80 percent at the pre-registered effect to count as "effect detected". WE-MACNUTR used the same 80 percent threshold.
+**Proposed** defaults, pending [Q-26](../open-questions.md): five replicates minimum, one analysed outcome, and a posterior above 80 percent at the pre-registered effect to count as "effect detected". WE-MACNUTR used the same 80 percent threshold.
 
 This Gantt chart shows a four-week ABAB run starting on 5 October 2026. The order of A and B is drawn at random at pre-registration.
 
@@ -159,7 +159,7 @@ This is the brief's Phase 0. It is the cleanest test of the method, because a co
 - Randomly alternate with and without one change, such as 15 to 20 mL vinegar in the dressing or a fibre pre-load.
 - Compute the 2-hour incremental area under the glucose curve each day.
 
-Single meals are unreliable. In an inpatient study published in 2024, 30 adults ate duplicate meals about a week apart. The intraclass correlation (ICC) was only 0.17 to 0.28 ([Hengist 2025, PubMed 39755436](https://pubmed.ncbi.nlm.nih.gov/39755436/)). Average responses are steadier. Glucose repeatability was 0.74 in the PREDICT study, which a nutrition company funded ([Berry 2020, PubMed 32528151](https://pubmed.ncbi.nlm.nih.gov/32528151/)). Personal glycaemic sensitivity held an ICC of 0.73 over two years in 176 people ([Zhang 2025, PubMed 40754388](https://pubmed.ncbi.nlm.nih.gov/40754388/)). So aggregate at least three replicates.
+Single meals are unreliable. In an inpatient study published in January 2025, 30 adults ate duplicate meals about a week apart. The intraclass correlation (ICC) was only 0.17 to 0.28 ([Hengist 2025, PubMed 39755436](https://pubmed.ncbi.nlm.nih.gov/39755436/)). Average responses are steadier. Glucose repeatability was 0.74 in the PREDICT study, which a nutrition company funded ([Berry 2020, PubMed 32528151](https://pubmed.ncbi.nlm.nih.gov/32528151/)). Personal glycaemic sensitivity held an ICC of 0.73 over two years in 176 people ([Zhang 2025, PubMed 40754388](https://pubmed.ncbi.nlm.nih.gov/40754388/)). So aggregate at least three replicates.
 
 The brief uses about 12 percent CGM variation as a working figure. With five days per condition, the formula above gives a smallest detectable effect of about 21 percent. The brief says effects under about 15 percent will not resolve.
 
@@ -209,7 +209,7 @@ One person's run is noisy. Combining many people's runs gives sharper estimates.
 
 Pooling needs data to leave your machine. That conflicts with local-first, no-telemetry operation under [ADR-0003](../decisions/0003-open-source-self-hosted.md). **Proposed:** results stay per-user by default. Any pooling would be opt-in, share summaries only, and need a decision record. See [Q-12](../open-questions.md).
 
-Either way, nothing learned from a run changes a rule automatically. Rules change only by curation ([ADR-0007](../decisions/0007-graph-proposes-rules-decide.md)).
+Either way, nothing learned from a run changes a rule automatically. Rules change only by curation (proposed in [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md)).
 
 ## Related
 

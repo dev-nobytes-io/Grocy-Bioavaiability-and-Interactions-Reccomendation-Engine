@@ -46,7 +46,7 @@ flowchart TD
 | [UniProt](https://www.uniprot.org/) | Proteins, transporters, enzymes | CC BY 4.0 | core |
 | [Open Food Facts](https://world.openfoodfacts.org/) | Products by barcode | ODbL, share-alike | runtime lookup |
 | [NIH Dietary Supplement Label Database](https://dsld.od.nih.gov/) | Supplement labels | Public domain (CC0) | deferred to M4 |
-| [MeNu GUIDE](https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1) | Published food, metabolite and disease graph in RDF | Reported as CC BY | deferred; see Q-21 |
+| [MeNu GUIDE](https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1) | Published food, metabolite and disease graph in RDF | Reported as CC BY | deferred; see [Q-21](../open-questions.md) |
 | [FoodAtlas](https://github.com/IBPA/FoodAtlas-KGv2) | Food-chemical graph with provenance per edge | Apache-2.0 code; data licence unconfirmed | deferred |
 | [Rhea](https://www.rhea-db.org/) | Biochemical reactions | CC BY 4.0 | deferred |
 | [MeSH](https://www.nlm.nih.gov/mesh/) | Biomedical vocabulary | Public domain with NLM terms | deferred |

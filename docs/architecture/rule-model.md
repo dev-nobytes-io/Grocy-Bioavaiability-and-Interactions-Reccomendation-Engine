@@ -1,6 +1,6 @@
 # Rule model
 
-A rule is a curated, reviewed statement about how one food component changes the effect of another, or changes recovery from training. Rules are the only thing that can produce a suggestion ([ADR-0007](../decisions/0007-graph-proposes-rules-decide.md)). The machine-checked definition is [rule.schema.json](../../knowledge/schema/rule.schema.json). This page explains it.
+A rule is a curated, reviewed statement about how one food component changes the effect of another, or changes recovery from training. Rules are the only thing that can produce a suggestion (proposed in [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md)). The machine-checked definition is [rule.schema.json](../../knowledge/schema/rule.schema.json). This page explains it.
 
 ## One rule, one file
 
@@ -32,8 +32,8 @@ Each rule lives in `knowledge/rules/R-NNNN-short-name.yaml`. IDs are never reuse
 | `effect.whole_diet_note` | no | Whether a single-meal effect survives across a whole diet. |
 | `conditions.applies_to` | yes | Who the evidence covers. |
 | `conditions.weak_or_absent_in` | no | Who it does little for. |
-| `gates` | yes | Safety gate IDs from [gates.yaml](../../knowledge/gates/gates.yaml). An empty list must be a deliberate choice. |
-| `evidence.grade` | yes | A to D. See the [evidence policy](../science/evidence-policy.md). Accepted rules cannot be grade D. |
+| `gates` | yes | Safety gate IDs from [gates.yaml](../../knowledge/gates/gates.yaml). An empty list must be a deliberate choice. Gates with `scope: global` apply even when a rule does not list them. |
+| `evidence.grade` | yes | A to D: how strong the evidence is at the dose the studies tested. It does not depend on whether food can reach that dose; `dose.supplement_dose_only` records that. See the [evidence policy](../science/evidence-policy.md). Accepted rules cannot be grade D. |
 | `evidence.replicated` | yes | Whether an independent group has reproduced the main finding. |
 | `evidence.sponsor_flag` | yes | `independent`, `manufacturer`, `mixed` or `unknown`. |
 | `evidence.sources` | yes | At least one source with a PubMed ID (PMID), digital object identifier (DOI) or URL, and the finding it supports. |
@@ -76,7 +76,7 @@ The engine needs session times to use this block. They come from the training pa
 
 ## Per-kilogram doses
 
-Some doses scale with body mass, such as protein at 0.25 to 0.4 g per kg in one meal. Such a rule sets `per_kg_body_mass: true`. The engine multiplies the dose by the user's declared weight. If weight is missing, the suggestion is shown without a scaled amount. This default is **Proposed**. See the [health profile](../science/health-profile.md) and [open questions](../open-questions.md).
+Some doses scale with body mass, such as protein at 0.25 to 0.4 g per kg in one meal. Such a rule sets `per_kg_body_mass: true`. The engine multiplies the dose by the user's declared weight. If weight is missing, the suggestion is shown without a scaled amount. This default is **Proposed**. See the [health profile](../science/health-profile.md) and [Q-09](../open-questions.md).
 
 ## Supplement rules
 
@@ -86,7 +86,7 @@ A rule with `supplement_dose_only: true` describes an effect shown only at suppl
 2. **It fires only when the supplement itself is present.** The supplement must be in Grocy stock or declared in the health profile. An `add` rule, such as creatine in [R-0011](../../knowledge/rules/R-0011-creatine-monohydrate.yaml), then suggests the tested dose. A `skip` rule, such as high-dose vitamin C and E in [R-0008](../../knowledge/rules/R-0008-antioxidant-supplements-adaptation.yaml), suggests leaving the supplement out for a while.
 3. **It never recommends buying anything.** The engine works only from what the user has.
 
-The [evidence policy](../science/evidence-policy.md) currently says a supplement-dose-only rule is at most grade C. R-0008 and R-0011 are drafted at grade B, because the supplement dose is the recommended dose and the evidence at that dose is strong. **Proposed:** the grade C limit applies when supplement-dose evidence is used to support a food suggestion, not when the rule's subject is the supplement at its tested dose. This needs a decision. See [Q-11](../open-questions.md).
+The grade and the supplement flag answer different questions. `evidence.grade` rates how strong the evidence is at the dose the studies tested. `supplement_dose_only` sets when the rule may fire. So [R-0008](../../knowledge/rules/R-0008-antioxidant-supplements-adaptation.yaml) and [R-0011](../../knowledge/rules/R-0011-creatine-monohydrate.yaml) are grade B, because controlled trials agree at the supplement dose. [R-0004](../../knowledge/rules/R-0004-piperine-curcumin.yaml) is grade C for its evidence: one small, manufacturer-linked study, contradicted by an independent crossover. A grade C supplement rule follows the same opt-in and label rule as any other grade C rule. This reading is **Proposed** in [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md) until the founder decides it and answers [Q-11](../open-questions.md).
 
 Every supplement-dose-only rule lists `gate.pregnancy`. Its suggested amount also enters the upper-limit ledger. See the [safety model](../science/safety-model.md).
 
@@ -141,8 +141,8 @@ flowchart TD
 1. **Refuted pairs.** A `no_effect` rule is never shown. It stops the graph from nominating an interaction that has already been tested and refuted.
 2. **Context.** If the rule has a training window, the plan must match it.
 3. **Match.** For a food rule, the subject and target are both in the planned meal, or the subject can be added from stock. Food classes match through the ontology, so a rule about citrus matches a lemon. For a supplement rule, the supplement itself must be in stock or declared.
-4. **Gate.** Excluded foods are removed first. If any listed safety gate applies, or its answer is unknown, the rule is dropped. Tolerance gates may swap or add a note instead. See the [safety model](../science/safety-model.md).
-5. **Dose.** If stock cannot reach the effective dose, the rule is dropped. Per-kilogram doses are scaled to the user.
+4. **Gate.** Excluded foods are removed first. If any listed safety gate applies, or its answer is unknown, the rule is dropped. Gates with global scope, such as `gate.inborn_error`, apply to every rule whether it lists them or not. Tolerance gates may swap or add a note instead. See the [safety model](../science/safety-model.md).
+5. **Dose.** If stock cannot reach the effective dose, the rule is dropped. This is **Proposed**; see [Q-25](../open-questions.md). Per-kilogram doses are scaled to the user.
 6. **Grade.** Grades A and B pass. Grade C passes only if the user has opted in, with an "early evidence" label. This is **Proposed**. See [Q-11](../open-questions.md).
 7. **Rank.** Remaining rules are ordered, recovery goals first. The ranking function is not yet decided. See [Q-01 and Q-02](../open-questions.md).
 8. **Explain.** The top rule is shown with its `suggestion.text`, `label`, dose, grade and first source.

@@ -1,8 +1,8 @@
 # Evidence policy
 
-This policy decides what can become a rule and what a rule may do. Rules are the only thing that can produce a suggestion, under architecture decision record [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md). So this page sets the bar for everything the user sees.
+This policy decides what can become a rule and what a rule may do. Under the proposed architecture decision record (ADR) [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md), rules are the only thing that can produce a suggestion. So this page sets the bar for everything the user sees.
 
-The grades are fixed. Which grades may produce suggestions is **Proposed**. See [Q-11](../open-questions.md). Changing this policy needs a decision record under [GOVERNANCE.md](../../GOVERNANCE.md).
+The grades are fixed, with one **Proposed** change: the grade no longer depends on whether food can reach the dose. That change is [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md), which waits for the founder. Which grades may produce suggestions is also **Proposed**. See [Q-11](../open-questions.md). Changing this policy needs a decision record under [GOVERNANCE.md](../../GOVERNANCE.md).
 
 ## Evidence grades
 
@@ -12,8 +12,10 @@ Every rule carries one grade in `evidence.grade`. The fields are defined in the 
 |---|---|
 | **A** | Multiple concordant human randomised controlled trials (RCTs), or a meta-analysis, at the recommended dose. The outcome is the target outcome or a validated absorption measure. At least one study is independent of manufacturers. |
 | **B** | At least one well-conducted human controlled study (randomised, crossover or isotope) at the recommended dose. Replication is preferred. |
-| **C** | A single small or unreplicated human study, a supplement-dose-only finding, manufacturer-only evidence, or human observational data. |
+| **C** | A single small or unreplicated human study, manufacturer-only evidence, or human observational data. |
 | **D** | Animal, in-vitro or mechanism only. A hypothesis. It never becomes a rule that produces suggestions. |
+
+The grade rates how strong the evidence is at the dose the studies tested. Whether food can reach that dose is a separate question, recorded in `dose.supplement_dose_only`. See [supplement-dose-only rule](#supplement-dose-only-rule). This reading is **Proposed** in [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md).
 
 The flowchart below shows how a reviewer reaches a grade from the study characteristics.
 
@@ -23,9 +25,7 @@ flowchart TD
   H -- No --> GD["Grade D<br/>hypothesis only"]
   H -- Yes --> K{"Controlled study?<br/>randomised, crossover or isotope"}
   K -- "No, observational" --> GC1["Grade C"]
-  K -- Yes --> DS{"Shown at a dose<br/>a meal can reach?"}
-  DS -- "No, supplement dose only" --> GC2["Grade C<br/>supplement-dose only"]
-  DS -- Yes --> MF{"Only manufacturer-linked<br/>studies?"}
+  K -- Yes --> MF{"Only manufacturer-linked<br/>studies?"}
   MF -- Yes --> GC3["Grade C"]
   MF -- No --> SM{"One small study,<br/>never replicated?"}
   SM -- Yes --> GC4["Grade C"]
@@ -40,7 +40,7 @@ Each source below is linked by its PubMed identifier (PMID).
 
 **Vitamin C with plant iron is grade B.** Cook and Monsen gave 63 men radio-labelled meals. Absorption rose in proportion to the dose of ascorbic acid, from 1.65 times at 25 mg ([PMID 835510](https://pubmed.ncbi.nlm.nih.gov/835510/)). Hallberg and colleagues showed that ascorbic acid counteracts phytate inhibition ([PMID 2911999](https://pubmed.ncbi.nlm.nih.gov/2911999/)). These are controlled isotope studies at food doses from independent groups. It is not grade A because the effect shrinks across a whole diet. In 12 people, daily vitamin C from 51 to 247 mg made no significant difference to absorption ([PMID 11124756](https://pubmed.ncbi.nlm.nih.gov/11124756/)). See [R-0001](../../knowledge/rules/R-0001-vitamin-c-nonheme-iron.yaml).
 
-**Piperine with curcumin is grade C and supplement-dose only.** The one positive human study gave 2 g of curcumin with 20 mg of piperine. It reported a 2000 percent rise in bioavailability, from a baseline that was undetectable or very low ([PMID 9619120](https://pubmed.ncbi.nlm.nih.gov/9619120/)). A later independent crossover in nine men found that piperine provided no benefit ([PMID 40487425](https://pubmed.ncbi.nlm.nih.gov/40487425/)). See [R-0004](../../knowledge/rules/R-0004-piperine-curcumin.yaml).
+**Piperine with curcumin is grade C, and separately supplement-dose only.** The one positive human study gave 2 g of curcumin with 20 mg of piperine. It reported a 2000 percent rise in bioavailability, from a baseline that was undetectable or very low ([PMID 9619120](https://pubmed.ncbi.nlm.nih.gov/9619120/)). A later independent crossover in nine men found that piperine provided no benefit ([PMID 40487425](https://pubmed.ncbi.nlm.nih.gov/40487425/)). See [R-0004](../../knowledge/rules/R-0004-piperine-curcumin.yaml). It is grade C because the one positive study is small, manufacturer-linked and contradicted, not because of its dose.
 
 **Cinnamon, magnesium and vinegar "activating GLUT4" is not admissible.** The original README claimed this trio activates glucose transporter type 4 (GLUT4) in muscle. The GLUT4 evidence for cinnamon is in mouse fat cells grown in a dish ([PMID 17316549](https://pubmed.ncbi.nlm.nih.gov/17316549/)). That is grade D. A Cochrane review of 10 RCTs with 577 people found no significant effect of cinnamon on serum insulin ([PMID 22972104](https://pubmed.ncbi.nlm.nih.gov/22972104/)). The research record found no trial of the three together. The claim also aims to treat a disease marker, which is outside the [intended purpose](../../SAFETY.md). See [claim verification](../research/claim-verification.md).
 
@@ -84,9 +84,20 @@ flowchart LR
 
 ## Supplement-dose-only rule
 
-If an effect has only been shown at supplement doses, `dose.supplement_dose_only` is true. Such a rule never fires from food. It is at most grade C.
+If an effect has only been shown at supplement doses, `dose.supplement_dose_only` is true. This is a firing condition, not a grade. The grade still rates the evidence at the tested dose, by the steps above. Such a rule never fires from food. It fires only when that supplement is in Grocy stock or declared in the health profile, and it never suggests buying anything. It is never presented as something a meal can achieve.
 
-**Proposed:** it may appear only when the user has declared that supplement and opted in to grade C, always with a label. See [Q-11](../open-questions.md). The piperine rule is the model case. A teaspoon of turmeric supplies far less curcumin than the 2 g in the positive study.
+This flowchart shows how the supplement flag sets when a graded rule may fire.
+
+```mermaid
+flowchart TD
+  G["Graded rule"] --> DS{"Effect shown at a dose<br/>a meal can reach?"}
+  DS -- Yes --> FOOD["supplement_dose_only: false<br/>May fire from food in stock"]
+  DS -- "No, supplement dose only" --> SUP["supplement_dose_only: true<br/>Fires only when that supplement<br/>is in stock or declared, never from food"]
+```
+
+[R-0011](../../knowledge/rules/R-0011-creatine-monohydrate.yaml) (creatine) and [R-0008](../../knowledge/rules/R-0008-antioxidant-supplements-adaptation.yaml) (high-dose vitamin C and E) are grade B: controlled trials agree at the tested supplement dose. [R-0004](../../knowledge/rules/R-0004-piperine-curcumin.yaml) (piperine with curcumin) is grade C for its evidence quality. A teaspoon of turmeric supplies far less curcumin than the 2 g in the positive study, so it is also supplement-dose only.
+
+**Proposed:** this section, including the grades above, follows [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md). An earlier draft of this policy capped every supplement-dose-only rule at grade C. A grade C supplement rule follows the same opt-in and label rule as any other grade C rule. See [Q-11](../open-questions.md).
 
 ## Negative results are first-class
 
@@ -184,7 +195,7 @@ An accepted rule is re-reviewed when any of these happens:
 - a safety report names the rule ([SAFETY.md](../../SAFETY.md));
 - 24 months have passed since `last_reviewed`.
 
-**Proposed:** during a routine re-review, the rule stays `accepted` unless a reviewer finds a problem. A challenge or a safety report moves it to `in_review` at once. See [open questions](../open-questions.md).
+**Proposed:** during a routine re-review, the rule stays `accepted` unless a reviewer finds a problem. A challenge or a safety report moves it to `in_review` at once. See [Q-27](../open-questions.md).
 
 ## Handling disagreement
 

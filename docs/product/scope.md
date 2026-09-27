@@ -58,12 +58,12 @@ Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See 
 
 | Feature | Why deferred | Revisit when |
 |---|---|---|
-| Free-text state input ("slept badly, legs sore") and the vector layer | No mapping from text to target states exists yet. Four goal choices cover the need first. | The rule table covers more than one goal. |
+| Free-text state input ("slept badly, legs sore") and the vector layer | No mapping from text to target states exists yet. Nine fixed goals, chosen from a list, cover the need first. | Users show that the fixed goal list cannot say what they need. |
 | Microbiome-based suggestions | Taxa change day to day. Key conversions such as urolithin A depend on microbes some people lack, and feeding cannot create them. | A one-off urolithin test shows value. |
-| Lab-value input used for anything beyond gating | Interpreting results is a medical-device function in the US, EU and Australia. | A decision record and a regulatory review exist. |
+| Lab-value input used for any purpose, including gating, ranking or interpretation | The research found that interpreting results is likely to be a medical-device function in the United States (US), the European Union (EU) and Australia. This is not legal advice. | A decision record and a regulatory review exist. A personal journal that never changes a suggestion is [Q-31](../open-questions.md). |
 | Medication interaction checking beyond gating | Same as above. | Same as above. |
 | Learning personal response from blood panels | Routine markers vary too much within a person to show kitchen-scale effects. | The self-experiment protocol shows a detectable signal. |
-| Pooled learning across users | Conflicts with local-first data. | An opt-in design exists. See Q-12. |
+| Pooled learning across users | Conflicts with local-first data. | An opt-in design exists. See [Q-12](../open-questions.md). |
 
 ## Out of scope
 

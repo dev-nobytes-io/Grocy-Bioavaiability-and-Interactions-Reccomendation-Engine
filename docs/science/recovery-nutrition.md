@@ -4,7 +4,7 @@ This page sets out what the evidence says about eating to recover from training.
 
 > **Status: draft.** Every rule linked here is an unreviewed draft. None may produce a suggestion until it is accepted under the [evidence policy](evidence-policy.md).
 
-Grades follow the evidence policy. In short: A means concordant randomised controlled trials (RCTs) or a meta-analysis at the recommended dose. B means at least one well-conducted controlled human study. C means a single small study, supplement-dose only, manufacturer-only or observational data. D means animal, cell or mechanism only, and never produces a suggestion. Which grades may produce suggestions is **Proposed**. See [Q-11](../open-questions.md). Sources are cited by PubMed identifier (PMID).
+Grades follow the evidence policy. In short: A means concordant randomised controlled trials (RCTs) or a meta-analysis at the recommended dose. B means at least one well-conducted controlled human study. C means a single small study, manufacturer-only or observational data. Whether a dose is reachable from food is a separate flag, not a grade (**Proposed**, [ADR-0010](../decisions/0010-grade-evidence-at-tested-dose.md)). D means animal, cell or mechanism only, and never produces a suggestion. Which grades may produce suggestions is **Proposed**. See [Q-11](../open-questions.md). Sources are cited by PubMed identifier (PMID).
 
 ## What recovery means
 
@@ -78,7 +78,7 @@ A `glycogen_restoration` rule is a **candidate**. It needs your session plan to 
 
 Creatine monohydrate is one of the best-studied sports supplements. A meta-analysis of 100 placebo-controlled studies found small benefits for lean mass and for short, repeated high-intensity efforts ([Branch 2003, PMID 12945830](https://pubmed.ncbi.nlm.nih.gov/12945830/)). It found no clear effect on running or swimming. The ISSN creatine stand says 3 to 5 g a day maintains muscle stores ([Kreider 2017, PMID 28615996](https://pubmed.ncbi.nlm.nih.gov/28615996/)). It also reports that doses up to 30 g a day for 5 years were well tolerated in healthy people.
 
-Rule [R-0011](../../knowledge/rules/R-0011-creatine-monohydrate.yaml) is grade B and supplement-dose only. It fires only when creatine is already in your stock or declared. It never suggests buying it. As a precaution, it is withheld if you report reduced kidney function or leave that question unanswered. It is also withheld during pregnancy or breastfeeding. See the [safety model](safety-model.md).
+Rule [R-0011](../../knowledge/rules/R-0011-creatine-monohydrate.yaml) is grade B and, separately, supplement-dose only. The grade rates the trials at the tested dose. It fires only when creatine is already in your stock or declared. It never suggests buying it. As a precaution, it is withheld if you report reduced kidney function or leave that question unanswered. It is also withheld during pregnancy or breastfeeding. See the [safety model](safety-model.md).
 
 ## Connective tissue
 
@@ -115,7 +115,7 @@ Rule [R-0010](../../knowledge/rules/R-0010-alcohol-after-training.yaml) is grade
 
 Low energy availability means eating too little for the training you do. The 2023 consensus of the International Olympic Committee (IOC) on Relative Energy Deficiency in Sport (REDs) links it to harm to health and performance in women and men ([Mountjoy 2023, PMID 37752011](https://pubmed.ncbi.nlm.nih.gov/37752011/)).
 
-No food pairing fixes an energy shortfall. The engine does not calculate energy availability, and it never suggests eating less. Skip and swap rules are withheld for anyone who reports an eating disorder history (`gate.eating_disorder`). How the engine should handle low energy intake is an open question. See [open questions](../open-questions.md).
+No food pairing fixes an energy shortfall. The engine does not calculate energy availability, and it never suggests eating less. Skip and swap rules are withheld for anyone who reports an eating disorder history or leaves that question unanswered (`gate.eating_disorder`). How the engine should handle low energy intake is [Q-05](../open-questions.md).
 
 ## Hydration
 
@@ -166,7 +166,7 @@ This flowchart shows where each recovery rule applies across a day with one afte
 ```mermaid
 flowchart LR
   subgraph ALLDAY["Any time of day"]
-    D1["R-0011 creatine<br/>if in stock"]
+    D1["R-0011 creatine<br/>if in stock or declared"]
     D2["R-0008 skip high-dose<br/>vitamin C and E"]
   end
   PRE["About 60 min before:<br/>R-0007 gelatin<br/>and vitamin C"] --> SES["Training session"]

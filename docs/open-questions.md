@@ -57,13 +57,13 @@ These questions were open in the [project brief](vision/project-brief.md) and ar
 | Is advice additive only? | No. Suggestions may add, move, swap or skip. Safety gates run first. The tone stays positive. | [ADR-0005](decisions/0005-full-advice-with-safety-gates.md) |
 | What is the primary goal, and what role does health information play? | Recovery for people who train. Health information shapes suggestions and is never treated. | [ADR-0009](decisions/0009-recovery-goal-and-health-profile.md) |
 
-Three decision records are still **Proposed** and wait for the founder: [ADR-0006](decisions/0006-arcadedb-graph-store.md) (ArcadeDB), [ADR-0007](decisions/0007-graph-proposes-rules-decide.md) (only curated rules produce suggestions) and [ADR-0008](decisions/0008-python-for-pipelines.md) (Python). They are tracked in the [decision index](decisions/README.md), not here.
+Four decision records are still **Proposed** and wait for the founder: [ADR-0006](decisions/0006-arcadedb-graph-store.md) (ArcadeDB), [ADR-0007](decisions/0007-graph-proposes-rules-decide.md) (only curated rules produce suggestions), [ADR-0008](decisions/0008-python-for-pipelines.md) (Python) and [ADR-0010](decisions/0010-grade-evidence-at-tested-dose.md) (grade evidence at the tested dose). They are tracked in the [decision index](decisions/README.md), not here.
 
 ## Open questions
 
 **Priority.** High means the answer blocks a milestone exit or a safety design. Medium means it shapes a design, but a workable default exists. Low means it can wait.
 
-**Blocks.** The milestone or document that cannot be finished without an answer. Milestones (M) are defined in the [roadmap](product/roadmap.md): M0 documentation and governance, M1 reference knowledge graph, M2 curated rules and gates, M3 Grocy integration, M4 suggestion engine v0, M5 self-experiment protocol.
+**Blocks.** The milestone or document that cannot be finished without an answer. Milestones (M) are defined in the [roadmap](product/roadmap.md): M0 documentation and governance, M1 reference knowledge graph, M2 curated rules and safety gates, M3 Grocy integration and entity resolution, M4 suggestion engine v0, M5 self-experiment protocol.
 
 ### Goal and scope
 
@@ -107,7 +107,7 @@ Three decision records are still **Proposed** and wait for the founder: [ADR-000
 
 | ID | Question | Why it matters | Priority | Blocks |
 |---|---|---|---|---|
-| Q-11 | Which evidence grades may produce suggestions? Current **Proposed** default: A and B yes; C only with a visible "early evidence" label when you opt in; D never. Does the grade C limit for supplement-dose evidence apply when a rule's subject is the supplement itself at its tested dose? | Grades decide how many rules can reach you and how much trust each one deserves. | high | M2; [evidence policy](science/evidence-policy.md), [rule model](architecture/rule-model.md) |
+| Q-11 | Which evidence grades may produce suggestions? Current **Proposed** default: A and B yes; C only with a visible "early evidence" label when you opt in; D never. For supplement-dose-only rules, current **Proposed** answer ([ADR-0010](decisions/0010-grade-evidence-at-tested-dose.md)): the grade rates the evidence at the tested dose, and `supplement_dose_only` is a separate firing condition (in stock or declared, never from food), so such a rule is not capped at grade C. | Grades decide how many rules can reach you and how much trust each one deserves. | high | M2; [evidence policy](science/evidence-policy.md), [rule model](architecture/rule-model.md) |
 | Q-12 | Is learning per-user only, or pooled across users by opt-in? If per-user, where does the starting estimate come from? If pooled, what consent and sharing design fits local-first operation? | Pooling needs data to leave your machine, which [ADR-0003](decisions/0003-open-source-self-hosted.md) rules out by default. | low | Work after M5; [measurement](science/measurement.md) |
 | Q-17 | How is fermentable fibre introduced to someone with irritable bowel syndrome (IBS) or sensitivity to fermentable carbohydrates (FODMAPs)? A titration model needs grams, fibre type, ramp rate and a follow-up question. Until then `gate.fermentable_fibre` withholds. | The brief names this the likeliest real-world harm from an engine that adds food ([project brief](vision/project-brief.md), section 10). | high | M2; [safety model](science/safety-model.md) |
 | Q-23 | For one concrete rule, what outcome changes, by how much, over what period, and how would you know if it did not? Options for the outcome level: absorption from one meal, a status marker over weeks, or training performance. | No effect size was stated in the original design. M5 cannot be planned without one. | high | M5; [measurement](science/measurement.md) |
@@ -137,30 +137,32 @@ Three decision records are still **Proposed** and wait for the founder: [ADR-000
 
 ## What blocks which milestone
 
-This flowchart shows which high-priority questions block which milestones from M1 to M5.
+This flowchart shows which high-priority questions block which milestones from M1 to M5, and the first public release.
 
 ```mermaid
 flowchart LR
   Q20["Q-20 M1 time box"] --> M1["M1 Reference<br/>knowledge graph"]
   Q21["Q-21 Reuse MeNu GUIDE"] --> M1
   Q16["Q-16 Species and form<br/>resolution"] --> M1
-  Q16 --> M3["M3 Grocy integration"]
-  Q08["Q-08 Iron rule audience"] --> M2["M2 Curated rules<br/>and gates"]
+  Q16 --> M3["M3 Grocy integration<br/>and entity resolution"]
+  Q08["Q-08 Iron rule audience"] --> M2["M2 Curated rules<br/>and safety gates"]
   Q11["Q-11 Evidence grades"] --> M2
   Q17["Q-17 Fibre titration"] --> M2
   Q22["Q-22 Rule authors<br/>and reviewers"] --> M2
   Q25["Q-25 Minimum dose<br/>from stock"] --> M2
   Q25 --> M4["M4 Suggestion<br/>engine v0"]
   Q06["Q-06 First user"] --> M3
+  Q06 --> M4
   Q18["Q-18 Source of<br/>what you ate"] --> M3
   Q18 --> M4
+  Q08 --> M4
   Q01["Q-01 Ranking objective"] --> M4
   Q02["Q-02 Ranking formula"] --> M4
   Q03["Q-03 What counts<br/>as recovery"] --> M4
   Q03 --> M5["M5 Self-experiment<br/>protocol"]
   Q07["Q-07 Supplement ledger<br/>and upper limits"] --> M4
   Q28["Q-28 Static seek-care<br/>advice"] --> M4
-  Q29["Q-29 Regulatory opinion<br/>on medicine gates"] --> M4
+  Q29["Q-29 Regulatory opinion<br/>on medicine gates"] --> REL["First public release<br/>after M4"]
   Q32["Q-32 Moment of use"] --> M4
   Q35["Q-35 Allowed wording"] --> M4
   Q04["Q-04 What falsifies<br/>the thesis"] --> M5

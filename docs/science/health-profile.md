@@ -129,10 +129,10 @@ Each table says why a field is collected and what uses it. Gate and flag identif
 | `birth_year` or `age_years` | Reference intakes and upper limits differ by age. | Dose scaling, `gate.upper_limit`. If missing, the most cautious adult value is used. |
 | `height_cm` | You asked to record it, and some reference equations use it. | No current rule or gate. |
 | `weight_kg` | Many amounts and limits are set per kilogram of body mass. | Per-kilogram doses such as protein per meal ([recovery nutrition](recovery-nutrition.md)). The coumarin limit in `gate.coumarin`, 0.1 mg per kg a day. |
-| `body_fat_percent`, `body_fat_method` | Lean mass may suit per-kilogram protein better than total mass in some people. The method says how the number was obtained: dual-energy X-ray absorptiometry (`dexa`), `bioimpedance`, `skinfold`, `tape` or `estimate`. | **Proposed** only: using lean mass for protein scaling. See [Q-02](../open-questions.md). |
+| `body_fat_percent`, `body_fat_method` | Lean mass may suit per-kilogram protein better than total mass in some people. The method says how the number was obtained: dual-energy X-ray absorptiometry (`dexa`), `bioimpedance`, `skinfold`, `tape` or `estimate`. | **Proposed** only: using lean mass for protein scaling. See [Q-02 and Q-09](../open-questions.md). |
 | `waist_cm` | For your own tracking. | No current rule or gate. |
 
-Per-kilogram scaling is where body mass matters most. For the fictional person in the example, at 64.5 kg, the coumarin limit is 6.45 mg a day. If weight is missing, per-kilogram limits use a low reference body mass. **Proposed:** 50 kg. Per-kilogram targets, such as protein, are then shown without a scaled amount. Both defaults are open; see [open questions](../open-questions.md).
+Per-kilogram scaling is where body mass matters most. For the fictional person in the example, at 64.5 kg, the coumarin limit is 6.45 mg a day. If weight is missing, per-kilogram limits use a low reference body mass. **Proposed:** 50 kg. Per-kilogram targets, such as protein, are then shown without a scaled amount. Both defaults are open; see [Q-09](../open-questions.md).
 
 ### Training
 
@@ -147,14 +147,14 @@ Per-kilogram scaling is where body mass matters most. For the fictional person i
 
 | Field | Why it is collected | Used by |
 |---|---|---|
-| `pattern` | Omnivore, vegetarian, vegan or pescatarian. It removes foods you do not eat. It also changes how relevant iron rules are: low iron stores are most common in menstruating, plant-based and endurance athletes ([claim C1](../research/claim-verification.md), [scope](../product/scope.md)). | Exclusion filter. Ranking of iron-absorption rules. |
+| `pattern` | Omnivore, vegetarian, vegan or pescatarian. It removes foods you do not eat. It also changes how relevant iron rules are: low iron stores are most common in menstruating, plant-based and endurance athletes ([claim C1](../research/claim-verification.md), [scope](../product/scope.md)). | Exclusion filter. Ranking of iron-absorption rules (**Proposed**, [Q-08](../open-questions.md)). |
 | `restrictions` | Religious, ethical or other exclusions, such as gelatin or pork. | Exclusion filter. These foods are never suggested. |
 | `dislikes` | Food you will not eat is a wasted suggestion. | Exclusion filter. Not a health statement. |
 | `meal_times` | Timing rules need to know when meals happen. | `move` suggestions, such as separating tea from an iron-rich meal. Training window. |
 
 ### Allergies
 
-`allergies.status` is `none`, `listed` or `unknown`. It maps to `flag.allergens`. Each listed allergen is resolved to a food class with your confirmation, so "cashew" also matches cashew butter. Severity (`mild`, `moderate`, `severe`, `anaphylaxis`, `not_sure`) is shown to you. It never loosens `gate.allergy`: a mild allergy withholds as firmly as a severe one. If the status is unknown, `gate.allergy` withholds suggestions that add a common major allergen. **Proposed**: which allergen list applies; see [open questions](../open-questions.md).
+`allergies.status` is `none`, `listed` or `unknown`. It maps to `flag.allergens`. Each listed allergen is resolved to a food class with your confirmation, so "cashew" also matches cashew butter. Severity (`mild`, `moderate`, `severe`, `anaphylaxis`, `not_sure`) is shown to you. It never loosens `gate.allergy`: a mild allergy withholds as firmly as a severe one. If the status is unknown, `gate.allergy` withholds suggestions that add a common major allergen. If you have declared any allergy, it also withholds products whose allergen content is unknown. Which allergen list applies is **Proposed**; see [Q-14](../open-questions.md).
 
 ### Intolerances
 
@@ -163,7 +163,9 @@ Per-kilogram scaling is where body mass matters most. For the fictional person i
 | `flags.flag.lactose_intolerance` | Lactose causes discomfort for some people. | `gate.lactose_intolerance`, a tolerance gate. |
 | `other_foods` | Anything else that upsets you. | Exclusion filter, like dislikes. |
 
-An intolerance produces a **swap**, not silence. Most adults with lactose intolerance tolerate 12 to 15 g of lactose, about one cup of milk ([Shaukat 2010, PubMed 20404262](https://pubmed.ncbi.nlm.nih.gov/20404262/)). So a suggestion to add milk after training becomes "add lactose-free milk" when that is in your stock. The protein and calcium stay. If no lactose-free option is in stock, the suggestion is shown with a note about lactose.
+An intolerance produces a **swap**, not silence. Most adults with lactose intolerance tolerate 12 to 15 g of lactose, about one cup of milk ([Shaukat 2010, PubMed 20404262](https://pubmed.ncbi.nlm.nih.gov/20404262/)). So a suggestion to add milk after training becomes "add lactose-free milk" when that is in your stock. The protein and calcium stay. If no lactose-free option is in stock, the suggestion is shown with a note about lactose. If the lactose question is unanswered, the suggestion shows with a note; see [Q-13](../open-questions.md).
+
+Lactose intolerance is not a milk allergy. Lactose-free milk still contains milk protein. The lactose question says so, and asks anyone whose reaction to milk includes hives, swelling or breathing problems to list milk under allergies instead. `gate.allergy` then withholds, and no swap is offered.
 
 ### Conditions
 
@@ -191,7 +193,7 @@ A recent event is a flag plus the date it started. The flag definition sets how 
 | `flag.recent_antibiotics` | 30 days | Context only. No gate. |
 | `flag.recent_injury_or_surgery` | 56 days | Context only. No gate. |
 
-"Context only" means the event is shown with suggestions and recorded for your own [self-experiments](measurement.md). It does not change what is suggested. The day counts are design choices, not findings.
+"Context only" means the event is shown with suggestions and recorded for your own [self-experiments](measurement.md). It does not change what is suggested. The day counts are design choices, not findings; see [Q-10](../open-questions.md).
 
 This state diagram shows the life of one recent event.
 
@@ -225,7 +227,7 @@ Each supplement has a name, an amount as a range with a unit (g, mg, micrograms 
 | Field | Why it is collected | Used by |
 |---|---|---|
 | `flags.flag.pregnant_or_breastfeeding` | Reference intakes and upper limits change, and supplement-dose data are thin. | `gate.pregnancy`, dose scaling, `gate.upper_limit`. |
-| `menstrual_status` | Menstruation changes how relevant iron rules are ([claim C1](../research/claim-verification.md)). | Ranking of iron-absorption rules. Never used to infer a condition. |
+| `menstrual_status` | Menstruation changes how relevant iron rules are ([claim C1](../research/claim-verification.md)). | Ranking of iron-absorption rules (**Proposed**, [Q-08](../open-questions.md)). Never used to infer a condition. |
 
 ### Daily state
 
