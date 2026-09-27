@@ -1,0 +1,17 @@
+Grocy Bioavailability and Interactions Recommendation Engine
+Copyright 2026 The project contributors
+
+This repository is dual-licensed by directory:
+
+  - Everything outside knowledge/ (source code, documentation, templates)
+    is licensed under the Apache License, Version 2.0. See LICENSE.
+
+  - Everything inside knowledge/ (curated rules, safety gates, schemas,
+    source manifests) is licensed under the Creative Commons Attribution
+    4.0 International licence (CC BY 4.0). See knowledge/LICENSE.
+
+Third-party datasets referenced by the knowledge graph importers are NOT
+included in this repository and remain under their own licences. See
+docs/architecture/data-sources.md and knowledge/sources/license-manifest.yaml.
+
+This software does not provide medical advice. See SAFETY.md.

@@ -1,0 +1,181 @@
+# Data source licence manifest.
+# Licences below are AS FOUND by the research pass in September 2026. None is verified yet.
+# Before any importer loads a source, a maintainer must read its licence at the source,
+# set verified: true, and fill in verified_on and licence_url.
+# Tiers: core = may be published in graph builds; runtime_lookup = queried per item at runtime, never bundled;
+# local_only = user imports locally, never exported; excluded = not used; deferred = not needed until a later milestone.
+
+version: 1
+
+sources:
+  - id: usda_fdc
+    name: USDA FoodData Central
+    provides: Food composition (nutrients per 100 g), including Foundation, SR Legacy and Branded foods with barcodes
+    licence: CC0-1.0 (public domain)
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://fdc.nal.usda.gov/
+
+  - id: usda_retention
+    name: USDA Table of Nutrient Retention Factors, Release 6
+    provides: Nutrient losses from cooking methods
+    licence: CC0-1.0 (public domain)
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://agdatacommons.nal.usda.gov/articles/dataset/USDA_Table_of_Nutrient_Retention_Factors_Release_6_2007_/24660888
+
+  - id: foodon
+    name: FoodOn
+    provides: Food identity ontology and hierarchy
+    licence: CC-BY-4.0
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://foodon.org/
+
+  - id: chebi
+    name: ChEBI (Chemical Entities of Biological Interest)
+    provides: Chemical compounds, classes and roles
+    licence: CC-BY-4.0
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://www.ebi.ac.uk/chebi/
+
+  - id: reactome
+    name: Reactome
+    provides: Human biological pathways and reactions
+    licence: CC0-1.0 or CC-BY-4.0
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://reactome.org/
+    notes: The research reports disagree on whether Reactome data is CC0 or CC BY 4.0. Both allow redistribution. Confirm which, for attribution.
+
+  - id: uniprot
+    name: UniProt
+    provides: Proteins, including transporters and enzymes
+    licence: CC-BY-4.0
+    redistributable: true
+    tier: core
+    verified: false
+    homepage: https://www.uniprot.org/
+
+  - id: rhea
+    name: Rhea
+    provides: Biochemical reactions
+    licence: CC-BY-4.0
+    redistributable: unknown
+    tier: deferred
+    verified: false
+    homepage: https://www.rhea-db.org/
+    notes: Listed by the research as licence-clean. Not needed for M1.
+
+  - id: mesh
+    name: Medical Subject Headings (MeSH)
+    provides: Biomedical vocabulary
+    licence: Public domain, subject to NLM terms and conditions
+    redistributable: unknown
+    tier: deferred
+    verified: false
+    homepage: https://www.nlm.nih.gov/mesh/
+
+  - id: open_food_facts
+    name: Open Food Facts
+    provides: Packaged products by barcode, ingredients, categories
+    licence: ODbL-1.0 (database), DbCL-1.0 (contents)
+    redistributable: unknown
+    tier: runtime_lookup
+    verified: false
+    homepage: https://world.openfoodfacts.org/
+    notes: >-
+      Share-alike. Per-barcode lookups at runtime are fine. Publishing a derived database triggers
+      ODbL obligations. Until reviewed, do not include bulk Open Food Facts data in published builds.
+
+  - id: menu_guide
+    name: MeNu GUIDE (metabolite nutrition graph)
+    provides: A published food, metabolite and disease knowledge graph in RDF
+    licence: Reported as CC BY
+    redistributable: unknown
+    tier: deferred
+    verified: false
+    homepage: https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1
+    notes: The README's only citation. Whether to import it is open question Q-21. Its authors report coverage bias.
+
+  - id: foodatlas
+    name: FoodAtlas
+    provides: Food-chemical knowledge graph with provenance per edge
+    licence: Apache-2.0 (code); data licence not confirmed
+    redistributable: unknown
+    tier: deferred
+    verified: false
+    homepage: https://github.com/IBPA/FoodAtlas-KGv2
+
+  - id: vmh_agora2
+    name: Virtual Metabolic Human and AGORA2
+    provides: Food to metabolite mappings and gut microbe metabolic reconstructions
+    licence: Reported as CC BY
+    redistributable: unknown
+    tier: deferred
+    verified: false
+    homepage: https://www.vmh.life/
+    notes: Microbiome work is deferred. AGORA2 bulk download was reported as no longer available from its repository.
+
+  - id: nih_dsld
+    name: NIH Dietary Supplement Label Database
+    provides: Supplement label contents
+    licence: CC0-1.0 (public domain)
+    redistributable: true
+    tier: deferred
+    verified: false
+    homepage: https://dsld.od.nih.gov/
+    notes: Needed for the upper-limit ledger in M4.
+
+  - id: foodb
+    name: FooDB
+    provides: Food compounds and concentrations
+    licence: CC-BY-NC-4.0 (as listed on re3data; terms page not retrieved)
+    redistributable: false
+    tier: local_only
+    verified: false
+    homepage: https://foodb.ca/
+
+  - id: hmdb
+    name: Human Metabolome Database
+    provides: Human metabolites
+    licence: CC-BY-NC-4.0
+    redistributable: false
+    tier: local_only
+    verified: false
+    homepage: https://hmdb.ca/
+
+  - id: phenol_explorer
+    name: Phenol-Explorer
+    provides: Polyphenol content and retention factors
+    licence: CC-BY-NC (database); retention factors reported as CC BY but web-only
+    redistributable: false
+    tier: local_only
+    verified: false
+    homepage: http://phenol-explorer.eu/
+
+  - id: drugbank
+    name: DrugBank
+    provides: Drugs and drug interactions
+    licence: CC-BY-NC-4.0 (full); CC0-1.0 (open data subset)
+    redistributable: false
+    tier: deferred
+    verified: false
+    homepage: https://go.drugbank.com/
+    notes: Medication features are out of scope until a decision record exists.
+
+  - id: kegg
+    name: KEGG
+    provides: Pathways
+    licence: Commercial licence required for non-academic use; bulk download requires a paid subscription
+    redistributable: false
+    tier: excluded
+    verified: false
+    homepage: https://www.kegg.jp/
+    notes: Named in the original README. Replaced by Reactome.

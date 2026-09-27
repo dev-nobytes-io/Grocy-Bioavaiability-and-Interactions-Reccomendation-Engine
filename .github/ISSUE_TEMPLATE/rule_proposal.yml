@@ -1,0 +1,70 @@
+name: Rule proposal
+description: Propose a new evidence-graded food interaction rule.
+title: "[Rule] "
+labels: ["knowledge", "rule proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Read the [evidence policy](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/blob/main/docs/science/evidence-policy.md) first. Rules need human dose-response evidence at a dose a meal can reach, or a clear supplement-dose flag.
+  - type: input
+    id: statement
+    attributes:
+      label: Rule in one sentence
+      placeholder: "At least 25 mg vitamin C in the same meal increases non-heme iron absorption."
+    validations:
+      required: true
+  - type: dropdown
+    id: direction
+    attributes:
+      label: Direction
+      options:
+        - enhances
+        - inhibits
+        - no_effect
+    validations:
+      required: true
+  - type: dropdown
+    id: output_class
+    attributes:
+      label: What would the engine suggest?
+      options:
+        - add (include something in the meal)
+        - move (change timing)
+        - swap (replace one food with another)
+        - skip (leave something out of this meal)
+    validations:
+      required: true
+  - type: textarea
+    id: dose
+    attributes:
+      label: Effective dose and how a meal reaches it
+      placeholder: "25 to 50 mg ascorbic acid. One orange provides about 50 to 70 mg."
+    validations:
+      required: true
+  - type: textarea
+    id: population
+    attributes:
+      label: Population studied, and who it does not apply to
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Primary sources (PMID or DOI) with effect sizes
+    validations:
+      required: true
+  - type: textarea
+    id: gates
+    attributes:
+      label: Groups who must not receive this suggestion
+      description: See the safety model for existing gates.
+    validations:
+      required: true
+  - type: input
+    id: coi
+    attributes:
+      label: Conflict of interest
+      placeholder: None
+    validations:
+      required: true

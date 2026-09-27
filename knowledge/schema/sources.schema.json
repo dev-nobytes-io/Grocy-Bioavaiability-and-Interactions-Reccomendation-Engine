@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/knowledge/schema/sources.schema.json",
+  "title": "Data source licence manifest",
+  "description": "Every external dataset the knowledge graph may import, with its licence and tier. See docs/architecture/data-sources.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "sources"
+  ],
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "sources": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "provides",
+          "licence",
+          "redistributable",
+          "tier",
+          "verified",
+          "homepage"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provides": {
+            "type": "string"
+          },
+          "licence": {
+            "type": "string",
+            "description": "As found. SPDX identifier where one exists."
+          },
+          "licence_url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "redistributable": {
+            "enum": [
+              true,
+              false,
+              "unknown"
+            ]
+          },
+          "tier": {
+            "description": "core: may be published in graph builds. runtime_lookup: queried per item at runtime, never bundled. local_only: user imports locally, never exported. excluded: not used. deferred: not needed until a later milestone.",
+            "enum": [
+              "core",
+              "runtime_lookup",
+              "local_only",
+              "excluded",
+              "deferred"
+            ]
+          },
+          "verified": {
+            "description": "True only when a maintainer has read the licence at the source and recorded the date.",
+            "type": "boolean"
+          },
+          "verified_on": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "format": "date"
+          },
+          "homepage": {
+            "type": "string",
+            "format": "uri"
+          },
+          "notes": {
+            "type": "string"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "tier": {
+                  "const": "core"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "redistributable": {
+                  "const": true
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "verified": {
+                  "const": true
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "verified_on",
+                "licence_url"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,35 @@
+name: Evidence challenge
+description: A rule or document overstates, understates or misreads its evidence.
+title: "[Evidence] "
+labels: ["knowledge", "evidence challenge"]
+body:
+  - type: input
+    id: target
+    attributes:
+      label: Rule ID, claim ID or document
+      placeholder: R-0004, C3, or docs/science/evidence-policy.md
+    validations:
+      required: true
+  - type: textarea
+    id: claim
+    attributes:
+      label: What it says now
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What the evidence shows instead
+      description: Cite primary sources by PMID or DOI, with the numbers.
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Could this cause harm?
+      options:
+        - "No, it only affects accuracy"
+        - "Possibly"
+        - "Yes. Also file a safety concern."
+    validations:
+      required: true

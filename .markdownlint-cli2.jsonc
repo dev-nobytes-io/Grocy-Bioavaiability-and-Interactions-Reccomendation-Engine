@@ -1,0 +1,28 @@
+{
+  // Markdown lint settings. Run: npx markdownlint-cli2 "**/*.md"
+  "config": {
+    "default": true,
+    // Long lines are fine; prose is wrapped by editors.
+    "MD013": false,
+    // Bold lines are used as small labels, such as "Exit criteria".
+    "MD036": false,
+    // Duplicate headings are allowed in different sections.
+    "MD024": { "siblings_only": true },
+    // Allow <br/> inside tables.
+    "MD033": { "allowed_elements": ["br"] },
+    // Tables are written compactly.
+    "MD060": false
+  },
+  "ignores": [
+    "node_modules/**",
+    // Preserved verbatim as the founding vision.
+    "docs/vision/original-readme.md",
+    // Machine-generated research appendices.
+    "docs/research/claim-verification.md",
+    "docs/research/expert-panel.md",
+    "docs/research/gap-memos.md",
+    "docs/research/critic-summary.md",
+    // GitHub issue and pull request templates.
+    ".github/**"
+  ]
+}

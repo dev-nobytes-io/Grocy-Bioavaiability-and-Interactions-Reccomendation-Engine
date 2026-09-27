@@ -1,0 +1,67 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows how a supplement-dose-only finding is recorded. It never fires from food.
+id: R-0004
+title: Piperine increases curcumin bioavailability at supplement doses only
+status: draft
+version: 1
+direction: enhances
+output_class: add
+subject:
+  name: Piperine (from black pepper)
+target:
+  name: Curcumin in blood
+dose:
+  effective:
+    min: 20
+    unit: mg
+    per: dose
+  kitchen_reachable: false
+  supplement_dose_only: true
+  notes: >-
+    The only positive human study gave 2 g purified curcumin. A teaspoon of turmeric supplies
+    roughly 60 to 150 mg curcuminoids, 13 to 30 times less. The piperine dose, about 0.2 to 0.5 g
+    of black pepper, is culinary, and that is also the dose at which piperine alters some
+    medicines.
+timing:
+  window: same_meal
+effect:
+  summary: Piperine raised blood curcumin after a 2 g curcumin dose in one small study. Not shown at food doses.
+  magnitude: >-
+    Reported as a 2000 percent increase in relative bioavailability, measured against a baseline
+    where curcumin alone was undetectable or very low. An independent 2025 crossover found
+    unconjugated curcumin stayed below 2 nM in most cases, including with piperine, and that
+    piperine provided no benefit.
+  outcome_type: pharmacokinetic
+conditions:
+  applies_to: People taking curcumin supplements at gram doses.
+  weak_or_absent_in: Culinary turmeric use. No human data show food-dose turmeric with pepper changes any outcome.
+gates:
+  - gate.cyp3a4_pgp_medicine
+  - gate.pregnancy
+  - gate.allergy
+evidence:
+  grade: C
+  grade_rationale: >-
+    One small human study at supplement doses, with a manufacturer-linked co-author, not
+    replicated at that size, and contradicted by an independent crossover.
+  replicated: false
+  sponsor_flag: manufacturer
+  sources:
+    - citation: Shoba G et al. Influence of piperine on the pharmacokinetics of curcumin in animals and human volunteers. Planta Med 1998.
+      pmid: "9619120"
+      design: Human pharmacokinetic study
+      finding: 2 g curcumin with 20 mg piperine raised relative bioavailability about 20-fold against a near-undetectable baseline.
+  counter_evidence:
+    - citation: Kroon et al. A pharmacokinetic study and critical reappraisal of curcumin formulations enhancing bioavailability. iScience 2025.
+      doi: 10.1016/j.isci.2025.112575
+      design: Independent crossover
+      n: 9
+      finding: Unconjugated curcumin below 2 nM in most cases including with piperine; piperine provided no benefit.
+suggestion:
+  text: If you take a curcumin supplement, products combined with piperine may raise blood curcumin. Evidence is limited.
+  label: Supplement-dose evidence only. Piperine can change how some medicines are processed.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft example of a supplement-dose-only rule.
