@@ -14,6 +14,26 @@ The knowledge graph imports public datasets. Their licences decide what the proj
 | **deferred** | Not needed until a later milestone. | Not yet |
 | **excluded** | Not used. | No |
 
+This flowchart shows how a source's licence decides its tier.
+
+```mermaid
+flowchart TD
+  SRC["New source and its licence,<br/>read at the source"] --> NEWTYPE{"A licence type the project<br/>has not used before?"}
+  NEWTYPE -->|"Yes"| ADR["Decision record first,<br/>under GOVERNANCE.md"]
+  NEWTYPE -->|"No"| COMM
+  ADR --> COMM{"Commercial licence required<br/>for non-academic use?"}
+  COMM -->|"Yes"| EXCL["excluded"]
+  COMM -->|"No"| NC{"Non-commercial only?"}
+  NC -->|"Yes"| LOCAL["local only: user imports it,<br/>export tooling refuses it"]
+  NC -->|"No"| REDIST{"Redistributable?"}
+  REDIST -->|"No"| LOCAL
+  REDIST -->|"Yes"| SA{"Share-alike?"}
+  SA -->|"Yes"| RUNTIME["runtime lookup:<br/>one item at a time, never bundled"]
+  SA -->|"No"| NOW{"Needed by the<br/>current milestone?"}
+  NOW -->|"Yes"| CORE["core"]
+  NOW -->|"No"| DEFER["deferred"]
+```
+
 ## Sources
 
 | Source | Provides | Licence as found | Tier |

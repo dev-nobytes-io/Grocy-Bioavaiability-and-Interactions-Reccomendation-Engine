@@ -9,6 +9,18 @@ Significant decisions are recorded here as architecture decision records (ADRs).
 3. The founder approves or rejects. Accepted records are not edited except to mark them superseded.
 4. To reverse a decision, write a new record that supersedes the old one.
 
+This state diagram shows the statuses a decision record can move through.
+
+```mermaid
+stateDiagram-v2
+  [*] --> Proposed : pull request opened
+  Proposed --> Accepted : founder approves
+  Proposed --> Rejected : founder rejects
+  Accepted --> Superseded : a new record replaces it
+  Rejected --> [*]
+  Superseded --> [*]
+```
+
 ## Index
 
 | ADR | Decision | Status |

@@ -46,6 +46,62 @@ The FoodOn, ChEBI and Reactome examples were checked against their sources in Se
 
 Every edge that carries a number also carries its unit and its basis. For example, a composition amount is per 100 g of edible portion, in a stated preparation state.
 
+This entity relationship diagram shows each node type with its primary identifier and the edges between them; `SAME_AS` and the `FROM_DATASET` links on edge records are left out for clarity.
+
+```mermaid
+erDiagram
+  Food ||--o{ Food : IS_A
+  Food ||--o{ FoodRecord : DESCRIBED_BY
+  FoodRecord }o--o{ Nutrient : CONTAINS
+  FoodRecord }o--o{ Compound : CONTAINS
+  Compound ||--o{ Compound : IS_A
+  Compound }o--o{ Compound : HAS_ROLE
+  Compound }o--o{ Pathway : PARTICIPATES_IN
+  Compound }o--o{ Protein : TRANSPORTED_BY
+  Food }o--o{ Rule : SUBJECT_OF
+  Compound }o--o{ Rule : SUBJECT_OF
+  Nutrient }o--o{ Rule : TARGET_OF
+  Compound }o--o{ Rule : TARGET_OF
+  Rule }o--o{ Gate : GATED_BY
+  Food }o--|| Dataset : FROM_DATASET
+  FoodRecord }o--|| Dataset : FROM_DATASET
+  Compound }o--|| Dataset : FROM_DATASET
+  Nutrient }o--|| Dataset : FROM_DATASET
+  Pathway }o--|| Dataset : FROM_DATASET
+  Protein }o--|| Dataset : FROM_DATASET
+  Food {
+    string foodon_curie PK
+  }
+  FoodRecord {
+    string fdc_id PK
+  }
+  Compound {
+    string chebi_curie PK
+  }
+  Nutrient {
+    string fdc_nutrient_number PK
+  }
+  Pathway {
+    string reactome_stable_id PK
+  }
+  Protein {
+    string uniprot_accession PK
+  }
+  Dataset {
+    string internal_id PK
+    string dataset_version
+    date retrieved
+    string licence_id
+    boolean redistributable
+  }
+  Rule {
+    string rule_id PK
+  }
+  Gate {
+    string gate_id PK
+  }
+```
+
 ## Provenance
 
 Every node and every edge records:

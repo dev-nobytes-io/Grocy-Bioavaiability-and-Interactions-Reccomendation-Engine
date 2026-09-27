@@ -27,6 +27,22 @@ Better recovery for people who train, through the best nutrition available from 
 5. Removes rules gated for this user, and scales doses to their body mass.
 6. Ranks what remains, recovery goals first, and shows one suggestion with dose, evidence grade and source.
 
+This flowchart shows the six steps above, from your stock and health profile to one suggestion.
+
+```mermaid
+flowchart TD
+  GROCY[("Grocy stock")] --> S1["Step 1: read what is in stock"]
+  S1 --> S2["Step 2: resolve each product<br/>to a known food, with confidence"]
+  PROFILE[("Health profile and<br/>today's training context")] --> S3["Step 3: read the profile<br/>and training context"]
+  MEAL["Planned meal"] --> S4
+  RULES[("Curated rules")] --> S4
+  S2 --> S4["Step 4: find rules whose ingredients<br/>are present or could be added from stock"]
+  S4 --> S5["Step 5: remove gated rules,<br/>scale doses to body mass"]
+  S3 --> S5
+  S5 --> S6["Step 6: rank what remains,<br/>recovery goals first"]
+  S6 --> OUT["One suggestion: add, move, swap or skip,<br/>with dose, evidence grade and source"]
+```
+
 Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See [ADR-0005](../decisions/0005-full-advice-with-safety-gates.md).
 
 ## In scope for v0.x

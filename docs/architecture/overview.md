@@ -92,3 +92,25 @@ The [original README](../vision/original-readme.md) named several components. Th
 - Packaged as a container image first. A Home Assistant add-on is a likely second target.
 - Configuration by environment variables. The Grocy API key never enters the repository.
 - The reference graph ships as a build artefact that users can download or rebuild. Non-redistributable sources are loaded locally by the user, if at all.
+
+This flowchart shows what runs on your machine and the optional outbound lookups described in [Grocy integration](grocy-integration.md); health, profile and stock data never leave.
+
+```mermaid
+flowchart LR
+  subgraph Machine["Your machine"]
+    YOU["You, at a command line<br/>or local web page"]
+    GROCY["Grocy, existing install"]
+    ENGINE["Engine process"]
+    ADB[("ArcadeDB process:<br/>reference graph")]
+    PROFILE[("Profile store: health profile,<br/>supplements, suggestion log")]
+  end
+  OFF["Open Food Facts"]
+  OLS["Ontology Lookup Service,<br/>Proposed fallback"]
+  YOU -->|"asks for a suggestion"| ENGINE
+  ENGINE -->|"one suggestion"| YOU
+  ENGINE -->|"reads stock, read-only"| GROCY
+  ENGINE -->|"queries"| ADB
+  ENGINE -->|"reads and writes"| PROFILE
+  ENGINE -.->|"optional: one barcode per request"| OFF
+  ENGINE -.->|"optional: one normalised product name"| OLS
+```

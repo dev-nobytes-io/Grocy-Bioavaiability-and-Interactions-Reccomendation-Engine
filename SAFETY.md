@@ -53,3 +53,19 @@ A safety problem is any suggestion that could harm someone. Examples: a rule tha
 - **If it does,** report it privately through [GitHub private vulnerability reporting](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/security/advisories/new). Do not post personal health information in public issues.
 
 Safety reports take priority over all other work. A rule under a credible safety report is set to `in_review` and stops producing suggestions until the report is resolved.
+
+This flowchart shows how a safety report moves from discovery to a released fix.
+
+```mermaid
+flowchart TD
+  FOUND["Possible safety problem found"] --> PD{"Involves anyone's<br/>personal health details?"}
+  PD -->|"Yes"| PRIV["Private report through GitHub<br/>private vulnerability reporting"]
+  PD -->|"No"| PUB["Public safety concern issue"]
+  PRIV --> TRIAGE["Triage, ahead of all other work"]
+  PUB --> TRIAGE
+  TRIAGE --> CRED{"Credible report?"}
+  CRED -->|"No"| KEEP["Rule keeps its status"]
+  CRED -->|"Yes"| HOLD["Rule set to in_review:<br/>it stops producing suggestions"]
+  HOLD --> FIX["Fix the rule or gate<br/>by reviewed pull request"]
+  FIX --> RELEASE["Release the fix;<br/>report resolved"]
+```

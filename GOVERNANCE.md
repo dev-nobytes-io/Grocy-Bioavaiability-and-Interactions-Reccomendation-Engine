@@ -16,6 +16,29 @@ Today the founder holds every role. The review requirements below still apply, w
 
 ## How decisions are made
 
+This flowchart shows the main path each kind of change takes; one change can need more than one path.
+
+```mermaid
+flowchart TD
+  START["Proposed change"] --> KN{"Changes a rule or gate<br/>in knowledge/?"}
+  KN -->|"Yes"| RR["Rule review: another reviewer<br/>checks each cited number"]
+  RR --> SG{"Touches a safety gate?"}
+  SG -->|"Yes"| SR["Safety reviewer approves"]
+  SG -->|"No"| FEW
+  SR --> FEW{"Fewer than two<br/>rule reviewers?"}
+  FEW -->|"Yes"| WAIT["Stays open seven days,<br/>unless it makes a rule safer"]
+  FEW -->|"No"| MERGE["Merge"]
+  WAIT --> MERGE
+  KN -->|"No"| SIG{"Significant, as listed below?"}
+  SIG -->|"No"| LAZY["Lazy consensus: checks pass<br/>and nobody with standing objects"]
+  LAZY --> MERGE
+  SIG -->|"Yes"| ADR["Decision record in a pull request,<br/>status Proposed"]
+  ADR --> AGREE{"Maintainers agree?"}
+  AGREE -->|"Yes"| FA["Founder approves:<br/>status Accepted"]
+  AGREE -->|"No, deadlock"| FD["Founder decides,<br/>and the record says why"]
+  FA --> MERGE
+```
+
 **Ordinary changes** such as documentation fixes, small code changes and new issues use lazy consensus. A maintainer merges once checks pass and nobody with standing has objected.
 
 **Significant decisions** get a decision record in [docs/decisions/](docs/decisions/README.md). A decision is significant if it:

@@ -32,6 +32,26 @@ A rule is a curated, evidence-graded statement about how one food component chan
 5. Set `status: draft`. Reviewers move it forward.
 6. Run the checks below and open a pull request.
 
+This flowchart shows the path a new rule takes from idea to accepted rule.
+
+```mermaid
+flowchart TD
+  ISSUE["Open a rule proposal issue"] --> AGREE{"Agreed that the rule<br/>is in scope?"}
+  AGREE -->|"No"| REVISE["Revise the proposal or stop"]
+  AGREE -->|"Yes"| COPY["Copy a rule file in knowledge/rules/<br/>and give it the next free ID"]
+  COPY --> FILL["Fill every required field,<br/>cite primary sources, list every gate"]
+  FILL --> DRAFT["Set status: draft"]
+  DRAFT --> CHECKS["Run the local checks"]
+  CHECKS --> PASS{"Checks pass?"}
+  PASS -->|"No"| FILL
+  PASS -->|"Yes"| PR["Open a pull request"]
+  PR --> REVIEW["Review: each cited number<br/>checked against its source"]
+  REVIEW --> OK{"Changes requested?"}
+  OK -->|"Yes"| FILL
+  OK -->|"No"| MERGED["Merged with status draft"]
+  MERGED --> LATER["Reviewers later move it<br/>to in_review, then accepted"]
+```
+
 ## Decision records
 
 Significant changes need a decision record. [GOVERNANCE.md](GOVERNANCE.md) lists what counts. Copy [the template](docs/decisions/template.md), number it with the next free number, and set its status to Proposed.
