@@ -1,0 +1,46 @@
+# Runs the same checks as CONTRIBUTING.md "Local checks" on every pull request and on main.
+name: Checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install schema validator
+        run: pip install check-jsonschema==0.38.2
+
+      - name: Validate knowledge files against their schemas
+        run: |
+          check-jsonschema --schemafile knowledge/schema/rule.schema.json knowledge/rules/*.yaml
+          check-jsonschema --schemafile knowledge/schema/gates.schema.json knowledge/gates/gates.yaml
+          check-jsonschema --schemafile knowledge/schema/sources.schema.json knowledge/sources/license-manifest.yaml
+          check-jsonschema --schemafile knowledge/schema/profile.schema.json knowledge/examples/*.yaml
+
+      - name: Check relative links and anchors
+        run: python3 scripts/check_links.py
+
+      - name: Lint Markdown
+        run: npx --yes markdownlint-cli2@0.23.3 "**/*.md"
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli@12.0.0
+
+      - name: Render every Mermaid diagram
+        run: python3 scripts/check_mermaid.py
