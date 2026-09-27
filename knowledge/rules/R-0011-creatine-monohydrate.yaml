@@ -4,7 +4,7 @@
 id: R-0011
 title: Creatine monohydrate at 3 to 5 g a day supports high-intensity performance and training gains
 status: draft
-version: 1
+version: 2
 direction: enhances
 output_class: add
 goals: [adaptation]
@@ -31,7 +31,7 @@ context:
 effect:
   summary: >-
     Creatine raises muscle creatine stores and gives small gains in short, repeated
-    high-intensity efforts and in lean mass during training.
+    high-intensity efforts and, mainly after a loading phase, in lean mass during training.
   magnitude: >-
     Branch 2003 (100 placebo-controlled studies): small effect sizes of 0.17 for body
     composition and 0.24 for efforts of 30 seconds or less. The effect on body composition was
@@ -67,10 +67,12 @@ evidence:
       design: Position stand
       finding: 3 to 5 g a day maintains muscle creatine stores; supplementation up to 30 g a day for 5 years was well tolerated in healthy people.
 suggestion:
-  text: Take your usual 3 to 5 g of creatine today with any meal or drink.
-  label: Supplement dose. Shown only because this supplement is in your stock.
+  text: If you take creatine, 3 to 5 g a day with any meal or drink keeps muscle stores topped up.
+  label: Supplement dose. Shown only because you have this supplement.
 reviewers: []
 last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft recovery example of a supplement-in-stock rule.
+  - date: 2026-09-27
+    change: Suggestion text no longer assumes the user already takes creatine. Label covers declared supplements.

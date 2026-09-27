@@ -60,6 +60,11 @@
             "description": "safety gates protect against harm and must fail closed. tolerance gates protect comfort and prefer a swap.",
             "enum": ["safety", "tolerance"]
           },
+          "scope": {
+            "description": "listed, the default, means the gate applies only to rules that list it. global means it applies to every rule, whether or not the rule lists it; affects still says which suggestions it touches.",
+            "enum": ["listed", "global"],
+            "default": "listed"
+          },
           "trigger": {
             "type": "object",
             "additionalProperties": false,
@@ -115,7 +120,7 @@
               "required": ["severity", "trigger"],
               "properties": { "severity": { "const": "safety" }, "trigger": { "required": ["flags_any"] } }
             },
-            "then": { "properties": { "on_unknown": { "const": "withhold" } } }
+            "then": { "properties": { "on_unknown": { "const": "withhold" }, "action": { "const": "withhold" } } }
           },
           {
             "if": { "properties": { "action": { "const": "swap" } } },

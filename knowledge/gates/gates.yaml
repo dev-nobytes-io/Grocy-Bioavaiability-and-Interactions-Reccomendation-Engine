@@ -8,6 +8,8 @@
 # Every flag-triggered safety gate fails closed: an unanswered question counts as "yes".
 # Tolerance gates protect comfort, prefer a swap, and may show a note when unanswered.
 # Recent-event flags hold a start date and stop applying after expires_after_days.
+# A gate applies to the rules that list it. A gate with scope: global applies to every rule,
+# whether or not the rule lists it; its affects text still says which suggestions it touches.
 
 version: 2
 
@@ -72,7 +74,10 @@ flags:
     type: list
     category: allergy
   - id: flag.lactose_intolerance
-    question: Do dairy foods that contain lactose, such as milk, upset your stomach?
+    question: >-
+      Do dairy foods that contain lactose, such as milk, upset your stomach? This is not a milk
+      allergy. If milk gives you hives, swelling or breathing problems, list milk under allergies
+      instead.
     type: yes_no
     category: intolerance
   - id: flag.coeliac_or_gluten_sensitivity
@@ -146,7 +151,7 @@ gates:
     action: withhold
     on_unknown: withhold
     affects: >-
-      Suggestions to add black pepper beyond ordinary seasoning, piperine-containing products,
+      Any suggestion to add black pepper, whatever the amount, piperine-containing products,
       curcumin with piperine, and grapefruit or Seville orange.
     rationale: >-
       Piperine inhibits CYP3A4 and P-glycoprotein. At 15 to 20 mg, roughly 0.2 to 0.5 g of
@@ -202,8 +207,13 @@ gates:
       flags_any: [flag.pregnant_or_breastfeeding]
     action: withhold
     on_unknown: withhold
-    affects: Every rule flagged supplement_dose_only, and any herbal or concentrated extract.
-    rationale: Safety data for supplement-dose herbs and extracts in pregnancy are thin. Food-dose rules are unaffected.
+    affects: >-
+      Every rule flagged supplement_dose_only, any herbal or concentrated extract, and any
+      suggestion that mentions drinking alcohol.
+    rationale: >-
+      Safety data for supplement-dose herbs and extracts in pregnancy are thin. Suggestion text
+      about drinking alcohol is not shown during pregnancy or breastfeeding. Other food-dose
+      rules are unaffected.
     basis: precautionary
 
   - id: gate.glucose_lowering_medicine
@@ -265,6 +275,7 @@ gates:
   - id: gate.inborn_error
     name: Inherited metabolic disorders
     severity: safety
+    scope: global
     trigger:
       flags_any: [flag.inborn_error_of_metabolism]
     action: withhold
@@ -296,11 +307,15 @@ gates:
   - id: gate.allergy
     name: Declared food allergies
     severity: safety
+    scope: global
     trigger:
       flags_any: [flag.allergens]
     action: withhold
     on_unknown: withhold
-    affects: Any suggestion whose food contains a declared allergen, matched through the food hierarchy.
+    affects: >-
+      Any suggestion whose food contains a declared allergen, matched through the food
+      hierarchy, and any product whose allergen content is unknown. While the allergy question
+      is unanswered, any suggestion that adds a common major allergen.
     rationale: Adding a food someone is allergic to can cause a severe reaction.
     basis: precautionary
 
@@ -324,6 +339,7 @@ gates:
   - id: gate.upper_limit
     name: Tolerable upper intake levels
     severity: safety
+    scope: global
     trigger:
       ledger: Suggested amount plus declared supplements, stored as ranges, against the tolerable upper intake level for each nutrient.
     action: cap
@@ -361,6 +377,7 @@ gates:
   - id: gate.coeliac_gluten
     name: Coeliac disease or gluten sensitivity
     severity: safety
+    scope: global
     trigger:
       flags_any: [flag.coeliac_or_gluten_sensitivity]
     action: withhold

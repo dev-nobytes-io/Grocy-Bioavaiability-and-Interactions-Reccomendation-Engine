@@ -150,7 +150,7 @@
         },
         "supplement_dose_only": {
           "type": "boolean",
-          "description": "True if the effect has only been shown at supplement doses. Such rules never fire from food alone."
+          "description": "True if the effect has only been shown at supplement doses. A firing condition, not a grade: the rule fires only when that supplement is in stock or declared, never from food. evidence.grade still rates the evidence at the tested dose."
         },
         "food_examples": {
           "type": "array",
@@ -301,6 +301,7 @@
       ],
       "properties": {
         "grade": {
+          "description": "Strength of the evidence at the dose the studies tested. See docs/science/evidence-policy.md.",
           "enum": [
             "A",
             "B",

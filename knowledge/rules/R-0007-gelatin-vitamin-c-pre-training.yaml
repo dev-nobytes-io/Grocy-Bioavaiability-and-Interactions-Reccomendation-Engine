@@ -3,7 +3,7 @@
 id: R-0007
 title: About 15 g gelatin with vitamin C one hour before loading may raise a collagen-synthesis marker
 status: draft
-version: 1
+version: 2
 direction: enhances
 output_class: add
 goals: [connective_tissue]
@@ -52,8 +52,13 @@ conditions:
   weak_or_absent_in: >-
     Muscle connective tissue after resistance exercise: 30 g collagen did not raise its synthesis.
   modifiers:
-    - Gelatin is an animal product. Users whose diet pattern is vegetarian or vegan should not see this rule.
+    - >-
+      Gelatin is an animal product and may be made from pork or beef. The exclusion filter must
+      remove it for vegetarian and vegan patterns and for any restriction on pork, beef or
+      gelatin. If the source animal of the stocked gelatin is unknown, treat it as pork.
 gates:
+  - gate.kidney_function
+  - gate.inborn_error
   - gate.iron_overload
   - gate.allergy
 evidence:
@@ -102,7 +107,7 @@ evidence:
       finding: Bone broth held less glycine, proline and hydroxyproline than a 20 g collagen dose, with large variation between recipes.
 suggestion:
   text: >-
-    About an hour before today's jumping or sprint session, try 15 g of your gelatin powder
+    About an hour before today's jumping or skipping session, try 15 g of your gelatin powder
     with a vitamin C source, such as orange juice.
   label: Early evidence from small studies.
 reviewers: []
@@ -110,3 +115,5 @@ last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft recovery example of a grade C pre-training rule.
+  - date: 2026-09-27
+    change: Added kidney and inherited metabolic disorder gates, an exclusion note on the gelatin source, and matched the text to the tested activity.

@@ -4,7 +4,7 @@
 id: R-0005
 title: Dietary calcium does not reduce zinc absorption from ordinary diets
 status: draft
-version: 1
+version: 2
 direction: no_effect
 output_class: none
 goals: [micronutrient_status]
@@ -32,8 +32,8 @@ conditions:
     - Phytate does reduce zinc absorption. That is a separate interaction.
 gates: []
 evidence:
-  grade: B
-  grade_rationale: Whole-day isotope study at food doses. Small sample.
+  grade: C
+  grade_rationale: One whole-day isotope study in 10 women at food doses. Not replicated.
   replicated: false
   sponsor_flag: independent
   sources:
@@ -41,6 +41,7 @@ evidence:
       pmid: "19176739"
       doi: 10.3945/ajcn.2008.27175
       design: Whole-day isotope study
+      n: 10
       finding: Calcium 700 versus 1800 mg a day had no effect on zinc absorption.
 suggestion:
   text: No suggestion. This rule prevents the engine from warning about calcium and zinc together.
@@ -49,3 +50,5 @@ last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft example of a recorded negative result.
+  - date: 2026-09-27
+    change: Regraded from B to C because it rests on one small study that is not replicated. Added its sample size.

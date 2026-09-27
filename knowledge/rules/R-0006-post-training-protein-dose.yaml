@@ -3,7 +3,7 @@
 id: R-0006
 title: A protein dose of about 0.25 to 0.4 g per kg in the post-training meal supports muscle protein synthesis
 status: draft
-version: 1
+version: 2
 direction: enhances
 output_class: add
 goals: [muscle_repair, adaptation]
@@ -11,7 +11,8 @@ subject:
   name: High-quality protein in one meal
   notes: >-
     Protein with a full set of essential amino acids, such as dairy, eggs, meat, fish or soy.
-    The ISSN protein position stand suggests 700 to 3000 mg leucine per dose.
+    The International Society of Sports Nutrition (ISSN) protein position stand (Jäger 2017,
+    PMID 28642676) suggests 700 to 3000 mg leucine per dose.
 target:
   name: Muscle protein synthesis after resistance exercise
 dose:
@@ -42,7 +43,6 @@ context:
     max: 120
   notes: >-
     The ISSN nutrient-timing stand cites intake from immediately to 2 hours after exercise.
-    The anabolic effect of exercise lasts at least 24 hours, so a later meal still helps.
 effect:
   summary: >-
     Eating about 20 to 40 g of high-quality protein after resistance exercise raises muscle
@@ -70,6 +70,8 @@ gates:
   - gate.kidney_function
   - gate.inborn_error
   - gate.allergy
+  - gate.coeliac_gluten
+  - gate.eating_disorder
   - gate.lactose_intolerance
 evidence:
   grade: B
@@ -86,7 +88,7 @@ evidence:
       doi: 10.3945/ajcn.2008.26401
       design: Randomised crossover, stable-isotope tracer
       n: 6
-      finding: Muscle protein synthesis was maximally stimulated at 20 g egg protein; 40 g increased leucine oxidation.
+      finding: Muscle protein synthesis was maximally stimulated at 20 g egg protein; leucine oxidation rose after 20 g and 40 g.
     - citation: Witard OC et al. Myofibrillar muscle protein synthesis rates subsequent to a meal in response to increasing doses of whey protein at rest and after resistance exercise. Am J Clin Nutr 2014.
       pmid: "24257722"
       doi: 10.3945/ajcn.112.055517
@@ -110,6 +112,11 @@ evidence:
       doi: 10.1186/s12970-017-0189-4
       design: Position stand
       finding: A 20 to 40 g dose (0.25 to 0.40 g per kg) every 3 to 4 hours appears most favourable for muscle protein synthesis.
+    - citation: Jäger R et al. International Society of Sports Nutrition position stand. Protein and exercise. J Int Soc Sports Nutr 2017.
+      pmid: "28642676"
+      doi: 10.1186/s12970-017-0177-8
+      design: Position stand
+      finding: Acute protein doses should contain 700 to 3000 mg leucine; 1.4 to 2.0 g protein per kg a day is sufficient for most exercising people.
     - citation: Morton RW et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults. Br J Sports Med 2018.
       pmid: "28698222"
       doi: 10.1136/bjsports-2017-097608
@@ -126,3 +133,5 @@ last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft recovery example with a per-kilogram dose.
+  - date: 2026-09-27
+    change: Added coeliac and eating disorder gates, the Jäger 2017 source, and a corrected Moore 2009 finding. Removed an unsourced 24-hour claim.

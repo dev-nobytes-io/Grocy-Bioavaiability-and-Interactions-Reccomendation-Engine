@@ -3,7 +3,7 @@
 id: R-0004
 title: Piperine increases curcumin bioavailability at supplement doses only
 status: draft
-version: 1
+version: 2
 direction: enhances
 output_class: add
 goals: [general]
@@ -59,10 +59,16 @@ evidence:
       n: 9
       finding: Unconjugated curcumin below 2 nM in most cases including with piperine; piperine provided no benefit.
 suggestion:
-  text: If you take a curcumin supplement, products combined with piperine may raise blood curcumin. Evidence is limited.
-  label: Supplement-dose evidence only. Piperine can change how some medicines are processed.
+  text: >-
+    If you take a curcumin supplement, one small study found that adding piperine raised blood
+    curcumin. A later independent study found no benefit.
+  label: >-
+    Early evidence at supplement doses only. The positive study had a co-author linked to an
+    ingredient maker. Piperine can change how some medicines are processed.
 reviewers: []
 last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft example of a supplement-dose-only rule.
+  - date: 2026-09-27
+    change: Suggestion text now reports the null independent study; label discloses the manufacturer link.

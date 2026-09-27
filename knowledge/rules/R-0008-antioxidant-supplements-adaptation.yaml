@@ -4,7 +4,7 @@
 id: R-0008
 title: High-dose vitamin C and E supplements during a training block blunt some training adaptations
 status: draft
-version: 1
+version: 2
 direction: inhibits
 output_class: skip
 goals: [adaptation]
@@ -55,8 +55,9 @@ evidence:
   grade: B
   grade_rationale: >-
     Two randomised controlled trials and a third controlled trial, from two independent groups,
-    agree on cellular and metabolic markers. Graded B, not A, because performance outcomes were mostly unaffected
-    and the doses are supplement doses.
+    agree on cellular and metabolic markers at the tested supplement dose. Graded B, not A,
+    because performance outcomes were mostly unaffected. The dose is recorded separately by
+    supplement_dose_only (Proposed, ADR-0010).
   replicated: true
   sponsor_flag: unknown
   sources:
@@ -92,11 +93,13 @@ evidence:
       finding: Antioxidant supplements slightly reduced soreness (standardised mean difference -0.13 at 24 hours, 41 studies); no trial measured subjective recovery.
 suggestion:
   text: >-
-    During this training block, let your fruit and vegetables supply your vitamin C and E, and
-    keep the high-dose supplement for another time. Your training gains come through fully.
+    During this training block, get your vitamin C and E from food and set the high-dose
+    supplement aside. In trials, daily high doses blunted some of the body's adaptations to training.
   label: If a clinician advised this supplement, keep taking it and ask them first.
 reviewers: []
 last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft recovery example of a supplement skip rule.
+  - date: 2026-09-27
+    change: Suggestion text no longer promises full training gains. Grade rationale follows the proposed ADR-0010.

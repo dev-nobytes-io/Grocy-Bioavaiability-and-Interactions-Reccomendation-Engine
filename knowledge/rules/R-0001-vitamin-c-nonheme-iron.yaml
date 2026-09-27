@@ -2,7 +2,7 @@
 id: R-0001
 title: Vitamin C in the same meal increases non-heme iron absorption
 status: draft
-version: 1
+version: 2
 direction: enhances
 output_class: add
 goals: [micronutrient_status]
@@ -33,10 +33,11 @@ timing:
 effect:
   summary: Raises the fraction of non-heme iron absorbed from a single meal, and partly offsets phytate inhibition.
   magnitude: >-
-    Single-meal isotope studies: about 1.65 times at 25 mg, 3 to 4 times at 50 to 100 mg, from a
-    low baseline of about 1 to 4 percent absorbed. About 30 mg overcame 10 to 58 mg phytate
-    phosphorus in a bread meal. In absolute terms, raising absorption from 2.5 to 13.9 percent
-    on a 4 mg iron meal adds about 0.46 mg of absorbed iron.
+    Single-meal isotope studies: about 1.65 times at 25 mg, rising with dose, from a low
+    baseline. About 30 mg overcame 10 to 58 mg phytate phosphorus in a white-bread meal. In a
+    rice meal, absorption was 2.5 percent alone and 13.9 percent with 100 mL orange juice
+    holding 28 mg ascorbic acid. On a meal with 4 mg iron, that difference would add about
+    0.46 mg of absorbed iron (our calculation).
   outcome_type: absorption_isotope
   whole_diet_note: >-
     Across a whole diet the effect largely disappears. Varying dietary vitamin C from 51 to
@@ -70,7 +71,24 @@ evidence:
     - citation: Hallberg L et al. Iron absorption in man. Ascorbic acid and dose-dependent inhibition by phytate. Am J Clin Nutr 1989.
       pmid: "2911999"
       design: Single-meal isotope studies
-      finding: About 30 mg ascorbic acid counteracted inhibition by 10 to 58 mg phytate phosphorus.
+      finding: >-
+        Phytate inhibited iron absorption in a dose-dependent way (18 percent at 2 mg, 64 percent
+        at 25 mg and 82 percent at 250 mg phytate phosphorus); ascorbic acid significantly
+        counteracted the inhibition.
+    - citation: Siegenberg D et al. Ascorbic acid prevents the dose-dependent inhibitory effects of polyphenols and phytates on nonheme-iron absorption. Am J Clin Nutr 1991.
+      pmid: "1989423"
+      doi: 10.1093/ajcn/53.2.537
+      design: Single-meal iron absorption studies
+      n: 199
+      finding: 30 mg ascorbic acid overcame the inhibition from 10 to 58 mg maize-bran phytate phosphorus in a white-bread meal.
+    - citation: Ballot D et al. The effects of fruit juices and fruits on the absorption of iron from a rice meal. Br J Nutr 1987.
+      pmid: "3593665"
+      doi: 10.1079/bjn19870041
+      design: Single-meal radioiron studies
+      n: 234
+      finding: >-
+        Corrected geometric mean iron absorption was 2.5 percent from the rice meal and 13.9
+        percent with 100 mL orange juice holding 28 mg ascorbic acid.
     - citation: Hallberg L, Hulthen L. Prediction of dietary iron absorption. Am J Clin Nutr 2000.
       doi: 10.1093/ajcn/71.5.1147
       design: Absorption algorithm fitted to measured meals
@@ -94,3 +112,7 @@ last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft example from the research record.
+  - date: 2026-09-27
+    change: >-
+      Corrected the Hallberg 1989 finding. Added Siegenberg 1991 for the phytate figures and
+      Ballot 1987 for the orange-juice figures. Removed an unsourced 3 to 4 times figure.
