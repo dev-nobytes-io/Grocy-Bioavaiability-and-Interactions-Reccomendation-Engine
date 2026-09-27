@@ -56,7 +56,7 @@ A decision record starts as **Proposed** in a pull request. It becomes **Accepte
 
 Rules in `knowledge/` can hurt people if they are wrong, so they get stricter review than code. The full process is in the [evidence policy](docs/science/evidence-policy.md). In short:
 
-1. Every new or changed rule cites primary sources by PMID or DOI.
+1. Every new or changed rule cites primary sources by PubMed identifier (PMID) or digital object identifier (DOI).
 2. A reviewer other than the author checks each cited number against the source.
 3. A change that touches a safety gate needs a safety reviewer's approval.
 4. While the project has fewer than two rule reviewers, a rule pull request stays open for seven days before merge so others can check it.
@@ -81,3 +81,4 @@ When the project has three or more active maintainers, the founder will propose 
 - [CONTRIBUTING.md](CONTRIBUTING.md): how to contribute
 - [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md): how to behave
 - [SECURITY.md](SECURITY.md) and [SAFETY.md](SAFETY.md): how to report problems
+- [Glossary](docs/glossary.md): abbreviations and project terms
