@@ -1,0 +1,265 @@
+# Safety gates and health flags.
+# Status: DRAFT. Requires review by a safety reviewer before any engine uses it.
+# See docs/science/safety-model.md for how gates are applied.
+#
+# Flags are self-declared by the user at onboarding. The engine never infers a
+# flag from lab values (see SAFETY.md, intended purpose).
+# Every flag-triggered gate fails closed: an unanswered question counts as "yes".
+
+version: 1
+
+flags:
+  - id: flag.haemochromatosis
+    question: Have you been diagnosed with haemochromatosis or another iron overload condition?
+    type: yes_no
+  - id: flag.told_iron_high
+    question: Has a clinician told you that your iron or ferritin is high?
+    type: yes_no
+  - id: flag.vitamin_k_antagonist
+    question: Do you take warfarin or another vitamin K antagonist blood thinner?
+    type: yes_no
+    examples: [warfarin, acenocoumarol, phenprocoumon]
+  - id: flag.narrow_index_cyp3a4_pgp_medicine
+    question: Do you take any of these medicines, or any medicine where your prescriber has warned about food interactions?
+    type: yes_no
+    examples: [phenytoin, carbamazepine, nevirapine, theophylline, propranolol, cyclosporine, tacrolimus, digoxin]
+  - id: flag.any_prescription_medicine
+    question: Do you take any prescription medicine?
+    type: yes_no
+  - id: flag.kidney_disease
+    question: Have you been told you have kidney disease or reduced kidney function?
+    type: yes_no
+  - id: flag.pregnant_or_breastfeeding
+    question: Are you pregnant or breastfeeding?
+    type: yes_no
+  - id: flag.glucose_lowering_medicine
+    question: Do you take insulin or another medicine that lowers blood glucose?
+    type: yes_no
+    examples: [insulin, sulfonylureas, GLP-1 receptor agonists]
+  - id: flag.gastroparesis
+    question: Have you been told your stomach empties slowly (gastroparesis)?
+    type: yes_no
+  - id: flag.ibs_or_fodmap_sensitive
+    question: Do you have irritable bowel syndrome or a sensitivity to fermentable carbohydrates (FODMAPs)?
+    type: yes_no
+  - id: flag.g6pd_deficiency
+    question: Has an enzyme test shown you have G6PD deficiency?
+    type: yes_no
+  - id: flag.inborn_error_of_metabolism
+    question: Do you have an inherited metabolic disorder such as phenylketonuria (PKU) or maple syrup urine disease?
+    type: yes_no
+  - id: flag.eating_disorder_history
+    question: Do you have, or have you had, an eating disorder?
+    type: yes_no
+  - id: flag.allergens
+    question: Which foods are you allergic to?
+    type: list
+
+gates:
+  - id: gate.iron_overload
+    name: Iron overload or high iron stores
+    trigger:
+      flags_any: [flag.haemochromatosis, flag.told_iron_high]
+    action: withhold
+    on_unknown: withhold
+    affects: Any rule that increases iron absorption, and any suggestion to add an iron-rich food or iron supplement.
+    rationale: >-
+      People with HFE haemochromatosis lack the hepcidin brake that limits iron absorption,
+      so enhancing absorption adds to iron overload. C282Y homozygosity was found in about
+      1 in 156 UK Biobank participants of European ancestry, and most were undiagnosed.
+    basis: evidence
+    sources:
+      - citation: Pilling LC et al. Common conditions associated with hereditary haemochromatosis genetic variants. BMJ 2019.
+        pmid: "30651232"
+        finding: About 1 in 156 European-ancestry participants were C282Y homozygous; most had no diagnosis.
+
+  - id: gate.vitamin_k_consistency
+    name: Vitamin K antagonist blood thinners
+    trigger:
+      flags_any: [flag.vitamin_k_antagonist]
+    action: withhold
+    on_unknown: withhold
+    affects: Any suggestion that would change vitamin K intake, such as adding leafy greens intermittently.
+    rationale: >-
+      Warfarin dosing assumes a consistent vitamin K intake. Intermittent large changes,
+      such as a suggestion to add kale to some meals, can destabilise anticoagulation.
+    basis: guideline
+    sources:
+      - citation: NIH Office of Dietary Supplements. Vitamin K fact sheet for health professionals.
+        url: https://ods.od.nih.gov/factsheets/VitaminK-HealthProfessional/
+
+  - id: gate.cyp3a4_pgp_medicine
+    name: Medicines affected by piperine or grapefruit
+    trigger:
+      flags_any: [flag.narrow_index_cyp3a4_pgp_medicine, flag.any_prescription_medicine]
+    action: withhold
+    on_unknown: withhold
+    affects: >-
+      Suggestions to add black pepper beyond ordinary seasoning, piperine-containing products,
+      curcumin with piperine, and grapefruit or Seville orange.
+    rationale: >-
+      Piperine inhibits CYP3A4 and P-glycoprotein. At 15 to 20 mg, roughly 0.2 to 0.5 g of
+      black pepper, it raised blood levels of phenytoin, carbamazepine, nevirapine and
+      theophylline in human studies. A pepper-containing soup raised phenytoin exposure.
+    basis: evidence
+    sources:
+      - citation: Velpandian T et al. Piperine in food. Interference in the pharmacokinetics of phenytoin. 2001.
+        pmid: "11808866"
+        finding: A black-pepper soup increased phenytoin absorption and exposure in 6 volunteers.
+      - citation: Pattanaik S et al. Effect of piperine on the steady-state pharmacokinetics of phenytoin in patients with epilepsy. 2006.
+        pmid: "16767797"
+      - citation: Pattanaik S et al. Pharmacokinetic interaction of single dose of piperine with steady-state carbamazepine in epilepsy patients. 2009.
+        pmid: "19283724"
+      - citation: Kasibhatta R et al. Influence of piperine on the pharmacokinetics of nevirapine. 2007.
+        pmid: "17963429"
+        finding: 20 mg piperine raised nevirapine exposure by roughly 120 to 170 percent in 8 men.
+      - citation: Bhardwaj RK et al. Piperine inhibits P-glycoprotein and CYP3A4. 2002.
+        pmid: "12130727"
+
+  - id: gate.kidney_function
+    name: Reduced kidney function
+    trigger:
+      flags_any: [flag.kidney_disease]
+    action: withhold
+    on_unknown: withhold
+    affects: Magnesium supplements and supplement-dose vitamin C.
+    rationale: >-
+      Magnesium from supplements can accumulate when kidney function is reduced. The upper
+      limit for supplemental magnesium in healthy adults is 350 mg a day. High-dose vitamin C
+      raises oxalate load.
+    basis: guideline
+    sources:
+      - citation: NIH Office of Dietary Supplements. Magnesium fact sheet for health professionals.
+        url: https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/
+
+  - id: gate.pregnancy
+    name: Pregnancy or breastfeeding
+    trigger:
+      flags_any: [flag.pregnant_or_breastfeeding]
+    action: withhold
+    on_unknown: withhold
+    affects: Every rule flagged supplement_dose_only, and any herbal or concentrated extract.
+    rationale: Safety data for supplement-dose herbs and extracts in pregnancy are thin. Food-dose rules are unaffected.
+    basis: precautionary
+
+  - id: gate.glucose_lowering_medicine
+    name: Glucose-lowering medicine
+    trigger:
+      flags_any: [flag.glucose_lowering_medicine]
+    action: withhold
+    on_unknown: withhold
+    affects: Rules whose purpose is to lower the glucose response to a meal, such as vinegar or cinnamon.
+    rationale: Stacking glucose-lowering foods on glucose-lowering drugs raises the risk of low blood glucose.
+    basis: precautionary
+
+  - id: gate.gastroparesis
+    name: Slow stomach emptying
+    trigger:
+      flags_any: [flag.gastroparesis]
+    action: withhold
+    on_unknown: withhold
+    affects: Vinegar and other suggestions that slow gastric emptying.
+    rationale: 30 mL apple cider vinegar further slowed gastric emptying in people with type 1 diabetes and gastroparesis.
+    basis: evidence
+    sources:
+      - citation: Hlebowicz J et al. Effect of apple cider vinegar on delayed gastric emptying in patients with type 1 diabetes mellitus. 2007.
+        pmid: "18093343"
+        finding: Median gastric emptying rate fell from 27 percent to 17 percent.
+
+  - id: gate.fermentable_fibre
+    name: Irritable bowel syndrome or FODMAP sensitivity
+    trigger:
+      flags_any: [flag.ibs_or_fodmap_sensitive]
+    action: withhold
+    on_unknown: withhold
+    affects: Suggestions to add fermentable fibre, legumes, onion, garlic or inulin.
+    rationale: >-
+      Adding fermentable carbohydrate is the most likely real-world harm from a fibre suggestion
+      in this group. Withheld until a titration model exists (open question Q-17).
+    basis: precautionary
+
+  - id: gate.g6pd
+    name: G6PD deficiency
+    trigger:
+      flags_any: [flag.g6pd_deficiency]
+    action: withhold
+    on_unknown: withhold
+    affects: Supplement-dose vitamin C.
+    rationale: >-
+      G6PD with vitamin C is one of only two gene-nutrient pairs in the Clinical
+      Pharmacogenetics Implementation Consortium database, both at its lowest evidence level.
+      The flag must come from an enzyme test, not a consumer genotype.
+    basis: guideline
+    sources:
+      - citation: Clinical Pharmacogenetics Implementation Consortium. Gene-drug pairs.
+        url: https://api.cpicpgx.org/v1/pair
+
+  - id: gate.inborn_error
+    name: Inherited metabolic disorders
+    trigger:
+      flags_any: [flag.inborn_error_of_metabolism]
+    action: withhold
+    on_unknown: withhold
+    affects: Every suggestion. People with these disorders follow clinician-managed diets.
+    rationale: >-
+      In phenylketonuria any added protein or aspartame is contraindicated. In maple syrup urine
+      disease added leucine or whey can trigger metabolic crisis.
+    basis: guideline
+    sources:
+      - citation: van Wegberg AMJ et al. The complete European guidelines on phenylketonuria. 2017.
+        pmid: "29025426"
+      - citation: Frazier DM et al. Nutrition management guideline for maple syrup urine disease. 2014.
+        pmid: "24881969"
+
+  - id: gate.eating_disorder
+    name: Eating disorder history
+    trigger:
+      flags_any: [flag.eating_disorder_history]
+    action: withhold
+    on_unknown: withhold
+    affects: Every skip and swap suggestion, and any wording about amounts eaten.
+    rationale: >-
+      Suggestions to leave food out can reinforce restriction. Not from the research record;
+      added as a precaution because ADR-0005 allows skip suggestions.
+    basis: precautionary
+
+  - id: gate.allergy
+    name: Declared food allergies
+    trigger:
+      flags_any: [flag.allergens]
+    action: withhold
+    on_unknown: withhold
+    affects: Any suggestion whose food contains a declared allergen, matched through the food hierarchy.
+    rationale: Adding a food someone is allergic to can cause a severe reaction.
+    basis: precautionary
+
+  - id: gate.coumarin
+    name: Coumarin from cassia cinnamon
+    trigger:
+      ledger: Estimated daily coumarin from cinnamon suggestions plus declared intake, against 0.1 mg per kg body weight. Unknown cinnamon species counts as cassia.
+    action: cap
+    on_unknown: cap
+    affects: Any suggestion to add cinnamon.
+    rationale: >-
+      Most retail cinnamon is cassia, which carries far more coumarin than Ceylon cinnamon.
+      The tolerable daily intake of 0.1 mg per kg body weight is reached at about 2 g of cassia a day
+      for a 60 kg adult.
+    basis: evidence
+    sources:
+      - citation: Abraham K et al. Toxicology and risk assessment of coumarin. 2010.
+        pmid: "20024932"
+
+  - id: gate.upper_limit
+    name: Tolerable upper intake levels
+    trigger:
+      ledger: Suggested amount plus declared supplements, stored as ranges, against the tolerable upper intake level for each nutrient.
+    action: cap
+    on_unknown: cap
+    affects: Every suggestion that adds a nutrient with an upper limit.
+    rationale: >-
+      Supplement stacks common in the target group already approach or exceed upper limits for
+      niacin, vitamin B6, vitamin A, zinc and caffeine. Which standard to use is open question Q-07.
+    basis: guideline
+    sources:
+      - citation: NIH Office of Dietary Supplements. Nutrient recommendations and databases.
+        url: https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx

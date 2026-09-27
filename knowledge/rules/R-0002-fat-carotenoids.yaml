@@ -1,0 +1,69 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+id: R-0002
+title: Dietary fat in the same meal increases carotenoid absorption from vegetables
+status: draft
+version: 1
+direction: enhances
+output_class: swap
+subject:
+  name: Dietary fat
+target:
+  name: Carotenoid absorption, including beta-carotene, alpha-carotene, lycopene and lutein
+dose:
+  effective:
+    min: 6
+    max: 28
+    unit: g
+    per: meal
+  kitchen_reachable: true
+  supplement_dose_only: false
+  food_examples:
+    - Full-fat salad dressing instead of fat-free
+    - Half an avocado
+    - A tablespoon of olive oil
+  notes: The amount of fat matters more than its type. Effects rise from about 6 g to 20 to 28 g.
+timing:
+  window: same_meal
+effect:
+  summary: Carotenoid absorption from raw vegetables is close to zero without fat and rises with the amount of fat.
+  magnitude: >-
+    With fat-free dressing, alpha- and beta-carotene and lycopene barely appeared in the blood.
+    6 g of canola oil raised absorption and 28 g raised it further. Adding 150 g avocado raised
+    carotenoid absorption 2.6 to 15.3 times depending on the carotenoid and the dish.
+  outcome_type: absorption_plasma
+  whole_diet_note: >-
+    Studies are small single-meal crossovers. The person-to-person range in response is wide.
+conditions:
+  applies_to: Meals built on carotenoid-rich vegetables such as salad greens, carrots, tomatoes or peppers.
+  modifiers:
+    - Cooking and processing may also raise carotenoid availability. Evidence for this is from small studies.
+gates:
+  - gate.allergy
+evidence:
+  grade: B
+  grade_rationale: Consistent dose-dependent results across independent human crossover studies at food doses. Small samples.
+  replicated: true
+  sponsor_flag: independent
+  sources:
+    - citation: Brown MJ et al. Carotenoid bioavailability is higher from salads ingested with full-fat than with fat-reduced salad dressings. Am J Clin Nutr 2004.
+      pmid: "15277161"
+      design: Crossover, postprandial chylomicron carotenoids
+      n: 7
+      finding: Negligible absorption with fat-free dressing; graded increase with 6 g then 28 g canola oil.
+    - citation: Goltz SR et al. Meal triacylglycerol profile modulates postprandial absorption of carotenoids in humans. Mol Nutr Food Res 2012.
+      pmid: "22707262"
+      design: Latin-square crossover
+      n: 29
+      finding: 20 g fat gave more absorption than 3 g or 8 g for all carotenoids; amount mattered more than fat type.
+    - citation: Unlu NZ et al. Carotenoid absorption from salad and salsa by humans is enhanced by the addition of avocado or avocado oil. J Nutr 2005.
+      pmid: "15735074"
+      design: Crossover
+      n: 11
+      finding: 150 g avocado raised carotenoid absorption 2.6 to 15.3 times depending on carotenoid and dish.
+suggestion:
+  text: Use a full-fat dressing or add some avocado or olive oil to this salad. Your body absorbs more of the vegetables' carotenoids with fat.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft example from the research record.

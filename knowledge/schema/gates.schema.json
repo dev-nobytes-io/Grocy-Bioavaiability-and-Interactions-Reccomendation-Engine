@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/knowledge/schema/gates.schema.json",
+  "title": "Safety gates and health flags",
+  "description": "Gates withhold or cap suggestions for people they could harm. See docs/science/safety-model.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "flags", "gates"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "flags": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "question", "type"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^flag\\.[a-z0-9_]+$" },
+          "question": { "type": "string", "description": "Asked at onboarding. Plain language. The user self-declares; the engine never infers a flag from lab values." },
+          "type": { "enum": ["yes_no", "list"] },
+          "examples": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "trigger", "action", "on_unknown", "affects", "rationale", "basis"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^gate\\.[a-z0-9_]+$" },
+          "name": { "type": "string" },
+          "trigger": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "flags_any": { "type": "array", "items": { "type": "string", "pattern": "^flag\\.[a-z0-9_]+$" } },
+              "ledger": { "type": "string", "description": "A running-total check, such as cumulative intake against an upper limit." }
+            },
+            "minProperties": 1
+          },
+          "action": {
+            "description": "withhold removes the suggestion; cap limits the amount; note shows a mandatory caution.",
+            "enum": ["withhold", "cap", "note"]
+          },
+          "on_unknown": {
+            "description": "What to do when the user has not answered the triggering question. Safety policy requires withhold for every flag-triggered gate.",
+            "enum": ["withhold", "cap", "note"]
+          },
+          "affects": { "type": "string", "description": "Which rules or suggestions this gate applies to." },
+          "rationale": { "type": "string" },
+          "basis": { "enum": ["evidence", "guideline", "precautionary"] },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["citation"],
+              "anyOf": [{ "required": ["pmid"] }, { "required": ["doi"] }, { "required": ["url"] }],
+              "properties": {
+                "citation": { "type": "string" },
+                "pmid": { "type": "string", "pattern": "^[0-9]{5,9}$" },
+                "doi": { "type": "string" },
+                "url": { "type": "string", "format": "uri" },
+                "finding": { "type": "string" }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "basis": { "enum": ["evidence", "guideline"] } } },
+            "then": { "required": ["sources"], "properties": { "sources": { "minItems": 1 } } }
+          },
+          {
+            "if": { "required": ["trigger"], "properties": { "trigger": { "required": ["flags_any"] } } },
+            "then": { "properties": { "on_unknown": { "const": "withhold" } } }
+          }
+        ]
+      }
+    }
+  }
+}

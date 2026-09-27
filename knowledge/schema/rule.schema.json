@@ -1,0 +1,475 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/knowledge/schema/rule.schema.json",
+  "title": "Curated interaction rule",
+  "description": "One evidence-graded statement about how a food component changes the effect of another. See docs/architecture/rule-model.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "title",
+    "status",
+    "version",
+    "direction",
+    "output_class",
+    "subject",
+    "target",
+    "dose",
+    "timing",
+    "effect",
+    "conditions",
+    "gates",
+    "evidence",
+    "suggestion",
+    "changelog"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^R-[0-9]{4}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 10,
+      "maxLength": 140
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "in_review",
+        "accepted",
+        "deprecated"
+      ]
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "direction": {
+      "description": "enhances and inhibits change the target; no_effect records a tested and refuted interaction so the engine never infers it.",
+      "enum": [
+        "enhances",
+        "inhibits",
+        "no_effect"
+      ]
+    },
+    "output_class": {
+      "description": "What the engine may suggest. none is required for no_effect rules.",
+      "enum": [
+        "add",
+        "move",
+        "swap",
+        "skip",
+        "none"
+      ]
+    },
+    "subject": {
+      "$ref": "#/$defs/entity",
+      "description": "The component that acts."
+    },
+    "target": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/entity"
+        }
+      ],
+      "description": "The component or outcome that changes."
+    },
+    "dose": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "effective",
+        "kitchen_reachable",
+        "supplement_dose_only"
+      ],
+      "properties": {
+        "effective": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "unit",
+            "per"
+          ],
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            },
+            "unit": {
+              "enum": [
+                "mg",
+                "g",
+                "ug",
+                "mL",
+                "IU",
+                "serving"
+              ]
+            },
+            "per": {
+              "enum": [
+                "meal",
+                "day",
+                "dose"
+              ]
+            }
+          }
+        },
+        "kitchen_reachable": {
+          "type": "boolean",
+          "description": "Can a normal meal reach the effective dose?"
+        },
+        "supplement_dose_only": {
+          "type": "boolean",
+          "description": "True if the effect has only been shown at supplement doses. Such rules never fire from food alone."
+        },
+        "food_examples": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "timing": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "window"
+      ],
+      "properties": {
+        "window": {
+          "enum": [
+            "same_meal",
+            "separate_by_hours",
+            "daily",
+            "chronic",
+            "not_applicable"
+          ]
+        },
+        "hours": {
+          "type": "number",
+          "minimum": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "effect": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "magnitude",
+        "outcome_type"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string"
+        },
+        "magnitude": {
+          "type": "string",
+          "description": "Effect size with the dose and baseline it was measured at."
+        },
+        "outcome_type": {
+          "enum": [
+            "absorption_isotope",
+            "absorption_plasma",
+            "status_marker",
+            "functional_marker",
+            "clinical_outcome",
+            "performance",
+            "pharmacokinetic",
+            "mechanistic_only"
+          ]
+        },
+        "whole_diet_note": {
+          "type": "string",
+          "description": "How the single-meal effect translates to a whole diet, if known."
+        }
+      }
+    },
+    "conditions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "applies_to"
+      ],
+      "properties": {
+        "applies_to": {
+          "type": "string"
+        },
+        "weak_or_absent_in": {
+          "type": "string"
+        },
+        "modifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "gates": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^gate\\.[a-z0-9_]+$"
+      },
+      "uniqueItems": true
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "grade",
+        "grade_rationale",
+        "replicated",
+        "sponsor_flag",
+        "sources"
+      ],
+      "properties": {
+        "grade": {
+          "enum": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        },
+        "grade_rationale": {
+          "type": "string"
+        },
+        "replicated": {
+          "type": "boolean"
+        },
+        "sponsor_flag": {
+          "enum": [
+            "independent",
+            "manufacturer",
+            "mixed",
+            "unknown"
+          ]
+        },
+        "sources": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        },
+        "counter_evidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/source"
+          }
+        }
+      }
+    },
+    "suggestion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "text"
+      ],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "What the user sees. Plain, positive, no disease claims."
+        },
+        "label": {
+          "type": "string",
+          "description": "Mandatory caveat shown with the suggestion, if any."
+        }
+      }
+    },
+    "reviewers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "last_reviewed": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date"
+    },
+    "changelog": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "date",
+          "change"
+        ],
+        "properties": {
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "change": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "direction": {
+            "const": "no_effect"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "output_class": {
+            "const": "none"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "output_class": {
+            "const": "none"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "direction": {
+            "const": "no_effect"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "accepted"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "reviewers",
+          "last_reviewed"
+        ],
+        "properties": {
+          "reviewers": {
+            "minItems": 1
+          },
+          "last_reviewed": {
+            "type": "string"
+          },
+          "evidence": {
+            "properties": {
+              "grade": {
+                "enum": [
+                  "A",
+                  "B",
+                  "C"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "entity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9_.-]*:[A-Za-z0-9_.-]+$"
+          },
+          "description": "CURIEs such as CHEBI:29073 or FOODON:03000221. Verify at the source."
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "citation",
+        "finding"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "pmid"
+          ]
+        },
+        {
+          "required": [
+            "doi"
+          ]
+        },
+        {
+          "required": [
+            "url"
+          ]
+        }
+      ],
+      "properties": {
+        "citation": {
+          "type": "string"
+        },
+        "pmid": {
+          "type": "string",
+          "pattern": "^[0-9]{5,9}$"
+        },
+        "doi": {
+          "type": "string",
+          "pattern": "^10\\.[0-9]{4,9}/\\S+$"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "design": {
+          "type": "string"
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "finding": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,95 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+id: R-0001
+title: Vitamin C in the same meal increases non-heme iron absorption
+status: draft
+version: 1
+direction: enhances
+output_class: add
+subject:
+  name: Vitamin C (L-ascorbic acid)
+  ids: [CHEBI:29073]
+target:
+  name: Non-heme iron absorption from the same meal
+  notes: Plant and fortified-food iron. Heme iron from meat is little affected.
+dose:
+  effective:
+    min: 25
+    max: 100
+    unit: mg
+    per: meal
+  kitchen_reachable: true
+  supplement_dose_only: false
+  food_examples:
+    - One orange
+    - One kiwi fruit
+    - Juice of two lemons
+  notes: >-
+    A squeeze of lemon supplies only a few milligrams, below the effective dose.
+    Juice of one lemon (about 48 g) supplies roughly 19 mg.
+timing:
+  window: same_meal
+  notes: A vitamin C dose at breakfast did not affect iron absorption from later meals.
+effect:
+  summary: Raises the fraction of non-heme iron absorbed from a single meal, and partly offsets phytate inhibition.
+  magnitude: >-
+    Single-meal isotope studies: about 1.65 times at 25 mg, 3 to 4 times at 50 to 100 mg, from a
+    low baseline of about 1 to 4 percent absorbed. About 30 mg overcame 10 to 58 mg phytate
+    phosphorus in a bread meal. In absolute terms, raising absorption from 2.5 to 13.9 percent
+    on a 4 mg iron meal adds about 0.46 mg of absorbed iron.
+  outcome_type: absorption_isotope
+  whole_diet_note: >-
+    Across a whole diet the effect largely disappears. Varying dietary vitamin C from 51 to
+    247 mg a day made no significant difference to iron absorption. Adding 200 mg vitamin C to
+    oral iron therapy did not improve haemoglobin in a 440-patient trial.
+conditions:
+  applies_to: People with low iron stores eating plant-based or fortified iron sources.
+  weak_or_absent_in: >-
+    People with adequate iron stores, whose absorption is limited by hepcidin. Meals that
+    already contain meat.
+  modifiers:
+    - Iron status dominates. Lower ferritin means larger benefit.
+    - Polyphenols and calcium in the same meal reduce the benefit.
+gates:
+  - gate.iron_overload
+  - gate.allergy
+evidence:
+  grade: B
+  grade_rationale: >-
+    Replicated single-meal isotope studies with dose-response at food doses, from independent
+    groups. Graded B rather than A because the effect does not carry through to whole-diet or
+    iron-status outcomes.
+  replicated: true
+  sponsor_flag: independent
+  sources:
+    - citation: Cook JD, Monsen ER. Vitamin C, the common cold, and iron absorption. Am J Clin Nutr 1977.
+      pmid: "835510"
+      design: Single-meal radioisotope study
+      n: 63
+      finding: Absorption ratio about 1.65 at 25 mg ascorbic acid, rising with dose.
+    - citation: Hallberg L et al. Iron absorption in man. Ascorbic acid and dose-dependent inhibition by phytate. Am J Clin Nutr 1989.
+      pmid: "2911999"
+      design: Single-meal isotope studies
+      finding: About 30 mg ascorbic acid counteracted inhibition by 10 to 58 mg phytate phosphorus.
+    - citation: Hallberg L, Hulthen L. Prediction of dietary iron absorption. Am J Clin Nutr 2000.
+      doi: 10.1093/ajcn/71.5.1147
+      design: Absorption algorithm fitted to measured meals
+      finding: Provides dose-effect terms for ascorbic acid, phytate, polyphenols, calcium and meat.
+  counter_evidence:
+    - citation: Cook JD, Reddy MB. Effect of ascorbic acid intake on nonheme-iron absorption from a complete diet. Am J Clin Nutr 2001.
+      pmid: "11124756"
+      design: Labelled complete diets over five days
+      n: 12
+      finding: No significant difference in absorption across 51 to 247 mg a day of dietary vitamin C.
+    - citation: Li et al. Efficacy and safety of vitamin C for iron supplementation in iron deficiency anemia. JAMA Netw Open 2020.
+      doi: 10.1001/jamanetworkopen.2020.23644
+      design: Randomised trial
+      n: 440
+      finding: Vitamin C with oral iron was equivalent to oral iron alone for haemoglobin recovery.
+suggestion:
+  text: Add a vitamin C source such as an orange or a kiwi to this meal to absorb more of its plant iron.
+  label: Helps most if your iron stores are low.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft example from the research record.

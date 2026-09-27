@@ -1,0 +1,61 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+id: R-0003
+title: Tea taken with an iron-containing meal reduces non-heme iron absorption; one hour later does not
+status: draft
+version: 1
+direction: inhibits
+output_class: move
+subject:
+  name: Tea polyphenols
+target:
+  name: Non-heme iron absorption from the same meal
+dose:
+  effective:
+    min: 1
+    unit: serving
+    per: meal
+  kitchen_reachable: true
+  supplement_dose_only: false
+  food_examples:
+    - A cup of black tea
+  notes: One ordinary cup of tea with the meal is enough to inhibit absorption.
+timing:
+  window: separate_by_hours
+  hours: 1
+  notes: Drinking tea one hour after the meal restored absorption to the level of a water control.
+effect:
+  summary: Tea with the meal cuts iron absorption; moving it one hour later removes most of the effect.
+  magnitude: >-
+    In one crossover study, iron absorption was 3.6 percent with tea taken alongside the meal
+    and 5.7 percent with tea taken one hour later, similar to water. Earlier work found black tea
+    reduced non-heme iron absorption by 79 to 94 percent, and adding milk did not help.
+  outcome_type: absorption_isotope
+conditions:
+  applies_to: People with low iron stores eating plant-based or fortified iron sources.
+  weak_or_absent_in: People with adequate iron stores.
+gates:
+  - gate.iron_overload
+evidence:
+  grade: B
+  grade_rationale: Isotope crossover evidence for the timing effect, supported by replicated evidence for tea inhibition. The timing study is small.
+  replicated: true
+  sponsor_flag: independent
+  sources:
+    - citation: Ahmad Fuzi SF et al. A 1-h time interval between a meal containing iron and consumption of tea attenuates the inhibitory effects on iron absorption. Am J Clin Nutr 2017.
+      pmid: "29046302"
+      doi: 10.3945/ajcn.117.161364
+      design: Randomised crossover with stable isotopes
+      n: 12
+      finding: 3.6 percent absorbed with tea at the meal versus 5.7 percent with tea one hour later, similar to water.
+    - citation: Hurrell RF et al. Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages. Br J Nutr 1999.
+      pmid: "10999016"
+      design: Single-meal isotope studies
+      finding: Black tea reduced non-heme iron absorption by 79 to 94 percent.
+suggestion:
+  text: Have your tea about an hour after this meal rather than with it, so you absorb more of the meal's iron.
+  label: Helps most if your iron stores are low.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft example from the research record.
