@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/knowledge/schema/gates.schema.json",
   "title": "Safety gates and health flags",
-  "description": "Gates withhold or cap suggestions for people they could harm. See docs/science/safety-model.md.",
+  "description": "Flags are questions the user answers about themselves. Gates withhold, cap, swap or annotate suggestions for people they could harm or upset. See docs/science/safety-model.md and docs/science/health-profile.md.",
   "type": "object",
   "additionalProperties": false,
   "required": ["version", "flags", "gates"],
@@ -14,13 +14,36 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "question", "type"],
+        "required": ["id", "question", "type", "category"],
         "properties": {
           "id": { "type": "string", "pattern": "^flag\\.[a-z0-9_]+$" },
           "question": { "type": "string", "description": "Asked at onboarding. Plain language. The user self-declares; the engine never infers a flag from lab values." },
-          "type": { "enum": ["yes_no", "list"] },
+          "type": {
+            "description": "yes_no is answered true, false or unknown. list holds items, such as allergens. event holds a start date and expires.",
+            "enum": ["yes_no", "list", "event"]
+          },
+          "category": {
+            "description": "Which section of the health profile holds the answer.",
+            "enum": ["allergy", "intolerance", "condition", "medication", "life_stage", "recent_event", "training", "diet"]
+          },
+          "expires_after_days": {
+            "type": "integer",
+            "minimum": 1,
+            "description": "For recent events only. The flag stops applying this many days after the start date the user gave."
+          },
+          "context_only": {
+            "type": "boolean",
+            "description": "True when the flag triggers no gate. It is kept to explain suggestions and for the user's own record."
+          },
           "examples": { "type": "array", "items": { "type": "string" } }
-        }
+        },
+        "allOf": [
+          {
+            "if": { "properties": { "category": { "const": "recent_event" } } },
+            "then": { "required": ["expires_after_days"], "properties": { "type": { "const": "event" } } },
+            "else": { "not": { "required": ["expires_after_days"] } }
+          }
+        ]
       }
     },
     "gates": {
@@ -29,26 +52,38 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["id", "name", "trigger", "action", "on_unknown", "affects", "rationale", "basis"],
+        "required": ["id", "name", "severity", "trigger", "action", "on_unknown", "affects", "rationale", "basis"],
         "properties": {
           "id": { "type": "string", "pattern": "^gate\\.[a-z0-9_]+$" },
           "name": { "type": "string" },
+          "severity": {
+            "description": "safety gates protect against harm and must fail closed. tolerance gates protect comfort and prefer a swap.",
+            "enum": ["safety", "tolerance"]
+          },
           "trigger": {
             "type": "object",
             "additionalProperties": false,
             "properties": {
-              "flags_any": { "type": "array", "items": { "type": "string", "pattern": "^flag\\.[a-z0-9_]+$" } },
+              "flags_any": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^flag\\.[a-z0-9_]+$" } },
               "ledger": { "type": "string", "description": "A running-total check, such as cumulative intake against an upper limit." }
             },
             "minProperties": 1
           },
           "action": {
-            "description": "withhold removes the suggestion; cap limits the amount; note shows a mandatory caution.",
-            "enum": ["withhold", "cap", "note"]
+            "description": "withhold removes the suggestion; cap limits the amount; swap replaces the food with a tolerated alternative where the rule allows; note shows a mandatory caution.",
+            "enum": ["withhold", "cap", "swap", "note"]
           },
           "on_unknown": {
-            "description": "What to do when the user has not answered the triggering question. Safety policy requires withhold for every flag-triggered gate.",
+            "description": "What to do when the user has not answered the triggering question. Safety gates with a flag trigger must withhold.",
             "enum": ["withhold", "cap", "note"]
+          },
+          "swap_to": {
+            "type": "string",
+            "description": "For action swap: the kind of alternative to offer instead."
+          },
+          "if_no_swap": {
+            "description": "For action swap: what happens when stock holds no tolerated alternative.",
+            "enum": ["withhold", "note"]
           },
           "affects": { "type": "string", "description": "Which rules or suggestions this gate applies to." },
           "rationale": { "type": "string" },
@@ -76,8 +111,19 @@
             "then": { "required": ["sources"], "properties": { "sources": { "minItems": 1 } } }
           },
           {
-            "if": { "required": ["trigger"], "properties": { "trigger": { "required": ["flags_any"] } } },
+            "if": {
+              "required": ["severity", "trigger"],
+              "properties": { "severity": { "const": "safety" }, "trigger": { "required": ["flags_any"] } }
+            },
             "then": { "properties": { "on_unknown": { "const": "withhold" } } }
+          },
+          {
+            "if": { "properties": { "action": { "const": "swap" } } },
+            "then": { "required": ["swap_to", "if_no_swap"] }
+          },
+          {
+            "if": { "properties": { "action": { "const": "swap" } } },
+            "then": { "properties": { "severity": { "const": "tolerance" } } }
           }
         ]
       }
