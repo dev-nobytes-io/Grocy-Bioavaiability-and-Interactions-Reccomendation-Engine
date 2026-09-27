@@ -1,8 +1,8 @@
-> **Research brief, September 2026.** This brief was written before the founder's decisions of 27 September 2026. Where it differs from those decisions, the [decision records](../decisions/README.md) win. In particular, the brief recommends measurement before any database and an additive-only interface. The founder chose to build the knowledge graph first ([ADR-0004](../decisions/0004-knowledge-graph-first.md)) and to allow full advice including removals ([ADR-0005](../decisions/0005-full-advice-with-safety-gates.md)).
+# Pantry-Aware Food Pairing: Project Brief for the Grocy Bioavailability and Interactions Engine
+
+> **Research brief, September 2026.** This brief was written before the founder's decisions of 27 September 2026. Where it differs from those decisions, the [decision records](../decisions/README.md) win. In particular, the brief recommends measurement before any database and an additive-only interface. The founder chose to build the knowledge graph first ([ADR-0004](../decisions/0004-knowledge-graph-first.md)) and to allow full advice including removals ([ADR-0005](../decisions/0005-full-advice-with-safety-gates.md)). The research also spends much of its effort on disease markers, because it was testing the README's claims about them. The founder's direction is positive health: recovery for people who train, with health information shaping suggestions rather than being treated ([ADR-0009](../decisions/0009-recovery-goal-and-health-profile.md)).
 >
 > The "expert panel" referred to below is a set of AI research agents, each assigned one professional lens and given web search. It is not a panel of human clinicians. See [how the research was produced](../research/README.md).
-
-# Pantry-Aware Food Pairing: Project Brief for the Grocy Bioavailability and Interactions Engine
 
 ## 1. What this is
 
@@ -73,18 +73,18 @@ Storage is not the risk. ArcadeDB is a defensible Apache-2.0 choice, but its vec
 
 | Claim | Verdict | What is true instead | Key source |
 |---|---|---|---|
-| Citrus on greens reduces ferric iron and overrides phytate | Dose- and status-conditional | Single meal: 25 mg ascorbate about 1.65x, 50 mg 2 to 3x off a 1 to 4 percent baseline, and 30 mg reverses phytate inhibition. A squeeze is 2 to 4 mg, a lemon 16 to 24 mg. Greens are a polyphenol and calcium problem, not mainly phytate. Whole diet: 51 to 247 mg/day, no measurable difference, and a 440-patient trial added no haemoglobin benefit to oral iron | https://pubmed.ncbi.nlm.nih.gov/2911999/; https://doi.org/10.1001/jamanetworkopen.2020.23644; https://doi.org/10.1093/ajcn/71.5.1147 |
-| Pepper and fat raise curcumin bioavailability 2,000 percent | Dose-wrong | One 1998 crossover, 10 healthy men, 2 g purified curcumin plus 20 mg piperine, near-undetectable baseline, unreplicated. A teaspoon of turmeric holds 60 to 150 mg curcuminoids, 13 to 30 times less | https://pubmed.ncbi.nlm.nih.gov/9619120/ |
-| Cinnamon, magnesium and acetic acid activate GLUT4 | Model-wrong | Cell data are mouse myotubes and 3T3-L1 adipocytes. Cinnamon: Cochrane null on insulin, cassia in nearly all trials. Magnesium: the insulin-resistance index improves mainly after 3 to 4 months and mainly in deficient or diabetic people, not fasting insulin. Vinegar: postprandial only, with pooled fasting insulin up about 2 uIU/mL in a 2025 type 2 diabetes meta-analysis. Never tested together | https://pubmed.ncbi.nlm.nih.gov/22972104/; https://pubmed.ncbi.nlm.nih.gov/27329332/; https://pubmed.ncbi.nlm.nih.gov/28292654/ |
-| High CK plus hs-CRP flags severe tissue damage | Inference-wrong | One bout raises CK about 64-fold by day 4, and 51 of 203 volunteers passed 10,000 U/L with no renal harm. Athlete limits run 82 to 1,083 U/L in men and 47 to 513 in women, and half of Black adults exceed manufacturer limits after three days' rest, so one threshold misfires by sex and ancestry. hs-CRP rises after hard training too | https://pubmed.ncbi.nlm.nih.gov/16679975/; https://pubmed.ncbi.nlm.nih.gov/17526622/ |
-| Vitamin C, copper, proline are the precise collagen cofactors | Right idea, wrong list | Iron, 2-oxoglutarate and glycine are missing, and proline is a substrate. For: 15 g gelatin plus vitamin C before loading, n=8, procollagen doubled. Against: an n=10 replication null, 30 g collagen no rise (n=45), vitamin C null on CK and C-reactive protein across 18 trials, no human copper or proline trial | https://pubmed.ncbi.nlm.nih.gov/27852613/; https://pubmed.ncbi.nlm.nih.gov/30859848/ |
-| Redundant pathways let you feed survivors | Split | Redundancy holds for bulk fermentation, not urolithin or equol conversion. Non-producers: about 10 percent in Spanish cohorts, 14 percent Chinese, up to 60 percent in some United States reports, and none converted by feeding. A 2026 series found 8 urolithin A stone patients, up to 1,356 mg, from daily walnut and berry smoothies, no supplements | https://doi.org/10.1021/acs.jafc.2c08889; https://europepmc.org/articles/PMC13123385 |
-| Urolithin A and SCFAs are critical recovery compounds | Partly supported | The 2026 meta-analysis pooled 5 trials, n=236, on one endpoint: six-minute walk +17.0 m, interval -5.3 to +39.4, GRADE low, every pooled trial manufacturer-sponsored. In 42 runners on 1,000 mg/day, CK area under the curve fell (p<0.0001) but the time trial did not. Supplement dose | https://doi.org/10.3389/fnut.2026.1834344; https://doi.org/10.1007/s40279-025-02292-5 |
-| Gym-goers are micronutrient-blind and mega-dose competing supplements | Population-wrong | Shortfall data are small old surveys, plus vitamin D below the average requirement in most of 553 Dutch athletes. A 2023 study found women bodybuilders met all reference intakes; a 1994 contest-prep cohort was far below. Cronometer already reports 80 to 95 nutrients. Supplement use runs 30 to 85 percent, breaching upper limits on niacin, vitamin B6, vitamin A, zinc and caffeine. Competition vanishes at food doses, zinc above 40 to 50 mg depletes copper, and the real problem is summation | https://doi.org/10.3390/sports11080158; https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5331573/; https://pubmed.ncbi.nlm.nih.gov/30678328/ |
-| Clashing food matrices cause anabolic waste | Unsupported | No PubMed hits for the phrase, and the 2 Europe PMC hits are unrelated to nutrition or muscle (searched September 2026). Carbohydrate or fat with protein does not lower muscle protein synthesis, and whole egg beats egg white | https://doi.org/10.3945/ajcn.117.159855 |
-| Protein and sweeteners cause dysbiosis, and one poor night rewrites metabolism and microbiome | Overstated twice | Diversity is preserved or higher in athletes, and "dysbiosis" has no operational definition. One 4 h night lowers next-day insulin sensitivity roughly 15 to 25 percent, though the single-night study gives direction, not an estimate. Two nights of restriction (n=9) shifted a few taxa, leaving beta-diversity and faecal SCFA unchanged, and no one-night microbiome data exist | https://pubmed.ncbi.nlm.nih.gov/21389180/; https://pubmed.ncbi.nlm.nih.gov/20371664/; https://pubmed.ncbi.nlm.nih.gov/28179566/ |
-| Blood panels prove a recommendation worked, and deliver metabolomics and nutrigenomics | Outcome-wrong, then category error | Only status markers for a supplied nutrient can be steered, over months, in deficient people. hs-CRP, insulin and CK are routine chemistry, and genotype is measured once. The Clinical Pharmacogenetics Implementation Consortium (CPIC) lists 635 gene-drug pairs and two with a nutrient, G6PD with vitamin C and with vitamin K, both level C; all 29 guidelines are gene-drug, and medical-genetics guidance says do not test MTHFR | https://doi.org/10.1515/cclm-2020-1490; https://api.cpicpgx.org/v1/pair; https://pubmed.ncbi.nlm.nih.gov/23288205/ |
-| Biomarker-driven personalisation beats good advice | Contradicted at scale | Food4Me (n=1,269): no increment from phenotype or genotype. ZOE METHOD (n=347): triglycerides -0.13 mmol/L, insulin and cholesterol null. Ben-Yacov: glycated haemoglobin 0.08 points. DIETFITS (n=609): no diet-by-genotype interaction | https://pubmed.ncbi.nlm.nih.gov/27524815/; https://pubmed.ncbi.nlm.nih.gov/38714898/; https://pubmed.ncbi.nlm.nih.gov/29466592/ |
+| Citrus on greens reduces ferric iron and overrides phytate | Dose- and status-conditional | Single meal: 25 mg ascorbate about 1.65x, 50 mg 2 to 3x off a 1 to 4 percent baseline, and 30 mg reverses phytate inhibition. A squeeze is 2 to 4 mg, a lemon 16 to 24 mg. Greens are a polyphenol and calcium problem, not mainly phytate. Whole diet: 51 to 247 mg/day, no measurable difference, and a 440-patient trial added no haemoglobin benefit to oral iron | <https://pubmed.ncbi.nlm.nih.gov/2911999/>; <https://doi.org/10.1001/jamanetworkopen.2020.23644>; <https://doi.org/10.1093/ajcn/71.5.1147> |
+| Pepper and fat raise curcumin bioavailability 2,000 percent | Dose-wrong | One 1998 crossover, 10 healthy men, 2 g purified curcumin plus 20 mg piperine, near-undetectable baseline, unreplicated. A teaspoon of turmeric holds 60 to 150 mg curcuminoids, 13 to 30 times less | <https://pubmed.ncbi.nlm.nih.gov/9619120/> |
+| Cinnamon, magnesium and acetic acid activate GLUT4 | Model-wrong | Cell data are mouse myotubes and 3T3-L1 adipocytes. Cinnamon: Cochrane null on insulin, cassia in nearly all trials. Magnesium: the insulin-resistance index improves mainly after 3 to 4 months and mainly in deficient or diabetic people, not fasting insulin. Vinegar: postprandial only, with pooled fasting insulin up about 2 uIU/mL in a 2025 type 2 diabetes meta-analysis. Never tested together | <https://pubmed.ncbi.nlm.nih.gov/22972104/>; <https://pubmed.ncbi.nlm.nih.gov/27329332/>; <https://pubmed.ncbi.nlm.nih.gov/28292654/> |
+| High CK plus hs-CRP flags severe tissue damage | Inference-wrong | One bout raises CK about 64-fold by day 4, and 51 of 203 volunteers passed 10,000 U/L with no renal harm. Athlete limits run 82 to 1,083 U/L in men and 47 to 513 in women, and half of Black adults exceed manufacturer limits after three days' rest, so one threshold misfires by sex and ancestry. hs-CRP rises after hard training too | <https://pubmed.ncbi.nlm.nih.gov/16679975/>; <https://pubmed.ncbi.nlm.nih.gov/17526622/> |
+| Vitamin C, copper, proline are the precise collagen cofactors | Right idea, wrong list | Iron, 2-oxoglutarate and glycine are missing, and proline is a substrate. For: 15 g gelatin plus vitamin C before loading, n=8, procollagen doubled. Against: an n=10 replication null, 30 g collagen no rise (n=45), vitamin C null on CK and C-reactive protein across 18 trials, no human copper or proline trial | <https://pubmed.ncbi.nlm.nih.gov/27852613/>; <https://pubmed.ncbi.nlm.nih.gov/30859848/> |
+| Redundant pathways let you feed survivors | Split | Redundancy holds for bulk fermentation, not urolithin or equol conversion. Non-producers: about 10 percent in Spanish cohorts, 14 percent Chinese, up to 60 percent in some United States reports, and none converted by feeding. A 2026 series found 8 urolithin A stone patients, up to 1,356 mg, from daily walnut and berry smoothies, no supplements | <https://doi.org/10.1021/acs.jafc.2c08889>; <https://europepmc.org/articles/PMC13123385> |
+| Urolithin A and SCFAs are critical recovery compounds | Partly supported | The 2026 meta-analysis pooled 5 trials, n=236, on one endpoint: six-minute walk +17.0 m, interval -5.3 to +39.4, GRADE low, every pooled trial manufacturer-sponsored. In 42 runners on 1,000 mg/day, CK area under the curve fell (p<0.0001) but the time trial did not. Supplement dose | <https://doi.org/10.3389/fnut.2026.1834344>; <https://doi.org/10.1007/s40279-025-02292-5> |
+| Gym-goers are micronutrient-blind and mega-dose competing supplements | Population-wrong | Shortfall data are small old surveys, plus vitamin D below the average requirement in most of 553 Dutch athletes. A 2023 study found women bodybuilders met all reference intakes; a 1994 contest-prep cohort was far below. Cronometer already reports 80 to 95 nutrients. Supplement use runs 30 to 85 percent, breaching upper limits on niacin, vitamin B6, vitamin A, zinc and caffeine. Competition vanishes at food doses, zinc above 40 to 50 mg depletes copper, and the real problem is summation | <https://doi.org/10.3390/sports11080158>; <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5331573/>; <https://pubmed.ncbi.nlm.nih.gov/30678328/> |
+| Clashing food matrices cause anabolic waste | Unsupported | No PubMed hits for the phrase, and the 2 Europe PMC hits are unrelated to nutrition or muscle (searched September 2026). Carbohydrate or fat with protein does not lower muscle protein synthesis, and whole egg beats egg white | <https://doi.org/10.3945/ajcn.117.159855> |
+| Protein and sweeteners cause dysbiosis, and one poor night rewrites metabolism and microbiome | Overstated twice | Diversity is preserved or higher in athletes, and "dysbiosis" has no operational definition. One 4 h night lowers next-day insulin sensitivity roughly 15 to 25 percent, though the single-night study gives direction, not an estimate. Two nights of restriction (n=9) shifted a few taxa, leaving beta-diversity and faecal SCFA unchanged, and no one-night microbiome data exist | <https://pubmed.ncbi.nlm.nih.gov/21389180/>; <https://pubmed.ncbi.nlm.nih.gov/20371664/>; <https://pubmed.ncbi.nlm.nih.gov/28179566/> |
+| Blood panels prove a recommendation worked, and deliver metabolomics and nutrigenomics | Outcome-wrong, then category error | Only status markers for a supplied nutrient can be steered, over months, in deficient people. hs-CRP, insulin and CK are routine chemistry, and genotype is measured once. The Clinical Pharmacogenetics Implementation Consortium (CPIC) lists 635 gene-drug pairs and two with a nutrient, G6PD with vitamin C and with vitamin K, both level C; all 29 guidelines are gene-drug, and medical-genetics guidance says do not test MTHFR | <https://doi.org/10.1515/cclm-2020-1490>; <https://api.cpicpgx.org/v1/pair>; <https://pubmed.ncbi.nlm.nih.gov/23288205/> |
+| Biomarker-driven personalisation beats good advice | Contradicted at scale | Food4Me (n=1,269): no increment from phenotype or genotype. ZOE METHOD (n=347): triglycerides -0.13 mmol/L, insulin and cholesterol null. Ben-Yacov: glycated haemoglobin 0.08 points. DIETFITS (n=609): no diet-by-genotype interaction | <https://pubmed.ncbi.nlm.nih.gov/27524815/>; <https://pubmed.ncbi.nlm.nih.gov/38714898/>; <https://pubmed.ncbi.nlm.nih.gov/29466592/> |
 
 **Magnitudes.** Single-meal multipliers of 2 to 10x collapse to no measurable whole-diet difference, and iron status dominates the rest. The pooled equation from 58 individuals is log(non-heme absorption percent) = -0.73 x log(ferritin) + 0.11 x modifier + 1.82. It predicts 2.1 percent absorption at ferritin 80 ug/L and 23.0 percent at 6 ug/L. Single inhibitors did not reduce whole-diet absorption.
 
@@ -153,19 +153,21 @@ Ranked by how much each can sink the product, not by when it bites. Item 6 lands
 
 ## 9. Prior art and datasets to build on
 
-- MeNu GUIDE, your only citation: 25 million RDF triples from 10 ontologies and 6 databases, coverage bias flagged by its authors, no absorption or dose edges. https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1
-- VMH and AGORA2: 8,790 USDA foods mapped to metabolites, 7,302 strain reconstructions. https://doi.org/10.1093/nar/gky992
-- Food identity: FoodOn, FoodSEM (MIT), FoodAtlas (Apache-2.0, provenance per edge). https://foodon.org/; https://arxiv.org/html/2509.22125; https://github.com/IBPA/FoodAtlas-KGv2
-- Composition and retention factors, both CC0. https://fdc.nal.usda.gov/api-guide/; https://agdatacommons.nal.usda.gov/articles/dataset/USDA_Table_of_Nutrient_Retention_Factors_Release_6_2007_/24660888
-- Absorption equations: Armah 2013, Collings 2013, and the Miller zinc model with working R code (zinc_absorption.R). https://doi.org/10.3945/jn.112.169904; https://doi.org/10.3945/ajcn.112.050609; https://github.com/cfree14/nutrient_endowment/blob/master/code/calc_nutr_deficiencies/functions/zinc_absorption.R
-- Supplement labels, CC0. https://api.ods.od.nih.gov/dsld/v9
-- Biological variation: the EFLM database (creatine kinase is specification 1257). https://biologicalvariation.eu/
-- Fast-signal repeatability: the 2024 inpatient duplicate-meal CGM study, and the 176-person glycaemic-sensitivity series. https://pmc.ncbi.nlm.nih.gov/articles/PMC11747189/; https://pubmed.ncbi.nlm.nih.gov/40754388/
-- n-of-1 methods: WE-MACNUTR, Potter 2021, TummyTrials. https://pmc.ncbi.nlm.nih.gov/articles/PMC7494402/; https://pubmed.ncbi.nlm.nih.gov/33460438/; https://pmc.ncbi.nlm.nih.gov/articles/PMC5432136/
-- Scoring: degree-weighted path counts with permutation nulls, and the degree-bias proof. https://doi.org/10.1093/gigascience/giad047; https://arxiv.org/abs/1205.1960
-- Grocy surface: the OpenAPI specification, the closed nutrition-fields request (#2910), and the closed request to make amount tracking optional (#2132), which is why presence-only data is the realistic input. https://raw.githubusercontent.com/grocy/grocy/master/grocy.openapi.json; https://github.com/grocy/grocy/issues/2910; https://github.com/grocy/grocy/issues/2132
+- MeNu GUIDE, your only citation: 25 million RDF triples from 10 ontologies and 6 databases, coverage bias flagged by its authors, no absorption or dose edges. <https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1>
+- VMH and AGORA2: 8,790 USDA foods mapped to metabolites, 7,302 strain reconstructions. <https://doi.org/10.1093/nar/gky992>
+- Food identity: FoodOn, FoodSEM (MIT), FoodAtlas (Apache-2.0, provenance per edge). <https://foodon.org/>; <https://arxiv.org/html/2509.22125>; <https://github.com/IBPA/FoodAtlas-KGv2>
+- Composition and retention factors, both CC0. <https://fdc.nal.usda.gov/api-guide/>; <https://agdatacommons.nal.usda.gov/articles/dataset/USDA_Table_of_Nutrient_Retention_Factors_Release_6_2007_/24660888>
+- Absorption equations: Armah 2013, Collings 2013, and the Miller zinc model with working R code (zinc_absorption.R). <https://doi.org/10.3945/jn.112.169904>; <https://doi.org/10.3945/ajcn.112.050609>; <https://github.com/cfree14/nutrient_endowment/blob/master/code/calc_nutr_deficiencies/functions/zinc_absorption.R>
+- Supplement labels, CC0. <https://api.ods.od.nih.gov/dsld/v9>
+- Biological variation: the EFLM database (creatine kinase is specification 1257). <https://biologicalvariation.eu/>
+- Fast-signal repeatability: the 2024 inpatient duplicate-meal CGM study, and the 176-person glycaemic-sensitivity series. <https://pmc.ncbi.nlm.nih.gov/articles/PMC11747189/>; <https://pubmed.ncbi.nlm.nih.gov/40754388/>
+- n-of-1 methods: WE-MACNUTR, Potter 2021, TummyTrials. <https://pmc.ncbi.nlm.nih.gov/articles/PMC7494402/>; <https://pubmed.ncbi.nlm.nih.gov/33460438/>; <https://pmc.ncbi.nlm.nih.gov/articles/PMC5432136/>
+- Scoring: degree-weighted path counts with permutation nulls, and the degree-bias proof. <https://doi.org/10.1093/gigascience/giad047>; <https://arxiv.org/abs/1205.1960>
+- Grocy surface: the OpenAPI specification, the closed nutrition-fields request (#2910), and the closed request to make amount tracking optional (#2132), which is why presence-only data is the realistic input. <https://raw.githubusercontent.com/grocy/grocy/master/grocy.openapi.json>; <https://github.com/grocy/grocy/issues/2910>; <https://github.com/grocy/grocy/issues/2132>
 
 ## 10. Open questions for you
+
+<!-- markdownlint-disable MD029 -->
 
 **Goal and scope**
 
@@ -204,55 +206,57 @@ Ranked by how much each can sink the product, not by when it bites. Item 6 lands
 
 19. What is the moment of use: a due meal-plan entry, app open, a morning schedule, or when you type how you feel? A self-hosted app with no notification path has no moment of use.
 
+<!-- markdownlint-enable MD029 -->
+
 ## 11. Sources
 
-https://pubmed.ncbi.nlm.nih.gov/2911999/
-https://doi.org/10.1001/jamanetworkopen.2020.23644
-https://doi.org/10.1093/ajcn/71.5.1147
-https://pubmed.ncbi.nlm.nih.gov/9619120/
-https://pubmed.ncbi.nlm.nih.gov/22972104/
-https://pubmed.ncbi.nlm.nih.gov/27329332/
-https://pubmed.ncbi.nlm.nih.gov/28292654/
-https://pubmed.ncbi.nlm.nih.gov/16679975/
-https://pubmed.ncbi.nlm.nih.gov/17526622/
-https://pubmed.ncbi.nlm.nih.gov/27852613/
-https://pubmed.ncbi.nlm.nih.gov/30859848/
-https://doi.org/10.1021/acs.jafc.2c08889
-https://europepmc.org/articles/PMC13123385
-https://doi.org/10.3389/fnut.2026.1834344
-https://doi.org/10.1007/s40279-025-02292-5
-https://doi.org/10.3390/sports11080158
-https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5331573/
-https://pubmed.ncbi.nlm.nih.gov/30678328/
-https://doi.org/10.3945/ajcn.117.159855
-https://pubmed.ncbi.nlm.nih.gov/21389180/
-https://pubmed.ncbi.nlm.nih.gov/20371664/
-https://pubmed.ncbi.nlm.nih.gov/28179566/
-https://doi.org/10.1515/cclm-2020-1490
-https://api.cpicpgx.org/v1/pair
-https://pubmed.ncbi.nlm.nih.gov/23288205/
-https://pubmed.ncbi.nlm.nih.gov/27524815/
-https://pubmed.ncbi.nlm.nih.gov/38714898/
-https://pubmed.ncbi.nlm.nih.gov/29466592/
-https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1
-https://doi.org/10.1093/nar/gky992
-https://foodon.org/
-https://arxiv.org/html/2509.22125
-https://github.com/IBPA/FoodAtlas-KGv2
-https://fdc.nal.usda.gov/api-guide/
-https://agdatacommons.nal.usda.gov/articles/dataset/USDA_Table_of_Nutrient_Retention_Factors_Release_6_2007_/24660888
-https://doi.org/10.3945/jn.112.169904
-https://doi.org/10.3945/ajcn.112.050609
-https://github.com/cfree14/nutrient_endowment/blob/master/code/calc_nutr_deficiencies/functions/zinc_absorption.R
-https://api.ods.od.nih.gov/dsld/v9
-https://biologicalvariation.eu/
-https://pmc.ncbi.nlm.nih.gov/articles/PMC11747189/
-https://pubmed.ncbi.nlm.nih.gov/40754388/
-https://pmc.ncbi.nlm.nih.gov/articles/PMC7494402/
-https://pubmed.ncbi.nlm.nih.gov/33460438/
-https://pmc.ncbi.nlm.nih.gov/articles/PMC5432136/
-https://doi.org/10.1093/gigascience/giad047
-https://arxiv.org/abs/1205.1960
-https://raw.githubusercontent.com/grocy/grocy/master/grocy.openapi.json
-https://github.com/grocy/grocy/issues/2910
-https://github.com/grocy/grocy/issues/2132
+- <https://pubmed.ncbi.nlm.nih.gov/2911999/>
+- <https://doi.org/10.1001/jamanetworkopen.2020.23644>
+- <https://doi.org/10.1093/ajcn/71.5.1147>
+- <https://pubmed.ncbi.nlm.nih.gov/9619120/>
+- <https://pubmed.ncbi.nlm.nih.gov/22972104/>
+- <https://pubmed.ncbi.nlm.nih.gov/27329332/>
+- <https://pubmed.ncbi.nlm.nih.gov/28292654/>
+- <https://pubmed.ncbi.nlm.nih.gov/16679975/>
+- <https://pubmed.ncbi.nlm.nih.gov/17526622/>
+- <https://pubmed.ncbi.nlm.nih.gov/27852613/>
+- <https://pubmed.ncbi.nlm.nih.gov/30859848/>
+- <https://doi.org/10.1021/acs.jafc.2c08889>
+- <https://europepmc.org/articles/PMC13123385>
+- <https://doi.org/10.3389/fnut.2026.1834344>
+- <https://doi.org/10.1007/s40279-025-02292-5>
+- <https://doi.org/10.3390/sports11080158>
+- <https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5331573/>
+- <https://pubmed.ncbi.nlm.nih.gov/30678328/>
+- <https://doi.org/10.3945/ajcn.117.159855>
+- <https://pubmed.ncbi.nlm.nih.gov/21389180/>
+- <https://pubmed.ncbi.nlm.nih.gov/20371664/>
+- <https://pubmed.ncbi.nlm.nih.gov/28179566/>
+- <https://doi.org/10.1515/cclm-2020-1490>
+- <https://api.cpicpgx.org/v1/pair>
+- <https://pubmed.ncbi.nlm.nih.gov/23288205/>
+- <https://pubmed.ncbi.nlm.nih.gov/27524815/>
+- <https://pubmed.ncbi.nlm.nih.gov/38714898/>
+- <https://pubmed.ncbi.nlm.nih.gov/29466592/>
+- <https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1>
+- <https://doi.org/10.1093/nar/gky992>
+- <https://foodon.org/>
+- <https://arxiv.org/html/2509.22125>
+- <https://github.com/IBPA/FoodAtlas-KGv2>
+- <https://fdc.nal.usda.gov/api-guide/>
+- <https://agdatacommons.nal.usda.gov/articles/dataset/USDA_Table_of_Nutrient_Retention_Factors_Release_6_2007_/24660888>
+- <https://doi.org/10.3945/jn.112.169904>
+- <https://doi.org/10.3945/ajcn.112.050609>
+- <https://github.com/cfree14/nutrient_endowment/blob/master/code/calc_nutr_deficiencies/functions/zinc_absorption.R>
+- <https://api.ods.od.nih.gov/dsld/v9>
+- <https://biologicalvariation.eu/>
+- <https://pmc.ncbi.nlm.nih.gov/articles/PMC11747189/>
+- <https://pubmed.ncbi.nlm.nih.gov/40754388/>
+- <https://pmc.ncbi.nlm.nih.gov/articles/PMC7494402/>
+- <https://pubmed.ncbi.nlm.nih.gov/33460438/>
+- <https://pmc.ncbi.nlm.nih.gov/articles/PMC5432136/>
+- <https://doi.org/10.1093/gigascience/giad047>
+- <https://arxiv.org/abs/1205.1960>
+- <https://raw.githubusercontent.com/grocy/grocy/master/grocy.openapi.json>
+- <https://github.com/grocy/grocy/issues/2910>
+- <https://github.com/grocy/grocy/issues/2132>
