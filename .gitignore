@@ -1,0 +1,42 @@
+# Secrets and local configuration
+.env
+.env.*
+!.env.example
+*.local.yaml
+secrets/
+
+# Personal data must never be committed
+data/personal/
+*.grocy-export.json
+*.labs.csv
+
+# Downloaded third-party datasets (see docs/architecture/data-sources.md)
+data/raw/
+data/cache/
+data/build/
+
+# ArcadeDB local databases
+databases/
+arcadedb/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+dist/
+build/
+
+# Node (tooling only)
+node_modules/
+
+# Editors and OS
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db

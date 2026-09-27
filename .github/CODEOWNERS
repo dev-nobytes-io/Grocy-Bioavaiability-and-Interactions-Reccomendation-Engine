@@ -1,0 +1,18 @@
+# Code owners are requested for review automatically.
+# See GOVERNANCE.md for roles. Add reviewers here as they are appointed.
+
+*                               @dev-nobytes-io
+
+# Safety-critical files need a safety reviewer.
+/SAFETY.md                      @dev-nobytes-io
+/knowledge/gates/               @dev-nobytes-io
+/docs/science/safety-model.md   @dev-nobytes-io
+
+# Curated knowledge needs a rule reviewer.
+/knowledge/rules/               @dev-nobytes-io
+/docs/science/evidence-policy.md @dev-nobytes-io
+
+# Governance and licensing.
+/GOVERNANCE.md                  @dev-nobytes-io
+/LICENSE                        @dev-nobytes-io
+/knowledge/LICENSE              @dev-nobytes-io

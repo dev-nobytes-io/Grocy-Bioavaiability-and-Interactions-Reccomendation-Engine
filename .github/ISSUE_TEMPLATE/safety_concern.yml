@@ -1,0 +1,32 @@
+name: Safety concern
+description: A suggestion, rule or gate that could harm someone. Do not include personal health data.
+title: "[Safety] "
+labels: ["safety", "priority: high"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you. Safety reports take priority over all other work.
+        **Do not include anyone's personal health information.** If your report needs it, use a [private report](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/security/advisories/new) instead.
+  - type: input
+    id: rule
+    attributes:
+      label: Rule or gate ID
+      description: For example R-0001 or gate.iron_overload. Leave blank if unsure.
+  - type: textarea
+    id: harm
+    attributes:
+      label: Who could be harmed, and how?
+      description: Describe the group of people and the mechanism.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Link primary sources by PMID or DOI where you can.
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix
+      description: For example, add a gate, lower a dose or withdraw the rule.

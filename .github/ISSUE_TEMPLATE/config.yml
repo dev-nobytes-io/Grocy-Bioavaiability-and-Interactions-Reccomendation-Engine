@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability or a safety issue involving personal data
+    url: https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/security/advisories/new
+    about: Private report. Use this whenever personal health information is involved.
+  - name: Read the open questions
+    url: https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/blob/main/docs/open-questions.md
+    about: Decisions the project still needs. Your question may already be there.
