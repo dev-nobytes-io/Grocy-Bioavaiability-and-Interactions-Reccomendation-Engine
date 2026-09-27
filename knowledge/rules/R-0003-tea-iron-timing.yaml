@@ -5,6 +5,7 @@ status: draft
 version: 1
 direction: inhibits
 output_class: move
+goals: [micronutrient_status]
 subject:
   name: Tea polyphenols
 target:

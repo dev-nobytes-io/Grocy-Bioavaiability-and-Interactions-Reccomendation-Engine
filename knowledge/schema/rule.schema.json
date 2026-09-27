@@ -12,6 +12,7 @@
     "version",
     "direction",
     "output_class",
+    "goals",
     "subject",
     "target",
     "dose",
@@ -62,6 +63,25 @@
         "skip",
         "none"
       ]
+    },
+    "goals": {
+      "description": "What the rule serves. Recovery goals rank first. See docs/science/recovery-nutrition.md.",
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "muscle_repair",
+          "glycogen_restoration",
+          "connective_tissue",
+          "adaptation",
+          "sleep",
+          "micronutrient_status",
+          "hydration",
+          "gut_comfort",
+          "general"
+        ]
+      }
     },
     "subject": {
       "$ref": "#/$defs/entity",
@@ -117,6 +137,10 @@
                 "day",
                 "dose"
               ]
+            },
+            "per_kg_body_mass": {
+              "type": "boolean",
+              "description": "True if min and max are per kilogram of body mass. The engine multiplies them by the user's declared body mass. If body mass is unknown, it shows the suggestion without a scaled amount. See docs/science/health-profile.md."
             }
           }
         },
@@ -158,6 +182,44 @@
         "hours": {
           "type": "number",
           "minimum": 0
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Optional training context. When present, the rule is considered only in this window around a session from the user's training plan.",
+      "properties": {
+        "training_window": {
+          "enum": [
+            "pre_training",
+            "post_training",
+            "rest_day",
+            "any"
+          ],
+          "description": "pre_training: before a planned session. post_training: after a completed session. rest_day: a day with no session. any: no restriction."
+        },
+        "minutes_from_session": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "min",
+            "max"
+          ],
+          "description": "For pre_training, minutes before the session starts. For post_training, minutes after it ends. Use the times the cited studies tested.",
+          "properties": {
+            "min": {
+              "type": "number",
+              "minimum": 0
+            },
+            "max": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
         },
         "notes": {
           "type": "string"

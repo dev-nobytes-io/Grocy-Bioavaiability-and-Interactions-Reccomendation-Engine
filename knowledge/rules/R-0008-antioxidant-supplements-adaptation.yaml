@@ -1,0 +1,102 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows a skip suggestion for a declared supplement. It never fires from food:
+# fruit and vegetables are not affected.
+id: R-0008
+title: High-dose vitamin C and E supplements during a training block blunt some training adaptations
+status: draft
+version: 1
+direction: inhibits
+output_class: skip
+goals: [adaptation]
+subject:
+  name: Vitamin C (1000 mg a day) with vitamin E supplements
+  ids: [CHEBI:29073]
+  notes: The trials combined 1000 mg vitamin C with 235 mg vitamin E, or with 400 IU vitamin E.
+target:
+  name: Cellular adaptation to endurance and strength training
+dose:
+  effective:
+    min: 1000
+    unit: mg
+    per: day
+  kitchen_reachable: false
+  supplement_dose_only: true
+  notes: >-
+    The dose is vitamin C. Only a declared or stocked supplement at or above this dose can
+    trigger the rule. Food sources of vitamin C and E are never flagged.
+timing:
+  window: chronic
+  notes: The trials gave the supplements daily for 4 to 11 weeks of training.
+context:
+  training_window: any
+effect:
+  summary: >-
+    Daily high-dose vitamin C and E removed some of the cellular and metabolic gains from
+    training. Fitness test gains were mostly unchanged.
+  magnitude: >-
+    Paulsen 2014, endurance (n=54, 11 weeks): mitochondrial marker COX4 rose 59 percent with
+    placebo and changed by minus 13 percent with vitamins; VO2max rose 8 percent in both groups.
+    Paulsen 2014, strength (n=32, 10 weeks): muscle growth unchanged, biceps-curl strength gain
+    hampered, and growth signalling blunted. Ristow 2009 (n=39, 4 weeks): exercise raised
+    insulin sensitivity only without the supplements.
+  outcome_type: functional_marker
+  whole_diet_note: No study has shown that vitamin C or E from food blunts adaptation.
+conditions:
+  applies_to: Adults in a training block who take high-dose vitamin C and E supplements daily.
+  weak_or_absent_in: >-
+    Single doses on a competition day, where adaptation is not the aim. Effects on performance
+    tests were small or absent.
+  modifiers:
+    - The supplements slightly reduce soreness. That is the trade-off this rule gives up.
+gates:
+  - gate.eating_disorder
+  - gate.pregnancy
+evidence:
+  grade: B
+  grade_rationale: >-
+    Two randomised controlled trials and a third controlled trial, from two independent groups,
+    agree on cellular and metabolic markers. Graded B, not A, because performance outcomes were mostly unaffected
+    and the doses are supplement doses.
+  replicated: true
+  sponsor_flag: unknown
+  sources:
+    - citation: Paulsen G et al. Vitamin C and E supplementation hampers cellular adaptation to endurance training in humans. J Physiol 2014.
+      pmid: "24492839"
+      doi: 10.1113/jphysiol.2013.267419
+      design: Randomised double-blind placebo-controlled trial
+      n: 54
+      finding: 1000 mg vitamin C and 235 mg vitamin E daily for 11 weeks prevented rises in COX4 and PGC-1 alpha; VO2max and shuttle-run gains were similar.
+    - citation: Paulsen G et al. Vitamin C and E supplementation alters protein signalling after a strength training session, but not muscle growth during 10 weeks of training. J Physiol 2014.
+      pmid: "25384788"
+      doi: 10.1113/jphysiol.2014.279950
+      design: Randomised placebo-controlled trial
+      n: 32
+      finding: Growth signalling after a session was blunted and biceps-curl strength gains were hampered; muscle growth did not differ.
+    - citation: Ristow M et al. Antioxidants prevent health-promoting effects of physical exercise in humans. Proc Natl Acad Sci U S A 2009.
+      pmid: "19433800"
+      doi: 10.1073/pnas.0903485106
+      design: Controlled trial in untrained and trained young men
+      n: 39
+      finding: 1000 mg vitamin C and 400 IU vitamin E daily abolished the exercise-induced rise in insulin sensitivity.
+    - citation: Close GL et al. Ascorbic acid supplementation does not attenuate post-exercise muscle soreness following muscle-damaging exercise but may delay the recovery process. Br J Nutr 2006.
+      pmid: "16611389"
+      doi: 10.1079/bjn20061732
+      design: Placebo-controlled trial
+      finding: 1 g vitamin C daily did not reduce soreness after downhill running and may have delayed recovery of muscle function.
+  counter_evidence:
+    - citation: Ranchordas MK et al. Antioxidants for preventing and reducing muscle soreness after exercise. Cochrane Database Syst Rev 2017.
+      pmid: "29238948"
+      doi: 10.1002/14651858.CD009789.pub2
+      design: Systematic review and meta-analysis of 50 randomised trials
+      n: 1089
+      finding: Antioxidant supplements slightly reduced soreness (standardised mean difference -0.13 at 24 hours, 41 studies); no trial measured subjective recovery.
+suggestion:
+  text: >-
+    During this training block, let your fruit and vegetables supply your vitamin C and E, and
+    keep the high-dose supplement for another time. Your training gains come through fully.
+  label: If a clinician advised this supplement, keep taking it and ask them first.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft recovery example of a supplement skip rule.

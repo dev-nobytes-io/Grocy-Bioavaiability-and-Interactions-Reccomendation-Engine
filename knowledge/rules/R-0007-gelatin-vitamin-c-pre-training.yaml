@@ -1,0 +1,112 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows a grade C, pre-training rule with more counter-evidence than support.
+id: R-0007
+title: About 15 g gelatin with vitamin C one hour before loading may raise a collagen-synthesis marker
+status: draft
+version: 1
+direction: enhances
+output_class: add
+goals: [connective_tissue]
+subject:
+  name: Gelatin with vitamin C
+  notes: >-
+    Gelatin supplies glycine, proline and hydroxyproline. Vitamin C is a cofactor for the
+    enzymes that stabilise new collagen. The vitamin C amount in the gelatin drink of the
+    first study was not verified from its full text.
+target:
+  name: Collagen synthesis in tendons and ligaments, measured by blood procollagen
+dose:
+  effective:
+    min: 15
+    unit: g
+    per: dose
+  kitchen_reachable: true
+  supplement_dose_only: false
+  food_examples:
+    - Plain gelatin powder dissolved in fruit juice
+  notes: >-
+    Reachable only when plain gelatin powder is in stock. Bone broth is not a reliable source:
+    its amino acid content was lower and more variable than 20 g of collagen supplement.
+    A later trial paired 20 g hydrolysed collagen with 50 mg vitamin C.
+timing:
+  window: not_applicable
+context:
+  training_window: pre_training
+  minutes_from_session:
+    min: 60
+    max: 60
+  notes: Both positive studies gave the drink about 60 minutes before a short loading session.
+effect:
+  summary: >-
+    In one small trial, 15 g vitamin C-enriched gelatin before 6 minutes of rope-skipping
+    doubled a blood marker of collagen synthesis. A replication did not reach significance.
+  magnitude: >-
+    Shaw 2017 (n=8): amino-terminal propeptide of collagen I doubled with 15 g; 5 g did not.
+    Lis and Baar 2019 (n=10): the same marker tended to rise about 20 percent, not significant.
+    Lis 2022 (n=50): rate of force development recovered to baseline with 20 g collagen and
+    50 mg vitamin C, but not with placebo, over 3 weeks.
+  outcome_type: functional_marker
+  whole_diet_note: No trial has shown fewer injuries or faster return from injury.
+conditions:
+  applies_to: Healthy young men before short, tendon-loading sessions such as jumping or skipping.
+  weak_or_absent_in: >-
+    Muscle connective tissue after resistance exercise: 30 g collagen did not raise its synthesis.
+  modifiers:
+    - Gelatin is an animal product. Users whose diet pattern is vegetarian or vegan should not see this rule.
+gates:
+  - gate.iron_overload
+  - gate.allergy
+evidence:
+  grade: C
+  grade_rationale: >-
+    One small crossover trial on a surrogate marker, one non-significant replication, and
+    null results on related outcomes. Some later work involved collagen manufacturers.
+  replicated: false
+  sponsor_flag: mixed
+  sources:
+    - citation: Shaw G et al. Vitamin C-enriched gelatin supplementation before intermittent activity augments collagen synthesis. Am J Clin Nutr 2017.
+      pmid: "27852613"
+      doi: 10.3945/ajcn.116.138594
+      design: Randomised double-blind crossover
+      n: 8
+      finding: 15 g gelatin one hour before rope-skipping doubled amino-terminal propeptide of collagen I; 5 g did not.
+    - citation: Lis DM et al. Collagen and vitamin C supplementation increases lower limb rate of force development. Int J Sport Nutr Exerc Metab 2022.
+      pmid: "34808597"
+      doi: 10.1123/ijsnem.2020-0313
+      design: Randomised double-blind parallel groups
+      n: 50
+      finding: 20 g hydrolysed collagen with 50 mg vitamin C 60 minutes before training restored rate of force development; maximal force did not differ.
+  counter_evidence:
+    - citation: Lis DM, Baar K. Effects of different vitamin C-enriched collagen derivatives on collagen synthesis. Int J Sport Nutr Exerc Metab 2019.
+      pmid: "30859848"
+      doi: 10.1123/ijsnem.2018-0385
+      design: Randomised double-blind crossover
+      n: 10
+      finding: Procollagen tended to rise about 20 percent; large variability, not significant for any treatment.
+    - citation: Aussieker T et al. Collagen protein ingestion during recovery from exercise does not increase muscle connective protein synthesis rates. Med Sci Sports Exerc 2023.
+      pmid: "37202878"
+      doi: 10.1249/MSS.0000000000003214
+      design: Randomised double-blind parallel groups, stable-isotope tracer
+      n: 45
+      finding: 30 g collagen after exercise did not raise muscle connective protein synthesis (0.068 versus 0.058 percent per hour, P = 0.09).
+    - citation: Clifford T et al. The effects of collagen peptides on muscle damage, inflammation and bone turnover following exercise. Amino Acids 2019.
+      pmid: "30783776"
+      doi: 10.1007/s00726-019-02706-5
+      design: Randomised double-blind parallel groups
+      n: 24
+      finding: 20 g a day collagen peptides did not change procollagen; jump height recovered faster at 48 hours. Several authors worked for a collagen manufacturer.
+    - citation: Alcock RD et al. Bone broth unlikely to provide reliable concentrations of collagen precursors. Int J Sport Nutr Exerc Metab 2019.
+      pmid: "29893587"
+      doi: 10.1123/ijsnem.2018-0139
+      design: Food composition analysis
+      finding: Bone broth held less glycine, proline and hydroxyproline than a 20 g collagen dose, with large variation between recipes.
+suggestion:
+  text: >-
+    About an hour before today's jumping or sprint session, try 15 g of your gelatin powder
+    with a vitamin C source, such as orange juice.
+  label: Early evidence from small studies.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft recovery example of a grade C pre-training rule.

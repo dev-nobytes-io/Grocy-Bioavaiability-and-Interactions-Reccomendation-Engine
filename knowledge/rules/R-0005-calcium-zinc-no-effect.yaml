@@ -7,6 +7,7 @@ status: draft
 version: 1
 direction: no_effect
 output_class: none
+goals: [micronutrient_status]
 subject:
   name: Dietary calcium
 target:

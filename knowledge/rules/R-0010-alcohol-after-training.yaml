@@ -1,0 +1,68 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows a grade C skip rule tested only at a very large dose.
+id: R-0010
+title: Heavy alcohol intake after training lowers myofibrillar protein synthesis, even with protein
+status: draft
+version: 1
+direction: inhibits
+output_class: skip
+goals: [muscle_repair, adaptation]
+subject:
+  name: Alcohol (ethanol)
+  ids: [CHEBI:16236]
+target:
+  name: Myofibrillar protein synthesis after exercise
+dose:
+  effective:
+    min: 1.5
+    unit: g
+    per: dose
+    per_kg_body_mass: true
+  kitchen_reachable: true
+  supplement_dose_only: false
+  notes: >-
+    The study gave 1.5 g ethanol per kg body mass, reported as about 12 standard drinks.
+    Smaller amounts were not tested. The engine must not scale this finding down to one drink.
+timing:
+  window: not_applicable
+context:
+  training_window: post_training
+  minutes_from_session:
+    min: 0
+    max: 480
+  notes: Alcohol was drunk in the hours after exercise, and synthesis was measured up to 8 hours after.
+effect:
+  summary: >-
+    Heavy drinking after a hard session lowered muscle protein synthesis, even when 25 g of
+    protein was taken with it.
+  magnitude: >-
+    Parr 2014 (n=8): compared with protein alone, synthesis was 24 percent lower with alcohol and
+    protein, and 37 percent lower with alcohol and carbohydrate.
+  outcome_type: functional_marker
+conditions:
+  applies_to: Physically active men after combined resistance and cycling exercise.
+  weak_or_absent_in: Moderate intake. Not studied.
+gates:
+  - gate.eating_disorder
+evidence:
+  grade: C
+  grade_rationale: One small crossover trial at a very large dose. Not replicated in humans.
+  replicated: false
+  sponsor_flag: independent
+  sources:
+    - citation: Parr EB et al. Alcohol ingestion impairs maximal post-exercise rates of myofibrillar protein synthesis following a single bout of concurrent training. PLoS One 2014.
+      pmid: "24533082"
+      doi: 10.1371/journal.pone.0088384
+      design: Randomised crossover with muscle biopsies
+      n: 8
+      finding: 1.5 g per kg ethanol after exercise lowered myofibrillar synthesis by 24 percent with protein and 37 percent with carbohydrate. The authors declared no competing interests.
+suggestion:
+  text: >-
+    If this evening is a big night out, have your protein-rich recovery meal first and choose
+    alcohol-free drinks for the first few hours after training.
+  label: Early evidence. Tested only at about 12 drinks.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft recovery example of a grade C skip rule.

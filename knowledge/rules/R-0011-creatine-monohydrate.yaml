@@ -1,0 +1,76 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows a supplement rule that can fire only when the supplement itself is in
+# stock or declared. It never fires from food.
+id: R-0011
+title: Creatine monohydrate at 3 to 5 g a day supports high-intensity performance and training gains
+status: draft
+version: 1
+direction: enhances
+output_class: add
+goals: [adaptation]
+subject:
+  name: Creatine monohydrate supplement
+target:
+  name: Repeated high-intensity exercise performance and lean mass gains with training
+dose:
+  effective:
+    min: 3
+    max: 5
+    unit: g
+    per: day
+  kitchen_reachable: false
+  supplement_dose_only: true
+  notes: >-
+    The ISSN position stand gives 3 to 5 g a day to maintain stores, and says this dose alone
+    fills muscle stores over 3 to 4 weeks. It also describes a faster loading phase. This rule
+    covers only the daily dose.
+timing:
+  window: daily
+context:
+  training_window: any
+effect:
+  summary: >-
+    Creatine raises muscle creatine stores and gives small gains in short, repeated
+    high-intensity efforts and in lean mass during training.
+  magnitude: >-
+    Branch 2003 (100 placebo-controlled studies): small effect sizes of 0.17 for body
+    composition and 0.24 for efforts of 30 seconds or less. The effect on body composition was
+    larger after loading (0.26) than with maintenance dosing alone (0.04). No clear effect on
+    running or swimming.
+  outcome_type: performance
+conditions:
+  applies_to: Healthy adults doing resistance or repeated sprint training.
+  weak_or_absent_in: Endurance running and swimming performance.
+  modifiers:
+    - Early weight gain from water retention is expected.
+gates:
+  - gate.kidney_function
+  - gate.pregnancy
+  - gate.inborn_error
+evidence:
+  grade: B
+  grade_rationale: >-
+    A large meta-analysis of randomised trials shows consistent small benefits. Graded B, not
+    A, because the benefit at 3 to 5 g a day without loading is less well supported, and the
+    position stand authors have industry ties.
+  replicated: true
+  sponsor_flag: mixed
+  sources:
+    - citation: Branch JD. Effect of creatine supplementation on body composition and performance. A meta-analysis. Int J Sport Nutr Exerc Metab 2003.
+      pmid: "12945830"
+      doi: 10.1123/ijsnem.13.2.198
+      design: Meta-analysis of randomised placebo-controlled studies
+      finding: Small positive effect sizes for body composition and short high-intensity exercise; none clear for running or swimming.
+    - citation: Kreider RB et al. International Society of Sports Nutrition position stand. Safety and efficacy of creatine supplementation in exercise, sport, and medicine. J Int Soc Sports Nutr 2017.
+      pmid: "28615996"
+      doi: 10.1186/s12970-017-0173-z
+      design: Position stand
+      finding: 3 to 5 g a day maintains muscle creatine stores; supplementation up to 30 g a day for 5 years was well tolerated in healthy people.
+suggestion:
+  text: Take your usual 3 to 5 g of creatine today with any meal or drink.
+  label: Supplement dose. Shown only because this supplement is in your stock.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft recovery example of a supplement-in-stock rule.

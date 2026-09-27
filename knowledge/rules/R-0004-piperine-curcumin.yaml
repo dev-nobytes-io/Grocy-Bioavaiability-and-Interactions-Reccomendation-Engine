@@ -6,6 +6,7 @@ status: draft
 version: 1
 direction: enhances
 output_class: add
+goals: [general]
 subject:
   name: Piperine (from black pepper)
 target:
