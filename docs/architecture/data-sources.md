@@ -14,6 +14,26 @@ The knowledge graph imports public datasets. Their licences decide what the proj
 | **deferred** | Not needed until a later milestone. | Not yet |
 | **excluded** | Not used. | No |
 
+This flowchart shows how a source's licence decides its tier.
+
+```mermaid
+flowchart TD
+  SRC["New source and its licence,<br/>read at the source"] --> NEWTYPE{"A licence type the project<br/>has not used before?"}
+  NEWTYPE -->|"Yes"| ADR["Decision record first,<br/>under GOVERNANCE.md"]
+  NEWTYPE -->|"No"| COMM
+  ADR --> COMM{"Commercial licence required<br/>for non-academic use?"}
+  COMM -->|"Yes"| EXCL["excluded"]
+  COMM -->|"No"| NC{"Non-commercial only?"}
+  NC -->|"Yes"| LOCAL["local only: user imports it,<br/>export tooling refuses it"]
+  NC -->|"No"| REDIST{"Redistributable?"}
+  REDIST -->|"No"| LOCAL
+  REDIST -->|"Yes"| SA{"Share-alike?"}
+  SA -->|"Yes"| RUNTIME["runtime lookup:<br/>one item at a time, never bundled"]
+  SA -->|"No"| NOW{"Needed by the<br/>current milestone?"}
+  NOW -->|"Yes"| CORE["core"]
+  NOW -->|"No"| DEFER["deferred"]
+```
+
 ## Sources
 
 | Source | Provides | Licence as found | Tier |
@@ -26,7 +46,7 @@ The knowledge graph imports public datasets. Their licences decide what the proj
 | [UniProt](https://www.uniprot.org/) | Proteins, transporters, enzymes | CC BY 4.0 | core |
 | [Open Food Facts](https://world.openfoodfacts.org/) | Products by barcode | ODbL, share-alike | runtime lookup |
 | [NIH Dietary Supplement Label Database](https://dsld.od.nih.gov/) | Supplement labels | Public domain (CC0) | deferred to M4 |
-| [MeNu GUIDE](https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1) | Published food, metabolite and disease graph in RDF | Reported as CC BY | deferred; see Q-21 |
+| [MeNu GUIDE](https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1) | Published food, metabolite and disease graph in RDF | Reported as CC BY | deferred; see [Q-21](../open-questions.md) |
 | [FoodAtlas](https://github.com/IBPA/FoodAtlas-KGv2) | Food-chemical graph with provenance per edge | Apache-2.0 code; data licence unconfirmed | deferred |
 | [Rhea](https://www.rhea-db.org/) | Biochemical reactions | CC BY 4.0 | deferred |
 | [MeSH](https://www.nlm.nih.gov/mesh/) | Biomedical vocabulary | Public domain with NLM terms | deferred |

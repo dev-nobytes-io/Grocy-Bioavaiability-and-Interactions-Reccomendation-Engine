@@ -27,6 +27,22 @@ Better recovery for people who train, through the best nutrition available from 
 5. Removes rules gated for this user, and scales doses to their body mass.
 6. Ranks what remains, recovery goals first, and shows one suggestion with dose, evidence grade and source.
 
+This flowchart shows the six steps above, from your stock and health profile to one suggestion.
+
+```mermaid
+flowchart TD
+  GROCY[("Grocy stock")] --> S1["Step 1: read what is in stock"]
+  S1 --> S2["Step 2: resolve each product<br/>to a known food, with confidence"]
+  PROFILE[("Health profile and<br/>today's training context")] --> S3["Step 3: read the profile<br/>and training context"]
+  MEAL["Planned meal"] --> S4
+  RULES[("Curated rules")] --> S4
+  S2 --> S4["Step 4: find rules whose ingredients<br/>are present or could be added from stock"]
+  S4 --> S5["Step 5: remove gated rules,<br/>scale doses to body mass"]
+  S3 --> S5
+  S5 --> S6["Step 6: rank what remains,<br/>recovery goals first"]
+  S6 --> OUT["One suggestion: add, move, swap or skip,<br/>with dose, evidence grade and source"]
+```
+
 Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See [ADR-0005](../decisions/0005-full-advice-with-safety-gates.md).
 
 ## In scope for v0.x
@@ -42,12 +58,12 @@ Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See 
 
 | Feature | Why deferred | Revisit when |
 |---|---|---|
-| Free-text state input ("slept badly, legs sore") and the vector layer | No mapping from text to target states exists yet. Four goal choices cover the need first. | The rule table covers more than one goal. |
+| Free-text state input ("slept badly, legs sore") and the vector layer | No mapping from text to target states exists yet. Nine fixed goals, chosen from a list, cover the need first. | Users show that the fixed goal list cannot say what they need. |
 | Microbiome-based suggestions | Taxa change day to day. Key conversions such as urolithin A depend on microbes some people lack, and feeding cannot create them. | A one-off urolithin test shows value. |
-| Lab-value input used for anything beyond gating | Interpreting results is a medical-device function in the US, EU and Australia. | A decision record and a regulatory review exist. |
+| Lab-value input used for any purpose, including gating, ranking or interpretation | The research found that interpreting results is likely to be a medical-device function in the United States (US), the European Union (EU) and Australia. This is not legal advice. | A decision record and a regulatory review exist. A personal journal that never changes a suggestion is [Q-31](../open-questions.md). |
 | Medication interaction checking beyond gating | Same as above. | Same as above. |
 | Learning personal response from blood panels | Routine markers vary too much within a person to show kitchen-scale effects. | The self-experiment protocol shows a detectable signal. |
-| Pooled learning across users | Conflicts with local-first data. | An opt-in design exists. See Q-12. |
+| Pooled learning across users | Conflicts with local-first data. | An opt-in design exists. See [Q-12](../open-questions.md). |
 
 ## Out of scope
 

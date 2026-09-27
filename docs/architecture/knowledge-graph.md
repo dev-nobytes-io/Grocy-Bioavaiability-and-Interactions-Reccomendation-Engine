@@ -8,7 +8,7 @@ Status: design. Everything here can change by pull request until M1 starts.
 
 The graph answers "what is in this food, what is it, and what does it touch?" It links foods to the compounds and nutrients they contain, and those to the pathways and proteins they take part in. It records where every fact came from.
 
-The graph does **not** decide what to suggest. Curated rules do that. The graph explains rules, links them to foods in the kitchen, and nominates candidate rules for human review. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md).
+The graph does **not** decide what to suggest. Curated rules do that. The graph explains rules, links them to foods in the kitchen, and nominates candidate rules for human review. See [ADR-0007](../decisions/0007-graph-proposes-rules-decide.md), still Proposed.
 
 ## Node types
 
@@ -45,6 +45,62 @@ The FoodOn, ChEBI and Reactome examples were checked against their sources in Se
 | `FROM_DATASET` | any node or edge record | Dataset | Provenance |
 
 Every edge that carries a number also carries its unit and its basis. For example, a composition amount is per 100 g of edible portion, in a stated preparation state.
+
+This entity relationship diagram shows each node type with its primary identifier and the edges between them; `SAME_AS` and the `FROM_DATASET` links on edge records are left out for clarity.
+
+```mermaid
+erDiagram
+  Food ||--o{ Food : IS_A
+  Food ||--o{ FoodRecord : DESCRIBED_BY
+  FoodRecord }o--o{ Nutrient : CONTAINS
+  FoodRecord }o--o{ Compound : CONTAINS
+  Compound ||--o{ Compound : IS_A
+  Compound }o--o{ Compound : HAS_ROLE
+  Compound }o--o{ Pathway : PARTICIPATES_IN
+  Compound }o--o{ Protein : TRANSPORTED_BY
+  Food }o--o{ Rule : SUBJECT_OF
+  Compound }o--o{ Rule : SUBJECT_OF
+  Nutrient }o--o{ Rule : TARGET_OF
+  Compound }o--o{ Rule : TARGET_OF
+  Rule }o--o{ Gate : GATED_BY
+  Food }o--|| Dataset : FROM_DATASET
+  FoodRecord }o--|| Dataset : FROM_DATASET
+  Compound }o--|| Dataset : FROM_DATASET
+  Nutrient }o--|| Dataset : FROM_DATASET
+  Pathway }o--|| Dataset : FROM_DATASET
+  Protein }o--|| Dataset : FROM_DATASET
+  Food {
+    string foodon_curie PK
+  }
+  FoodRecord {
+    string fdc_id PK
+  }
+  Compound {
+    string chebi_curie PK
+  }
+  Nutrient {
+    string fdc_nutrient_number PK
+  }
+  Pathway {
+    string reactome_stable_id PK
+  }
+  Protein {
+    string uniprot_accession PK
+  }
+  Dataset {
+    string internal_id PK
+    string dataset_version
+    date retrieved
+    string licence_id
+    boolean redistributable
+  }
+  Rule {
+    string rule_id PK
+  }
+  Gate {
+    string gate_id PK
+  }
+```
 
 ## Provenance
 

@@ -27,10 +27,30 @@ A rule is a curated, evidence-graded statement about how one food component chan
 
 1. Open a [rule proposal issue](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/issues/new?template=rule_proposal.yml) and get agreement that the rule is in scope.
 2. Copy an existing file in `knowledge/rules/` and give it the next free ID.
-3. Fill in every required field. Cite primary sources by PMID or DOI. Give the dose that produced the effect and the population it was measured in.
+3. Fill in every required field. Cite primary sources by PubMed identifier (PMID) or digital object identifier (DOI). Give the dose that produced the effect and the population it was measured in.
 4. List every safety gate that applies. When unsure, add the gate. A reviewer can remove it with evidence.
 5. Set `status: draft`. Reviewers move it forward.
 6. Run the checks below and open a pull request.
+
+This flowchart shows the path a new rule takes from idea to accepted rule.
+
+```mermaid
+flowchart TD
+  ISSUE["Open a rule proposal issue"] --> AGREE{"Agreed that the rule<br/>is in scope?"}
+  AGREE -->|"No"| REVISE["Revise the proposal or stop"]
+  AGREE -->|"Yes"| COPY["Copy a rule file in knowledge/rules/<br/>and give it the next free ID"]
+  COPY --> FILL["Fill every required field,<br/>cite primary sources, list every gate"]
+  FILL --> DRAFT["Set status: draft"]
+  DRAFT --> CHECKS["Run the local checks"]
+  CHECKS --> PASS{"Checks pass?"}
+  PASS -->|"No"| FILL
+  PASS -->|"Yes"| PR["Open a pull request"]
+  PR --> REVIEW["Review: each cited number<br/>checked against its source"]
+  REVIEW --> OK{"Changes requested?"}
+  OK -->|"Yes"| FILL
+  OK -->|"No"| MERGED["Merged with status draft"]
+  MERGED --> LATER["Reviewers later move it<br/>to in_review, then accepted"]
+```
 
 ## Decision records
 
@@ -45,7 +65,7 @@ Significant changes need a decision record. [GOVERNANCE.md](GOVERNANCE.md) lists
 
 ## Local checks
 
-The same checks run in continuous integration on every pull request.
+The same checks run in continuous integration on every pull request. The workflow is [checks.yml](.github/workflows/checks.yml).
 
 ```sh
 # Validate knowledge files against their schemas
@@ -53,9 +73,17 @@ pip install check-jsonschema
 check-jsonschema --schemafile knowledge/schema/rule.schema.json knowledge/rules/*.yaml
 check-jsonschema --schemafile knowledge/schema/gates.schema.json knowledge/gates/gates.yaml
 check-jsonschema --schemafile knowledge/schema/sources.schema.json knowledge/sources/license-manifest.yaml
+check-jsonschema --schemafile knowledge/schema/profile.schema.json knowledge/examples/*.yaml
+
+# Check relative links and anchors
+python3 scripts/check_links.py
 
 # Lint Markdown
-npx markdownlint-cli2 "**/*.md"
+npx --yes markdownlint-cli2@0.23.3 "**/*.md"
+
+# Render every Mermaid diagram (needs the Mermaid CLI and a Chromium browser)
+npm install -g @mermaid-js/mermaid-cli
+python3 scripts/check_mermaid.py
 ```
 
 ## Pull requests
@@ -67,6 +95,6 @@ npx markdownlint-cli2 "**/*.md"
 
 ## Licensing of contributions
 
-By contributing you agree that your contribution is licensed under the same terms as the directory it lands in. That is [Apache-2.0](LICENSE) outside `knowledge/` and [CC BY 4.0](knowledge/LICENSE) inside it. There is no separate contributor agreement.
+By contributing you agree that your contribution is licensed under the same terms as the directory it lands in. That is [Apache-2.0](LICENSE) outside `knowledge/` and [Creative Commons Attribution 4.0 (CC BY 4.0)](knowledge/LICENSE) inside it. There is no separate contributor agreement.
 
 Do not paste data from sources whose licence forbids redistribution. The [data sources](docs/architecture/data-sources.md) page lists which are which.

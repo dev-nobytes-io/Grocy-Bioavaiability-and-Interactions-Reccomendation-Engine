@@ -1,0 +1,137 @@
+# DRAFT EXAMPLE. Not reviewed. Must not be used to produce suggestions.
+# This rule shows a per-kilogram dose and a post-training context window.
+id: R-0006
+title: A protein dose of about 0.25 to 0.4 g per kg in the post-training meal supports muscle protein synthesis
+status: draft
+version: 2
+direction: enhances
+output_class: add
+goals: [muscle_repair, adaptation]
+subject:
+  name: High-quality protein in one meal
+  notes: >-
+    Protein with a full set of essential amino acids, such as dairy, eggs, meat, fish or soy.
+    The International Society of Sports Nutrition (ISSN) protein position stand (Jäger 2017,
+    PMID 28642676) suggests 700 to 3000 mg leucine per dose.
+target:
+  name: Muscle protein synthesis after resistance exercise
+dose:
+  effective:
+    min: 0.25
+    max: 0.4
+    unit: g
+    per: meal
+    per_kg_body_mass: true
+  kitchen_reachable: true
+  supplement_dose_only: false
+  food_examples:
+    - A portion of chicken, fish or lean meat
+    - Eggs
+    - Greek yoghurt or milk
+    - Tofu or tempeh
+  notes: >-
+    Position stands give 0.25 g per kg or 20 to 40 g as the per-meal dose. The engine
+    works out the amount from the user's body mass and Grocy's nutrient data. If body mass is
+    unknown, the suggestion is shown without a scaled amount.
+timing:
+  window: same_meal
+  notes: The dose should come in one meal, not spread in small amounts across the afternoon.
+context:
+  training_window: post_training
+  minutes_from_session:
+    min: 0
+    max: 120
+  notes: >-
+    The ISSN nutrient-timing stand cites intake from immediately to 2 hours after exercise.
+effect:
+  summary: >-
+    Eating about 20 to 40 g of high-quality protein after resistance exercise raises muscle
+    protein synthesis more than a smaller dose.
+  magnitude: >-
+    Moore 2009 (n=6): muscle protein synthesis reached a plateau at 20 g egg protein.
+    Witard 2014 (n=48): myofibrillar synthesis rose 49 percent with 20 g and 56 percent with
+    40 g whey, against 0 g. Macnaughton 2016 (n=30): 40 g gave higher synthesis than 20 g after
+    whole-body exercise, 0.059 versus 0.049 percent per hour. Trommelen 2023 (n=36): 100 g gave
+    a larger response lasting more than 12 hours than 25 g.
+  outcome_type: functional_marker
+  whole_diet_note: >-
+    Acute synthesis is a surrogate. Over 6 weeks or more of training, protein supplementation
+    added about 0.30 kg fat-free mass, with no further gain beyond about 1.6 g per kg a day in
+    total (Morton 2018, 49 trials).
+conditions:
+  applies_to: Healthy adults after resistance exercise. Most tracer studies used young men.
+  weak_or_absent_in: >-
+    People whose daily protein already exceeds about 1.6 g per kg and whose meal already holds
+    the dose. Older adults may need more per meal; the position stand says the dose depends on age.
+  modifiers:
+    - Whole-body sessions may benefit from the upper end of the range.
+    - Plant proteins usually need a larger amount to supply the same leucine.
+gates:
+  - gate.kidney_function
+  - gate.inborn_error
+  - gate.allergy
+  - gate.coeliac_gluten
+  - gate.eating_disorder
+  - gate.lactose_intolerance
+evidence:
+  grade: B
+  grade_rationale: >-
+    Several independent stable-isotope trials agree that 20 g or more raises muscle protein
+    synthesis after exercise. Graded B, not A, because synthesis is a surrogate and the
+    per-meal dose has not been tested alone on long-term muscle outcomes. The ceiling is
+    disputed: 20 g, 40 g or no clear limit.
+  replicated: true
+  sponsor_flag: mixed
+  sources:
+    - citation: Moore DR et al. Ingested protein dose response of muscle and albumin protein synthesis after resistance exercise in young men. Am J Clin Nutr 2009.
+      pmid: "19056590"
+      doi: 10.3945/ajcn.2008.26401
+      design: Randomised crossover, stable-isotope tracer
+      n: 6
+      finding: Muscle protein synthesis was maximally stimulated at 20 g egg protein; leucine oxidation rose after 20 g and 40 g.
+    - citation: Witard OC et al. Myofibrillar muscle protein synthesis rates subsequent to a meal in response to increasing doses of whey protein at rest and after resistance exercise. Am J Clin Nutr 2014.
+      pmid: "24257722"
+      doi: 10.3945/ajcn.112.055517
+      design: Parallel groups, stable-isotope tracer
+      n: 48
+      finding: 20 g and 40 g whey raised myofibrillar synthesis by 49 and 56 percent over 0 g; 10 g did not.
+    - citation: Macnaughton LS et al. The response of muscle protein synthesis following whole-body resistance exercise is greater following 40 g than 20 g of ingested whey protein. Physiol Rep 2016.
+      pmid: "27511985"
+      doi: 10.14814/phy2.12893
+      design: Randomised crossover, stable-isotope tracer
+      n: 30
+      finding: 40 g gave greater synthesis than 20 g (0.059 versus 0.049 percent per hour); lean body mass did not change the response.
+    - citation: Trommelen J et al. The anabolic response to protein ingestion during recovery from exercise has no upper limit in magnitude and duration in vivo in humans. Cell Rep Med 2023.
+      pmid: "38118410"
+      doi: 10.1016/j.xcrm.2023.101324
+      design: Quadruple isotope tracer trial
+      n: 36
+      finding: 100 g protein gave a larger and longer (more than 12 hours) anabolic response than 25 g. One author is a dairy company employee.
+    - citation: Kerksick CM et al. International Society of Sports Nutrition position stand. Nutrient timing. J Int Soc Sports Nutr 2017.
+      pmid: "28919842"
+      doi: 10.1186/s12970-017-0189-4
+      design: Position stand
+      finding: A 20 to 40 g dose (0.25 to 0.40 g per kg) every 3 to 4 hours appears most favourable for muscle protein synthesis.
+    - citation: Jäger R et al. International Society of Sports Nutrition position stand. Protein and exercise. J Int Soc Sports Nutr 2017.
+      pmid: "28642676"
+      doi: 10.1186/s12970-017-0177-8
+      design: Position stand
+      finding: Acute protein doses should contain 700 to 3000 mg leucine; 1.4 to 2.0 g protein per kg a day is sufficient for most exercising people.
+    - citation: Morton RW et al. A systematic review, meta-analysis and meta-regression of the effect of protein supplementation on resistance training-induced gains in muscle mass and strength in healthy adults. Br J Sports Med 2018.
+      pmid: "28698222"
+      doi: 10.1136/bjsports-2017-097608
+      design: Meta-analysis of randomised trials
+      n: 1863
+      finding: Protein supplementation added 0.30 kg fat-free mass; no further gain beyond about 1.62 g per kg a day.
+suggestion:
+  text: >-
+    Build your post-training meal around a protein food from your kitchen, such as eggs or
+    yoghurt, in the amount shown for your body weight.
+  label: Amount scaled to your body weight.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft recovery example with a per-kilogram dose.
+  - date: 2026-09-27
+    change: Added coeliac and eating disorder gates, the Jäger 2017 source, and a corrected Moore 2009 finding. Removed an unsourced 24-hour claim.

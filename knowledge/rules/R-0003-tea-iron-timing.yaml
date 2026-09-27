@@ -2,9 +2,10 @@
 id: R-0003
 title: Tea taken with an iron-containing meal reduces non-heme iron absorption; one hour later does not
 status: draft
-version: 1
+version: 2
 direction: inhibits
 output_class: move
+goals: [micronutrient_status]
 subject:
   name: Tea polyphenols
 target:
@@ -37,14 +38,17 @@ gates:
   - gate.iron_overload
 evidence:
   grade: B
-  grade_rationale: Isotope crossover evidence for the timing effect, supported by replicated evidence for tea inhibition. The timing study is small.
+  grade_rationale: >-
+    Isotope crossover evidence for the timing effect, supported by replicated evidence for tea
+    inhibition. The timing study is small. The one-hour timing effect comes from one study of 12
+    iron-replete women and has not been replicated.
   replicated: true
   sponsor_flag: independent
   sources:
     - citation: Ahmad Fuzi SF et al. A 1-h time interval between a meal containing iron and consumption of tea attenuates the inhibitory effects on iron absorption. Am J Clin Nutr 2017.
       pmid: "29046302"
       doi: 10.3945/ajcn.117.161364
-      design: Randomised crossover with stable isotopes
+      design: Controlled crossover with stable isotopes, in iron-replete women
       n: 12
       finding: 3.6 percent absorbed with tea at the meal versus 5.7 percent with tea one hour later, similar to water.
     - citation: Hurrell RF et al. Inhibition of non-haem iron absorption in man by polyphenolic-containing beverages. Br J Nutr 1999.
@@ -59,3 +63,5 @@ last_reviewed: null
 changelog:
   - date: 2026-09-27
     change: Created as a draft example from the research record.
+  - date: 2026-09-27
+    change: Corrected the timing study design and noted that the timing effect is unreplicated.

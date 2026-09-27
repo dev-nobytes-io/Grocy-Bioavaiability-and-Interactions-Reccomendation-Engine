@@ -1,0 +1,68 @@
+# DRAFT EXAMPLE. Not reviewed.
+# This rule records a refuted interaction so the engine never infers it. It replaces the
+# original README's "anabolic waste" idea. no_effect rules never produce suggestions.
+id: R-0009
+title: Adding carbohydrate to an ample protein dose does not further raise muscle protein synthesis
+status: draft
+version: 1
+direction: no_effect
+output_class: none
+goals: [muscle_repair]
+subject:
+  name: Carbohydrate eaten with protein after exercise
+target:
+  name: Muscle protein synthesis after resistance exercise
+dose:
+  effective:
+    min: 50
+    unit: g
+    per: meal
+  kitchen_reachable: true
+  supplement_dose_only: false
+  notes: >-
+    Staples 2011 added 50 g maltodextrin to 25 g whey. Koopman 2007 added 0.15 or 0.6 g per kg
+    per hour of carbohydrate to 0.3 g per kg per hour of protein.
+timing:
+  window: same_meal
+context:
+  training_window: post_training
+effect:
+  summary: >-
+    With enough protein, adding carbohydrate raised insulin but did not change muscle protein
+    synthesis or breakdown. Carbohydrate and protein do not "clash".
+  magnitude: >-
+    Koopman 2007 (n=10): mixed muscle synthesis was 0.10, 0.10 and 0.11 percent per hour with
+    no, low and high carbohydrate. Staples 2011 (n=9): insulin was 5-fold higher with
+    carbohydrate, with no difference in synthesis or breakdown.
+  outcome_type: functional_marker
+conditions:
+  applies_to: Healthy young men eating an ample protein dose after resistance exercise.
+  modifiers:
+    - Carbohydrate still matters for refilling glycogen before the next session. That is a separate goal.
+    - Whether carbohydrate helps when the protein dose is small was not tested here.
+gates: []
+evidence:
+  grade: B
+  grade_rationale: Two concordant crossover tracer trials from independent groups. Small samples.
+  replicated: true
+  sponsor_flag: unknown
+  sources:
+    - citation: Koopman R et al. Coingestion of carbohydrate with protein does not further augment postexercise muscle protein synthesis. Am J Physiol Endocrinol Metab 2007.
+      pmid: "17609259"
+      doi: 10.1152/ajpendo.00135.2007
+      design: Randomised crossover, stable-isotope tracer
+      n: 10
+      finding: Adding 0.15 or 0.6 g per kg per hour carbohydrate to protein did not change muscle protein synthesis over 6 hours.
+    - citation: Staples AW et al. Carbohydrate does not augment exercise-induced protein accretion versus protein alone. Med Sci Sports Exerc 2011.
+      pmid: "21131864"
+      doi: 10.1249/MSS.0b013e31820751cb
+      design: Crossover, stable-isotope tracer
+      n: 9
+      finding: 50 g maltodextrin with 25 g whey did not raise synthesis or lower breakdown more than whey alone.
+suggestion:
+  text: No suggestion. This rule stops the engine from telling you to separate carbohydrate from protein.
+reviewers: []
+last_reviewed: null
+changelog:
+  - date: 2026-09-27
+    change: Created as a draft example of a recorded negative result about recovery.

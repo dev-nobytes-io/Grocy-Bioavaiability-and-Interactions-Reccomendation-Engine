@@ -1,211 +1,87 @@
-# Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine
-This takes in data from Grocy (your kitchen's management system) and medical data about bioavailability of nutrients amd their interaction with each other, and more to come to a reccomendation of a more effective meal plan for your goals.
+# Grocy Bioavailability and Interactions Recommendation Engine
 
-It touches on the fields of Metabolomics and Nutrigenomics in its search to achieve specific biological health and fitness goals through additive nutrition and fitness. 
+A self-hosted tool that aims to help people who train recover better, using the food already in their own kitchen. It reads your stock from Grocy, a household inventory application, and suggests one small, evidence-graded change to a meal.
 
+> [!NOTE]
+> **Status: documentation phase.** There is no runnable code yet. The design is being written down and reviewed first. See the [roadmap](docs/product/roadmap.md) for what comes next.
 
-# ArcadeDB Use Cases
+<!-- Two separate callouts. -->
 
-mindmap
-  root((ArcadeDB Use Cases))
-    ::icon(fa fa-database)
-    AI and Semantic Operations
-      Advanced GraphRAG
-        Hybrid Context Engines
-        Contextual LLM Memory
-      Multimodal Recommendations
-        Social E-commerce
-        Content Personalisation
-      Entity Resolution
-        Data De-duplication
-        Fuzzy Identity Matching
-      Semantic Search
-        Vector-Filtered Content
-        Intent-Based Discovery
-    Cybersecurity and Risk
-      Fraud Ring Detection
-        Circular Payment Tracking
-        Shared Device Networks
-      Enterprise IAM
-        Hierarchical Permissions
-        Role-Based Access (RBAC)
-      Threat Intelligence
-        Malware Vector Linkage
-        Network Dependency Logs
-    Network and Supply Chain
-      Infrastructure Topology
-        Microservices Telemetry
-        Telecom Network Mapping
-      Logistics Management
-        Bill of Materials (BOM)
-        Geospatial Fleet Routing
-      Impact Analysis
-        Cascade Failure Modeling
-        Dependency Bottlenecks
-    Unified Operational Systems
-      Customer 360 View
-        JSON Session Event Logs
-        Relational Profile Merging
-      High-Speed Caching
-        Session State Storage
-        Rapid Key-Value Lookups
-      Location-Aware Apps
-        Proximity Graph Searches
-        Rideshare Dispatch Optimization
+> [!WARNING]
+> **Not medical advice.** This project does not diagnose, treat, cure or prevent any disease. Read [SAFETY.md](SAFETY.md) before acting on anything it produces.
 
+## The idea
 
-# The goal 
+Recovery means being ready for the next session and still adapting to training. A knowledge graph links foods to the nutrients and compounds they contain. The graph proposes; only curated rules, each with an evidence grade, decide what you see (proposed in [ADR-0007](docs/decisions/0007-graph-proposes-rules-decide.md)). Your health information (allergies, intolerances, conditions, medicines, supplements, life stage and body measurements) shapes a suggestion but is never the thing being treated. Each suggestion is one of four kinds: **add**, **move**, **swap** or **skip**. It always comes with a dose, a grade and a source.
 
-graph TD
-    %% Styles and Themes
-    classDef chaotic fill:#FFECEC,stroke:#FF8888,stroke-width:2px,stroke-dasharray: 5 5;
-    classDef multiModel fill:#E6F0FA,stroke:#4A90E2,stroke-width:2px;
-    classDef rigid fill:#E6F9EC,stroke:#2ECC71,stroke-width:2px;
-    classDef validation fill:#FDF2E2,stroke:#F39C12,stroke-width:2px;
-    classDef action fill:#F3E5F5,stroke:#9C27B0,stroke-width:2px;
+## How it works
 
-    %% 1. CHAOTIC FLUID INPUTS (The Unpredictable Reality)
-    subgraph Chaotic_Inputs ["1. The Chaotic Fluid (Real-Time Inputs)"]
-        User_State["Unstructured Input <br><i>'Slept poorly, fried CNS, leg day sore'</i>"]:::chaotic
-        Kitchen_Inv["Kitchen & Grocery Inventory <br><i>(Dynamic Sub-Graph: What you own)</i>"]:::chaotic
-        Environment["Unpredictable Environment <br><i>(Varying stress, context, moment-to-moment)</i>"]:::chaotic
-    end
+Gates run before anything is ranked. If a safety gate's question has not been answered, the gate assumes the worst and withholds the suggestion. Tolerance gates, such as lactose intolerance, offer a swap or a note instead.
 
-    %% 2. ARCADE DB MULTI-MODEL CORE
-    subgraph Engine_Core ["2. ArcadeDB Multi-Model Core Engine"]
-        Vector_Layer["<b>Vector Engine (Intent/State)</b><br>Encodes messy inputs into semantic 'State' coordinates<br><i>Matches 'Sore' to 'Recovery Pathways'</i>"]:::multiModel
-        Doc_Store["<b>Document Store (Metadata)</b><br>Stores raw ingredient JSON data, recipe text, & dosages"]:::multiModel
-        Graph_Layer["<b>Graph Engine (Entity Relationships)</b><br>Executes fast multi-hop traversals over interconnected nodes"]:::multiModel
-    end
-
-    %% 3. THE UNCHANGING ANCHOR (Rigid Biology)
-    subgraph Rigid_Biology ["3. The Unchanging Anchor (Rigid Biology)"]
-        Biochem_Laws["Immutable Biochemical Laws <br><i>(e.g., Vitamin C reduces Ferric Iron)</i>"]:::rigid
-        Microbiome_Nodes["Microbiome Map <br><i>(Taxonomic strains & redundant metabolic pathways)</i>"]:::rigid
-    end
-
-    %% 4. THE POSITIVE HEALTH RECOMMENDATION ENGINE
-    subgraph Positive_Engine ["4. Positive Health (Additive) Recommendation Engine"]
-        Synergy_Calc["<b>Anabolic Synergy Index (ASI) Solver</b><br>Calculates compounding conditional scores (+Weights)"]:::action
-        
-        direction LR
-        Rec_Unlock["<b>Additive Recommendation Output</b><br>👉 Keep eating your meal<br>👉 <b>ADD</b> Companion Pairs<br>👉 <i>(e.g., Squeeze Lemon, Add Black Pepper)</i>"]:::action
-    end
-
-    %% 5. OBJECTIVE VALIDATION LOOP
-    subgraph Validation_Loop ["5. Objective Validation Layer"]
-        User_Action["User Eats Meal Matrix <br><i>(Zero friction, additive optimization)</i>"]:::validation
-        Blood_Panels["<b>Measurable Blood Biomarkers</b><br><i>(hs-CRP, Fasting Insulin, Creatine Kinase)</i>"]:::validation
-    end
-
-    %% DATA PIPELINE & EDGE RELATIONSHIPS
-    User_State -->|Vector Embedding| Vector_Layer
-    Environment -->|Shifts Vibe Coordinate| Vector_Layer
-    Kitchen_Inv -->|Natively queries available nodes| Graph_Layer
-    
-    Vector_Layer -->|Pins target anchors on| Graph_Layer
-    Doc_Store -->|Hydrates nodes with text/data| Graph_Layer
-    
-    Biochem_Laws -->|Establishes hard edges| Graph_Layer
-    Microbiome_Nodes -->|Establishes functional paths| Graph_Layer
-    
-    Graph_Layer -->|Feeds structural paths to| Synergy_Calc
-    Synergy_Calc -->|Generates positive action| Rec_Unlock
-    
-    Rec_Unlock -->|Guides| User_Action
-    User_Action -->|Alters internal small-molecule metabolomics| Blood_Panels
-    
-    %% THE RECOVERY FEEDBACK LOOP
-    Blood_Panels -->|Updates historical time-series sub-graph & recalibrates weights| Graph_Layer
-
-    %% Legend Visual Anchors
-    style Chaotic_Inputs fill:none,stroke:#FF8888,stroke-width:1px
-    style Engine_Core fill:none,stroke:#4A90E2,stroke-width:1px
-    style Rigid_Biology fill:none,stroke:#2ECC71,stroke-width:1px
-    style Positive_Engine fill:none,stroke:#9C27B0,stroke-width:1px
-    style Validation_Loop fill:none,stroke:#F39C12,stroke-width:1px
-
-# Comprehensive Summary: Biocentric Recommendation Engine Architecture
-
-This document provides a highly detailed engineering and philosophical summary of a next-generation **Hyper-Personalised Biocentric Recommendation Engine**. The platform leverages a multi-model database architecture (**ArcadeDB**) to map an "any-to-any" relational grid connecting human lifestyle, physical goals, blood biomarkers, gut microbiomes, and local grocery/kitchen inventories under a **Positive Health (Additive)** paradigm.
-
----
-
-## 1. The Core Vision & Problem Statement
-
-### The "Specificity Gap" in Modern Wellness
-Traditional clinical and fitness advice peaks at generic blanket statements: *"Eat a balanced diet and get regular exercise."* While fundamentally true, this advice lacks personal specificity and actionability. Human biology is a chaotic, non-linear, and non-replicable systemâ€”unpredictable moment to moment, where a single night of poor sleep can completely alter metabolic and gut microbial realities.
-
-### The Target Demographic Wedge
-The platform initially anchors its value proposition on fitness enthusiasts ("gym rats"). This cohort possesses exceptional macro-discipline (counting protein, fats, and carbs down to the decimal point) but suffers from complete **micronutrient and bioavailability blindness**. They routinely mega-dose competing supplements, combine clashing food matrices that cause "anabolic waste," or experience broad-spectrum gut dysbiosis due to heavy protein/sweetener loads.
-
----
-
-## 2. Core Architectural Pillars (The ArcadeDB Advantage)
-
-To resolve the challenge of high-dimensional, fragmented data silos, the engine utilizes **ArcadeDB**, a multi-model database that combines a native Graph Engine, an LSM-powered Vector Search Engine, and a Document Store under a single ACID transaction boundary.
-
-```
-       [THE UNCHANGING ANCHOR]                 [THE CHAOTIC FLUID]
-    Immutable Laws of Biochemistry        Fuzzy, Real-Time Human States
-    (Mapped via Native Graph Nodes)    <==> (Mapped via Vector Embeddings)
+```mermaid
+flowchart TD
+  STOCK["Grocy stock"] --> ENGINE
+  PROFILE["Health profile"] --> ENGINE
+  TRAIN["Training context"] --> ENGINE
+  subgraph ENGINE["Suggestion engine, on your machine"]
+    RESOLVE["Resolve Grocy products to foods"] --> MATCH["Match curated rules"]
+    MATCH --> GATES["Apply gates<br/>safety gates fail closed"]
+    GATES --> DOSE["Scale doses to your body"]
+    DOSE --> RANK["Rank by recovery goal"]
+  end
+  RANK --> OUT["One explained suggestion:<br/>add, move, swap or skip"]
 ```
 
-1. **The Vector Layer (Intent & Semantic Smoothing):** Translates messy, unstructured human inputs (e.g., *"CNS fried, joints sore from squats"*) into mathematical coordinates. It bypasses rigid deterministic calculations in favour of *probabilistic trends*, mapping a user's momentary "vibe" to target biological recovery states.
-2. **The Graph Layer (Biological Pathways):** Traverses the rigid, immutable laws of chemistry and taxonomic microbiology (e.g., how an ingredient transforms into a prebiotic, feeds a microbe, alters a hormone, or competes for an enterocyte transporter).
-3. **The Document Layer (Metadata Storage):** Treats individual nodes as JSON documents. This allows dense, unstructured textual data (like clinical abstracts, recipe instructions, or ingredient profiles from FooDB) to sit right on the node without sacrificing index-free graph traversal speeds.
+## An example suggestion
 
----
+This comes from draft rule [R-0006](knowledge/rules/R-0006-post-training-protein-dose.yaml). It has not been reviewed, so the engine may not use it yet.
 
-## 3. The Positive Health (Additive Nutrition) Philosophy
+> **Add**, in the meal after training
+>
+> Build your post-training meal around a protein food from your kitchen, such as eggs or yoghurt, in the amount shown for your body weight.
+>
+> *Amount scaled to your body weight.*
 
-Rather than acting as a restrictive "food cop" that filters out hazards (e.g., *"Don't eat X"*), the engine functions as an **anabolic optimizer**. It focuses entirely on what the user can **add** to their current meal matrix to multiply performance, absorption, and recovery.
+| Part | Value |
+|---|---|
+| Dose | 0.25 to 0.4 grams of protein per kilogram of body mass, in one meal |
+| Window | Within 120 minutes after training |
+| Grade | B: several independent tracer trials agree, but muscle protein synthesis is a surrogate outcome |
+| Gates | Reduced kidney function, inherited metabolic disorders, declared food allergies, coeliac disease or gluten sensitivity, eating disorder history, lactose intolerance |
+| Sources | Kerksick 2017, PubMed identifier (PMID) [28919842](https://pubmed.ncbi.nlm.nih.gov/28919842/); Witard 2014, PMID [24257722](https://pubmed.ncbi.nlm.nih.gov/24257722/); and four more in the rule file |
 
-* **Bioavailability Unlock Keys (Companion Pairs):** The graph identifies synergistic biological relationships to create immediate, micro-additive actions based on what is true in the kitchen *right now*:
-  * *Example:* Adding a squeeze of citrus (Vitamin C) to plant-based greens to chemically reduce ferric iron into highly absorbable ferrous iron, overriding native plant phytate inhibitors.
-  * *Example:* Pairing black pepper (piperine) and fat with turmeric to boost curcumin bioavailability by up to 2,000%.
-* **Microbial Feeding:** Scans the user's microbiome profile to find redundant metabolic pathways. If a primary strain is depleted, it recommends adding specific prebiotic fibres or polyphenols to feed surviving bacteria capable of synthesizing critical recovery compounds (like Urolithin A or short-chain fatty acids).
+## What is decided
 
----
+Significant choices are recorded as architecture decision records (ADRs). The [decision index](docs/decisions/README.md) explains the process.
 
-## 4. The Unified Cross-Domain "Any-to-Any" Data Map
+| ADR | Decision | Status |
+|---|---|---|
+| [0001](docs/decisions/0001-record-decisions.md) | Record significant decisions as ADRs | Accepted |
+| [0002](docs/decisions/0002-licensing.md) | License code under Apache-2.0 and the knowledge base under Creative Commons Attribution 4.0 (CC BY 4.0) | Accepted |
+| [0003](docs/decisions/0003-open-source-self-hosted.md) | Build an open-source, self-hosted, local-first tool | Accepted |
+| [0004](docs/decisions/0004-knowledge-graph-first.md) | Build the knowledge graph first, with competency questions as exit criteria | Accepted |
+| [0005](docs/decisions/0005-full-advice-with-safety-gates.md) | Allow full advice, including removals, behind safety gates | Accepted |
+| [0006](docs/decisions/0006-arcadedb-graph-store.md) | Use ArcadeDB as the graph store, with conditions | Proposed |
+| [0007](docs/decisions/0007-graph-proposes-rules-decide.md) | Only curated rules produce suggestions; the graph proposes | Proposed |
+| [0008](docs/decisions/0008-python-for-pipelines.md) | Use Python for importers, pipelines and analysis | Proposed |
+| [0009](docs/decisions/0009-recovery-goal-and-health-profile.md) | Optimise recovery for people who train, informed by a full health profile | Accepted |
+| [0010](docs/decisions/0010-grade-evidence-at-tested-dose.md) | Grade evidence at the tested dose; supplement-dose-only is a firing condition | Proposed |
 
-Because standard biological databases are heavily siloed, the engine acts as an overarching semantic layout, weaving fragmented global standards together via their universal identifiers:
+Questions still waiting for a decision are in [open questions](docs/open-questions.md).
 
-* **Nutrients & Compounds:** Sourced from **FooDB** & **ChEBI** *(Food Source $
-ightarrow$ Chemical Structure)*.
-* **Enzymes, Reactions & Pathways:** Sourced from **KEGG Pathways** & **Reactome** *(Compound $
-ightarrow$ Enzyme $
-ightarrow$ Metabolic Path)*.
-* **Proteins & Amino Acids:** Sourced from **UniProt** *(Amino Acid Sequence $
-ightarrow$ Functional Protein)*.
-* **Hormones, Microbes & Behaviours:** Unified via the **Human Metabolome Database (HMDB)**, **Virtual Metabolic Human (VMH)**, and behavioral taxonomies like **MeSH Terms**.
+## Where to start reading
 
----
+The [documentation index](docs/README.md) lists every document.
 
-## 5. The Measurable Validation Loop (The Blood Milestone)
+- **New here:** [scope](docs/product/scope.md), then [product principles](docs/product/principles.md), then the [roadmap](docs/product/roadmap.md).
+- **Want to contribute evidence:** [evidence policy](docs/science/evidence-policy.md), [recovery nutrition](docs/science/recovery-nutrition.md), [rule model](docs/architecture/rule-model.md) and the [knowledge base](knowledge/README.md).
+- **Want to build:** [architecture overview](docs/architecture/overview.md), [knowledge graph design](docs/architecture/knowledge-graph.md), [Grocy integration](docs/architecture/grocy-integration.md) and [data sources](docs/architecture/data-sources.md).
+- **Want to understand safety:** [SAFETY.md](SAFETY.md), the [safety model](docs/science/safety-model.md) and the [health profile](docs/science/health-profile.md).
 
-The engine establishes a continuous, objective feedback mechanism using **sequential blood panel diagnostics (Metabolomics & Nutrigenomics)**. Blood biomarkers serve as the ultimate validation layer to prove whether a dietary recommendation successfully influenced the body.
+## Contributing
 
-```
-[Engine Suggests Additive Multiplier] â”€â”€> [User Eats Combined Meal] â”€â”€> [Blood Panel Tracks Response]
-                  ^                                                                  |
-                  â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€(Database Recalibrates Graph Weights)â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
-```
+Read [CONTRIBUTING.md](CONTRIBUTING.md) first. Never post your own or anyone else's health data. Open an issue with one of the [issue forms](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/issues/new/choose): rule proposal, evidence challenge, safety concern, feature or design proposal, or bug report. Report security problems privately, as [SECURITY.md](SECURITY.md) explains.
 
-The database maps actionable solutions directly to objective blood anomalies using an **Anabolic Synergy Index (ASI)** solver:
-* **High Fasting Insulin:** The engine traverses paths to recommend *Ceylon Cinnamon + Magnesium + Acetic Acid* to structurally activate GLUT4 glucose transporters in muscle tissue.
-* **Elevated Creatine Kinase (CK) / hs-CRP:** Flags severe tissue damage and systemic inflammation, shifting the user's active vector to a high-priority "Structural Repair" state and surfacing precise collagen-synthesis co-factors (Vitamin C + Copper + Proline).
+## Licence
 
-Over time, sequential blood tests form a **Dynamic Biological Twin** inside ArcadeDB, allowing the machine learning layers to learn exactly how a specific human body dynamically reacts to micro-additive nutritional changes.
-
-# References
-
-https://www.biorxiv.org/content/10.1101/2024.10.12.618040v1
-
-The point is this covers a lot more than just doet and exercises, and should enable anyone to personalise their own way to achieve their own biological goals. 
-interactions with medicines, allergies, and more would be uniquely tracable for each user using medical research and open data to enable the broader society outside of research pursue the development of their own data. 
-
-# tradeoffs
-
-liability. there is none. you can only trust the outputs based on how effectively they have been, the quality of data provided, and whether ot actually works for you.
+Everything outside `knowledge/` is licensed under the [Apache License 2.0](LICENSE). Everything inside `knowledge/` is licensed under the [CC BY 4.0 International licence](knowledge/LICENSE). See [NOTICE](NOTICE) for details.

@@ -23,7 +23,7 @@ The README's Anabolic Synergy Index scores paths through the graph and turns the
 ## Consequences
 
 - The number of possible suggestions is limited by how many rules have been reviewed. The research estimated that roughly 20 to 25 rules can be built on published human dose-response equations today.
-- The Anabolic Synergy Index becomes a ranking function over rules that pass their gates. Its exact form is still open. See Q-01 and Q-02.
+- The Anabolic Synergy Index becomes a ranking function over rules that pass their gates. Its exact form is still open. See [Q-01 and Q-02](../open-questions.md).
 - Review effort, not graph size, becomes the bottleneck. That is intended.
 
 ## Alternatives considered

@@ -2,7 +2,7 @@
 
 This project suggests changes to what people eat. Some of those suggestions can harm specific people. This page states what the software is for, what it will not do, how it protects people, and how to report a problem.
 
-It replaces the original README's statement that there is no liability. That statement was not accurate in law, and it gave the project no way to protect anyone. See [claim C28](docs/research/claim-verification.md) and the [safety model](docs/science/safety-model.md).
+It replaces the original README's statement that there is no liability. The research found that statement was unlikely to hold in law (this is not legal advice), and it gave the project no way to protect anyone. See [claim C28](docs/research/claim-verification.md) and the [safety model](docs/science/safety-model.md).
 
 ## Intended purpose
 
@@ -15,7 +15,7 @@ Every feature, document and generated sentence must fit inside that statement. A
 Nothing this project produces is medical advice. Talk to a clinician before acting on any suggestion if any of these apply to you:
 
 - you take prescription medicine, especially blood thinners, anti-epileptic drugs, insulin or other glucose-lowering drugs;
-- you have kidney disease, liver disease, iron overload (haemochromatosis) or G6PD deficiency;
+- you have kidney disease, liver disease, iron overload (haemochromatosis), glucose-6-phosphate dehydrogenase (G6PD) deficiency, coeliac disease or an inherited metabolic disorder such as phenylketonuria;
 - you are pregnant or breastfeeding;
 - you have diabetes, gastroparesis, irritable bowel syndrome or an eating disorder;
 - you have food allergies.
@@ -25,7 +25,7 @@ Nothing this project produces is medical advice. Talk to a clinician before acti
 These are design commitments. They are specified in the [safety model](docs/science/safety-model.md).
 
 1. **Gates run before ranking.** Every rule lists the groups it must never reach. The engine removes gated suggestions before it scores anything.
-2. **Unknown means no.** If the engine does not know whether a gate applies, for example because you skipped the medication question, the gated suggestion does not appear.
+2. **Unknown means withhold, for safety.** If the engine does not know whether a safety gate applies, for example because you skipped the medication question, it treats the answer as yes and the suggestion does not appear. An unanswered comfort question, such as lactose, shows the suggestion with a note instead ([Q-13](docs/open-questions.md)).
 3. **Evidence is shown.** Every suggestion shows its dose, its evidence grade and a link to its source.
 4. **Supplement-dose findings are labelled.** Effects only shown at supplement doses are never presented as something a meal can achieve.
 5. **Upper limits are tracked.** Suggested amounts are added to the supplements you declare and checked against tolerable upper intake levels.
@@ -39,7 +39,7 @@ These are design commitments. They are specified in the [safety model](docs/scie
 - Claim that a suggestion treats or prevents a disease.
 - Send your health or inventory data anywhere.
 
-Features that would cross these lines are out of scope. Examples include interpreting lab values or checking your medicines against each other. Adding one requires a decision record and a regulatory review. See [open questions](docs/open-questions.md).
+Features that would cross these lines are out of scope. Examples include interpreting lab values or checking your medicines against each other. Adding one requires a decision record and a regulatory review. See open questions [Q-29](docs/open-questions.md) and [Q-31](docs/open-questions.md).
 
 ## No warranty
 
@@ -53,3 +53,19 @@ A safety problem is any suggestion that could harm someone. Examples: a rule tha
 - **If it does,** report it privately through [GitHub private vulnerability reporting](https://github.com/dev-nobytes-io/Grocy-Bioavaiability-and-Interactions-Reccomendation-Engine/security/advisories/new). Do not post personal health information in public issues.
 
 Safety reports take priority over all other work. A rule under a credible safety report is set to `in_review` and stops producing suggestions until the report is resolved.
+
+This flowchart shows how a safety report moves from discovery to a released fix.
+
+```mermaid
+flowchart TD
+  FOUND["Possible safety problem found"] --> PD{"Involves anyone's<br/>personal health details?"}
+  PD -->|"Yes"| PRIV["Private report through GitHub<br/>private vulnerability reporting"]
+  PD -->|"No"| PUB["Public safety concern issue"]
+  PRIV --> TRIAGE["Triage, ahead of all other work"]
+  PUB --> TRIAGE
+  TRIAGE --> CRED{"Credible report?"}
+  CRED -->|"No"| KEEP["Rule keeps its status"]
+  CRED -->|"Yes"| HOLD["Rule set to in_review:<br/>it stops producing suggestions"]
+  HOLD --> FIX["Fix the rule or gate<br/>by reviewed pull request"]
+  FIX --> RELEASE["Release the fix;<br/>report resolved"]
+```

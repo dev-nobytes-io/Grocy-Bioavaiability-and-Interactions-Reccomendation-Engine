@@ -1,63 +1,117 @@
 # Safety gates and health flags.
 # Status: DRAFT. Requires review by a safety reviewer before any engine uses it.
-# See docs/science/safety-model.md for how gates are applied.
+# See docs/science/safety-model.md for how gates are applied, and
+# docs/science/health-profile.md for where each flag is stored.
 #
 # Flags are self-declared by the user at onboarding. The engine never infers a
 # flag from lab values (see SAFETY.md, intended purpose).
-# Every flag-triggered gate fails closed: an unanswered question counts as "yes".
+# Every flag-triggered safety gate fails closed: an unanswered question counts as "yes".
+# Tolerance gates protect comfort, prefer a swap, and may show a note when unanswered.
+# Recent-event flags hold a start date and stop applying after expires_after_days.
+# A gate applies to the rules that list it. A gate with scope: global applies to every rule,
+# whether or not the rule lists it; its affects text still says which suggestions it touches.
 
-version: 1
+version: 2
 
 flags:
   - id: flag.haemochromatosis
     question: Have you been diagnosed with haemochromatosis or another iron overload condition?
     type: yes_no
+    category: condition
   - id: flag.told_iron_high
     question: Has a clinician told you that your iron or ferritin is high?
     type: yes_no
+    category: condition
   - id: flag.vitamin_k_antagonist
     question: Do you take warfarin or another vitamin K antagonist blood thinner?
     type: yes_no
+    category: medication
     examples: [warfarin, acenocoumarol, phenprocoumon]
   - id: flag.narrow_index_cyp3a4_pgp_medicine
     question: Do you take any of these medicines, or any medicine where your prescriber has warned about food interactions?
     type: yes_no
+    category: medication
     examples: [phenytoin, carbamazepine, nevirapine, theophylline, propranolol, cyclosporine, tacrolimus, digoxin]
   - id: flag.any_prescription_medicine
     question: Do you take any prescription medicine?
     type: yes_no
+    category: medication
   - id: flag.kidney_disease
     question: Have you been told you have kidney disease or reduced kidney function?
     type: yes_no
+    category: condition
   - id: flag.pregnant_or_breastfeeding
     question: Are you pregnant or breastfeeding?
     type: yes_no
+    category: life_stage
   - id: flag.glucose_lowering_medicine
     question: Do you take insulin or another medicine that lowers blood glucose?
     type: yes_no
+    category: medication
     examples: [insulin, sulfonylureas, GLP-1 receptor agonists]
   - id: flag.gastroparesis
     question: Have you been told your stomach empties slowly (gastroparesis)?
     type: yes_no
+    category: condition
   - id: flag.ibs_or_fodmap_sensitive
     question: Do you have irritable bowel syndrome or a sensitivity to fermentable carbohydrates (FODMAPs)?
     type: yes_no
+    category: condition
   - id: flag.g6pd_deficiency
     question: Has an enzyme test shown you have G6PD deficiency?
     type: yes_no
+    category: condition
   - id: flag.inborn_error_of_metabolism
     question: Do you have an inherited metabolic disorder such as phenylketonuria (PKU) or maple syrup urine disease?
     type: yes_no
+    category: condition
   - id: flag.eating_disorder_history
     question: Do you have, or have you had, an eating disorder?
     type: yes_no
+    category: condition
   - id: flag.allergens
     question: Which foods are you allergic to?
     type: list
+    category: allergy
+  - id: flag.lactose_intolerance
+    question: >-
+      Do dairy foods that contain lactose, such as milk, upset your stomach? This is not a milk
+      allergy. If milk gives you hives, swelling or breathing problems, list milk under allergies
+      instead.
+    type: yes_no
+    category: intolerance
+  - id: flag.coeliac_or_gluten_sensitivity
+    question: Do you have coeliac disease, or do you avoid gluten because it makes you unwell?
+    type: yes_no
+    category: condition
+  - id: flag.recent_gi_illness
+    question: Have you had a stomach or bowel upset, such as vomiting or diarrhoea, recently? When did it start?
+    type: event
+    category: recent_event
+    expires_after_days: 14
+  - id: flag.recent_injury_or_surgery
+    question: Have you had an injury or an operation recently? When did it happen?
+    type: event
+    category: recent_event
+    expires_after_days: 56
+    context_only: true
+  - id: flag.recent_fever_or_infection
+    question: Have you had a fever or an infection recently? When did it start?
+    type: event
+    category: recent_event
+    expires_after_days: 14
+    context_only: true
+  - id: flag.recent_antibiotics
+    question: Have you taken antibiotics recently? When did you start?
+    type: event
+    category: recent_event
+    expires_after_days: 30
+    context_only: true
 
 gates:
   - id: gate.iron_overload
     name: Iron overload or high iron stores
+    severity: safety
     trigger:
       flags_any: [flag.haemochromatosis, flag.told_iron_high]
     action: withhold
@@ -75,6 +129,7 @@ gates:
 
   - id: gate.vitamin_k_consistency
     name: Vitamin K antagonist blood thinners
+    severity: safety
     trigger:
       flags_any: [flag.vitamin_k_antagonist]
     action: withhold
@@ -90,12 +145,13 @@ gates:
 
   - id: gate.cyp3a4_pgp_medicine
     name: Medicines affected by piperine or grapefruit
+    severity: safety
     trigger:
       flags_any: [flag.narrow_index_cyp3a4_pgp_medicine, flag.any_prescription_medicine]
     action: withhold
     on_unknown: withhold
     affects: >-
-      Suggestions to add black pepper beyond ordinary seasoning, piperine-containing products,
+      Any suggestion to add black pepper, whatever the amount, piperine-containing products,
       curcumin with piperine, and grapefruit or Seville orange.
     rationale: >-
       Piperine inhibits CYP3A4 and P-glycoprotein. At 15 to 20 mg, roughly 0.2 to 0.5 g of
@@ -118,32 +174,51 @@ gates:
 
   - id: gate.kidney_function
     name: Reduced kidney function
+    severity: safety
     trigger:
       flags_any: [flag.kidney_disease]
     action: withhold
     on_unknown: withhold
-    affects: Magnesium supplements and supplement-dose vitamin C.
+    affects: >-
+      Magnesium supplements, supplement-dose vitamin C, any suggestion that substantially
+      increases protein intake (such as a per-kilogram protein top-up or a protein supplement),
+      and creatine supplements.
     rationale: >-
       Magnesium from supplements can accumulate when kidney function is reduced. The upper
       limit for supplemental magnesium in healthy adults is 350 mg a day. High-dose vitamin C
-      raises oxalate load.
+      raises oxalate load. Kidney nutrition guidance restricts protein for people with
+      moderate to severe chronic kidney disease, the opposite of the per-kilogram targets used
+      for training. Creatine is withheld as a precaution; this is not a finding that creatine
+      harms kidneys.
     basis: guideline
     sources:
       - citation: NIH Office of Dietary Supplements. Magnesium fact sheet for health professionals.
         url: https://ods.od.nih.gov/factsheets/Magnesium-HealthProfessional/
+      - citation: Ikizler TA et al. KDOQI Clinical Practice Guideline for Nutrition in CKD, 2020 update. Am J Kidney Dis 2020.
+        pmid: "32829751"
+        finding: >-
+          Recommends restricted protein intake, 0.55 to 0.60 g per kg a day, for metabolically
+          stable adults with chronic kidney disease stages 3 to 5 who are not on dialysis.
 
   - id: gate.pregnancy
     name: Pregnancy or breastfeeding
+    severity: safety
     trigger:
       flags_any: [flag.pregnant_or_breastfeeding]
     action: withhold
     on_unknown: withhold
-    affects: Every rule flagged supplement_dose_only, and any herbal or concentrated extract.
-    rationale: Safety data for supplement-dose herbs and extracts in pregnancy are thin. Food-dose rules are unaffected.
+    affects: >-
+      Every rule flagged supplement_dose_only, any herbal or concentrated extract, and any
+      suggestion that mentions drinking alcohol.
+    rationale: >-
+      Safety data for supplement-dose herbs and extracts in pregnancy are thin. Suggestion text
+      about drinking alcohol is not shown during pregnancy or breastfeeding. Other food-dose
+      rules are unaffected.
     basis: precautionary
 
   - id: gate.glucose_lowering_medicine
     name: Glucose-lowering medicine
+    severity: safety
     trigger:
       flags_any: [flag.glucose_lowering_medicine]
     action: withhold
@@ -154,6 +229,7 @@ gates:
 
   - id: gate.gastroparesis
     name: Slow stomach emptying
+    severity: safety
     trigger:
       flags_any: [flag.gastroparesis]
     action: withhold
@@ -168,6 +244,7 @@ gates:
 
   - id: gate.fermentable_fibre
     name: Irritable bowel syndrome or FODMAP sensitivity
+    severity: safety
     trigger:
       flags_any: [flag.ibs_or_fodmap_sensitive]
     action: withhold
@@ -180,6 +257,7 @@ gates:
 
   - id: gate.g6pd
     name: G6PD deficiency
+    severity: safety
     trigger:
       flags_any: [flag.g6pd_deficiency]
     action: withhold
@@ -196,6 +274,8 @@ gates:
 
   - id: gate.inborn_error
     name: Inherited metabolic disorders
+    severity: safety
+    scope: global
     trigger:
       flags_any: [flag.inborn_error_of_metabolism]
     action: withhold
@@ -213,6 +293,7 @@ gates:
 
   - id: gate.eating_disorder
     name: Eating disorder history
+    severity: safety
     trigger:
       flags_any: [flag.eating_disorder_history]
     action: withhold
@@ -225,16 +306,22 @@ gates:
 
   - id: gate.allergy
     name: Declared food allergies
+    severity: safety
+    scope: global
     trigger:
       flags_any: [flag.allergens]
     action: withhold
     on_unknown: withhold
-    affects: Any suggestion whose food contains a declared allergen, matched through the food hierarchy.
+    affects: >-
+      Any suggestion whose food contains a declared allergen, matched through the food
+      hierarchy, and any product whose allergen content is unknown. While the allergy question
+      is unanswered, any suggestion that adds a common major allergen.
     rationale: Adding a food someone is allergic to can cause a severe reaction.
     basis: precautionary
 
   - id: gate.coumarin
     name: Coumarin from cassia cinnamon
+    severity: safety
     trigger:
       ledger: Estimated daily coumarin from cinnamon suggestions plus declared intake, against 0.1 mg per kg body weight. Unknown cinnamon species counts as cassia.
     action: cap
@@ -251,6 +338,8 @@ gates:
 
   - id: gate.upper_limit
     name: Tolerable upper intake levels
+    severity: safety
+    scope: global
     trigger:
       ledger: Suggested amount plus declared supplements, stored as ranges, against the tolerable upper intake level for each nutrient.
     action: cap
@@ -263,3 +352,61 @@ gates:
     sources:
       - citation: NIH Office of Dietary Supplements. Nutrient recommendations and databases.
         url: https://ods.od.nih.gov/HealthInformation/nutrientrecommendations.aspx
+
+  - id: gate.lactose_intolerance
+    name: Lactose intolerance
+    severity: tolerance
+    trigger:
+      flags_any: [flag.lactose_intolerance]
+    action: swap
+    on_unknown: note
+    swap_to: The lactose-free version of the same food, if it is in stock.
+    if_no_swap: note
+    affects: Any suggestion to add or keep a dairy food that contains lactose, such as milk, yoghurt or a milk-based protein drink.
+    rationale: >-
+      Most people with lactose intolerance tolerate 12 to 15 g of lactose, about one cup of
+      milk. A swap keeps the protein and calcium of the suggestion while removing the cause of
+      discomfort, so the suggestion is changed rather than silenced. With no lactose-free
+      option in stock, the suggestion is shown with a note about lactose.
+    basis: evidence
+    sources:
+      - citation: Shaukat A et al. Systematic review. Effective management strategies for lactose intolerance. Ann Intern Med 2010.
+        pmid: "20404262"
+        finding: Moderate-quality evidence that 12 to 15 g of lactose is well tolerated by most adults with lactose intolerance or malabsorption.
+
+  - id: gate.coeliac_gluten
+    name: Coeliac disease or gluten sensitivity
+    severity: safety
+    scope: global
+    trigger:
+      flags_any: [flag.coeliac_or_gluten_sensitivity]
+    action: withhold
+    on_unknown: withhold
+    affects: >-
+      Any suggestion to add a food that contains wheat, barley or rye, matched through the
+      food hierarchy, and any product whose gluten status is unknown.
+    rationale: >-
+      Coeliac disease is a permanent immune response to gluten in wheat, barley and rye.
+      Its management is strict, lifelong avoidance of gluten, so a suggestion that adds
+      gluten can cause harm.
+    basis: guideline
+    sources:
+      - citation: Rubio-Tapia A et al. American College of Gastroenterology guidelines update. Diagnosis and management of celiac disease. Am J Gastroenterol 2023.
+        pmid: "36602836"
+        finding: Treatment requires strict adherence to a gluten-free diet and lifelong medical follow-up.
+
+  - id: gate.recent_gi_illness
+    name: Recent stomach or bowel illness
+    severity: tolerance
+    trigger:
+      flags_any: [flag.recent_gi_illness]
+    action: withhold
+    on_unknown: note
+    affects: >-
+      Suggestions to add fermentable fibre, legumes, onion, garlic or inulin, vinegar, or
+      high-fat additions, while the flag is active.
+    rationale: >-
+      A gut recovering from an upset may tolerate these additions poorly. They are paused for
+      14 days after the start date the user gives, then return automatically. Not from the
+      research record; added as a precaution.
+    basis: precautionary

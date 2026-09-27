@@ -17,6 +17,23 @@ The research ran on 26 and 27 September 2026 as an automated, multi-agent litera
 
 The twelve lenses were: sports and internal medicine physician, clinical pharmacologist, registered dietitian, metabolomics researcher, gut microbiome scientist, exercise physiologist, knowledge-graph engineer, machine-learning engineer, health-tech regulatory analyst, product strategist, clinical epidemiologist, and research librarian.
 
+This flowchart shows the research stages in order, with the output of each.
+
+```mermaid
+flowchart TD
+  README["Original README"] --> EXT["Extraction:<br/>objectives, hypotheses, 28 claims"]
+  EXT --> CV["Claim verification:<br/>evidence check and safety check"]
+  CV --> PANEL["Discipline panel:<br/>twelve professional lenses"]
+  PANEL --> CRIT["Critique: contradictions,<br/>unverified claims, missing perspectives"]
+  CRIT --> GAPS["Gap filling:<br/>eight highest-priority gaps"]
+  GAPS --> SYN["Synthesis: draft brief,<br/>adversarial review in four slices"]
+  SYN --> BRIEF["Project brief"]
+  CV -.-> CVDOC["claim-verification.md"]
+  PANEL -.-> PANELDOC["expert-panel.md"]
+  CRIT -.-> CRITDOC["critic-summary.md"]
+  GAPS -.-> GAPDOC["gap-memos.md"]
+```
+
 ## How to use it
 
 - **Start with the brief.** It is the reviewed summary. The appendices are raw material.
