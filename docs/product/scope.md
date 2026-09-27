@@ -2,9 +2,13 @@
 
 ## Intended purpose
 
-A personal, self-hosted tool that suggests food pairings, timing and swaps for general wellness, based on the food you have at home. It does not diagnose, treat, cure or prevent any disease. It does not interpret medical test results.
+A personal, self-hosted tool that suggests what to add to, re-time, swap or skip in your meals to support recovery from training and general wellness. It works from the food you have at home and the health information you choose to give it, which it uses to keep suggestions safe, tolerable and suited to you. It does not diagnose, treat, cure or prevent any disease. It does not interpret medical test results.
 
 This wording lives in [SAFETY.md](../../SAFETY.md). Everything below must fit inside it.
+
+## The goal
+
+Better recovery for people who train, through the best nutrition available from their own kitchen. Recovery means ready for the next session and still adapting to training. See [ADR-0009](../decisions/0009-recovery-goal-and-health-profile.md) and [recovery nutrition](../science/recovery-nutrition.md).
 
 ## Who it is for
 
@@ -18,9 +22,10 @@ This wording lives in [SAFETY.md](../../SAFETY.md). Everything below must fit in
 
 1. Reads what is in stock from Grocy.
 2. Resolves each product to a known food, with a confidence level.
-3. For a planned meal, finds curated rules whose ingredients are present or could be added from stock.
-4. Removes rules gated for this user.
-5. Ranks what remains and shows one suggestion, with dose, evidence grade and source.
+3. Reads the user's [health profile](../science/health-profile.md) and today's training context.
+4. For a planned meal, finds curated rules whose ingredients are present or could be added from stock.
+5. Removes rules gated for this user, and scales doses to their body mass.
+6. Ranks what remains, recovery goals first, and shows one suggestion with dose, evidence grade and source.
 
 Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See [ADR-0005](../decisions/0005-full-advice-with-safety-gates.md).
 
@@ -30,7 +35,7 @@ Suggestions come in four classes: **add**, **move**, **swap** and **skip**. See 
 - A curated, reviewed rule table with safety gates.
 - Read-only Grocy integration and entity resolution.
 - A suggestion engine with a command-line or simple local web interface.
-- User-declared health flags for gating.
+- A user-controlled health profile: body measurements, training, diet pattern, allergies, intolerances, conditions, recent events, medicines, supplements and life stage.
 - A tracker for suggested intake against upper intake levels, based on declared supplements.
 
 ## Deferred, with the reason

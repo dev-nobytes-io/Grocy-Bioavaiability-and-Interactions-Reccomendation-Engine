@@ -6,7 +6,7 @@ It replaces the original README's statement that there is no liability. That sta
 
 ## Intended purpose
 
-> A personal, self-hosted tool that suggests food pairings, timing and swaps for general wellness, based on the food you have at home. It does not diagnose, treat, cure or prevent any disease. It does not interpret medical test results.
+> A personal, self-hosted tool that suggests what to add to, re-time, swap or skip in your meals to support recovery from training and general wellness. It works from the food you have at home and the health information you choose to give it, which it uses to keep suggestions safe, tolerable and suited to you. It does not diagnose, treat, cure or prevent any disease. It does not interpret medical test results.
 
 Every feature, document and generated sentence must fit inside that statement. A change that needs a broader purpose needs a decision record first. See [GOVERNANCE.md](GOVERNANCE.md).
 
@@ -29,7 +29,8 @@ These are design commitments. They are specified in the [safety model](docs/scie
 3. **Evidence is shown.** Every suggestion shows its dose, its evidence grade and a link to its source.
 4. **Supplement-dose findings are labelled.** Effects only shown at supplement doses are never presented as something a meal can achieve.
 5. **Upper limits are tracked.** Suggested amounts are added to the supplements you declare and checked against tolerable upper intake levels.
-6. **Your data stays home.** Health information never leaves the machine you run it on. There is no telemetry.
+6. **Health information shapes, never treats.** Conditions, intolerances, medicines and recent illness are used to withhold, adjust, swap or re-time suggestions. The engine never suggests a food as a treatment for a condition. See [ADR-0009](docs/decisions/0009-recovery-goal-and-health-profile.md).
+7. **Your data stays home.** Health information never leaves the machine you run it on. There is no telemetry.
 
 ## What it will not do
 

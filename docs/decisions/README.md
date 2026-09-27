@@ -21,3 +21,4 @@ Significant decisions are recorded here as architecture decision records (ADRs).
 | [0006](0006-arcadedb-graph-store.md) | Use ArcadeDB as the graph store, with conditions | Proposed |
 | [0007](0007-graph-proposes-rules-decide.md) | Only curated rules produce suggestions; the graph proposes | Proposed |
 | [0008](0008-python-for-pipelines.md) | Use Python for importers, pipelines and analysis | Proposed |
+| [0009](0009-recovery-goal-and-health-profile.md) | Optimise recovery for people who train, informed by a full health profile | Accepted |
