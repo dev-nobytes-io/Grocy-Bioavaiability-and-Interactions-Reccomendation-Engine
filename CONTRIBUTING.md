@@ -65,11 +65,11 @@ Significant changes need a decision record. [GOVERNANCE.md](GOVERNANCE.md) lists
 
 ## Local checks
 
-The same checks run in continuous integration on every pull request. The workflow is [checks.yml](.github/workflows/checks.yml).
+The same checks run in continuous integration on every pull request, with the same pinned versions. The workflow is [checks.yml](.github/workflows/checks.yml).
 
 ```sh
 # Validate knowledge files against their schemas
-pip install check-jsonschema
+pipx install check-jsonschema==0.38.2   # or pip install inside a virtual environment
 check-jsonschema --schemafile knowledge/schema/rule.schema.json knowledge/rules/*.yaml
 check-jsonschema --schemafile knowledge/schema/gates.schema.json knowledge/gates/gates.yaml
 check-jsonschema --schemafile knowledge/schema/sources.schema.json knowledge/sources/license-manifest.yaml
@@ -81,8 +81,9 @@ python3 scripts/check_links.py
 # Lint Markdown
 npx --yes markdownlint-cli2@0.23.3 "**/*.md"
 
-# Render every Mermaid diagram (needs the Mermaid CLI and a Chromium browser)
-npm install -g @mermaid-js/mermaid-cli
+# Render every Mermaid diagram (needs the Mermaid CLI and a Chromium browser;
+# set PUPPETEER_EXECUTABLE_PATH if Puppeteer did not download one)
+npm install -g @mermaid-js/mermaid-cli@12.0.0
 python3 scripts/check_mermaid.py
 ```
 

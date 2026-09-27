@@ -28,6 +28,7 @@ flowchart TD
 | Document | What it covers |
 |---|---|
 | [README](../README.md) | What the project is, its status, one example suggestion and where to go next. |
+| [Installation](../README.md#installation), [Configuration](../README.md#configuration) and [User guide](../README.md#user-guide) | How the engine is designed to be installed, configured and used. Not built yet; most settings are **Proposed**. Only the [contributor checks](../README.md#install-for-contributors-works-today) work today. |
 | [Open questions](open-questions.md) | Decisions the founder still has to make, each with a stable identifier such as Q-01. |
 | [CHANGELOG](../CHANGELOG.md) | Notable changes to the project, newest first. |
 

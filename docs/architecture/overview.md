@@ -93,6 +93,8 @@ The [original README](../vision/original-readme.md) named several components. Th
 - Configuration by environment variables. The Grocy API key never enters the repository.
 - The reference graph ships as a build artefact that users can download or rebuild. Non-redistributable sources are loaded locally by the user, if at all.
 
+The [Configuration](../../README.md#configuration) section of the README lists the proposed settings, and its [Installation](../../README.md#installation) and [User guide](../../README.md#user-guide) sections walk through this deployment from your side. None of it is built yet.
+
 This flowchart shows what runs on your machine and the optional outbound lookups described in [Grocy integration](grocy-integration.md); health, profile and stock data never leave.
 
 ```mermaid
