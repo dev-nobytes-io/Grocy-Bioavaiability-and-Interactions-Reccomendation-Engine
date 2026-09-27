@@ -23,6 +23,7 @@ All notable changes to this project are recorded here. The format follows [Keep 
 - Tracked open questions Q-01 to Q-35, each with a priority and what it blocks.
 - Mermaid diagrams across governance, product, architecture and science documents.
 - A documentation index and a glossary.
+- README sections for installation, configuration and a user guide. They describe the target design for review; nothing in them is built, and values not fixed by a design document are marked **Proposed**. Only the contributor checks work today.
 - Checks: a link checker (`scripts/check_links.py`), a Mermaid validator (`scripts/check_mermaid.py`), a markdownlint configuration, and a continuous integration workflow (`.github/workflows/checks.yml`) that runs them with knowledge schema validation.
 
 ### Changed
